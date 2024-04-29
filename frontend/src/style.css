@@ -1,0 +1,94 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #5D6DC0; /* Background color */
+    color: white; /* Text color */
+  }
+  
+  .title {
+    margin: 0;
+  }
+  
+  .links {
+    display: flex;
+  }
+  
+  .links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: white; /* Text color */
+  }
+  
+  .links a:first-child {
+    margin-left: 0;
+  }
+  .links a {
+    margin-left: 50px; /* Increased margin for more spacing */
+    text-decoration: none;
+    color: white; /* Text color */
+    font-size: 20px;
+  }
+  
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Set the height of the container to 100% of the viewport height */
+  }
+  
+  .login-box {
+    width: 100%; /* Expand the login box to fill the entire width */
+    max-width: 500px; /* Limit the maximum width of the login box */
+    padding: 40px; /* Increase padding for better spacing */
+    border-radius: 10px; /* Adjust border radius for rounded corners */
+    background-color: #f9f9f9;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
+  }
+  
+  h2 {
+    margin-top: 0;
+    margin-bottom: 30px; /* Add space below the heading */
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  input,
+  select {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    font-size: 16px; /* Increase font size for better readability */
+  }
+  
+  button {
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #5D6DC0;
+    color: white;
+    cursor: pointer;
+    font-size: 18px; /* Increase font size for better visibility */
+  }
+  
+  button:hover {
+    background-color: #4451a0;
+  }
+  
+  
+
+  
+  
