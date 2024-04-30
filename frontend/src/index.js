@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -6,22 +6,35 @@ import reportWebVitals from './reportWebVitals';
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Header from "./components/Header";
+import {MyContext} from "./MyContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <div>
-    <Header></Header>
-    <React.StrictMode>
-      <BrowserRouter>
-          <Routes>
-              <Route path="/login" element={<Login/>} ></Route>
-              <Route path="/register" element={<Register/>} ></Route>
-              <Route path="/" element={<Login/>} ></Route>
-          </Routes>
-        </BrowserRouter>
+export default function Main(){
+  
+  const [status, setStatus] = useState(false);
+  return(
+    <div>
+      <MyContext.Provider value={{status, setStatus}}>
+        <Header></Header>
+        <React.StrictMode>
+          <BrowserRouter>
+              {/* Whole pages will be settled in that block to provide routing */}
 
-    </React.StrictMode>
-  </div>
+              <Routes>
+
+                  <Route path="/login" element={<Login/>} ></Route>
+                  <Route path="/register" element={<Register/>} ></Route>
+                  <Route path="/" element={<Login/>} ></Route>
+              </Routes>
+            </BrowserRouter>
+
+        </React.StrictMode>
+      </MyContext.Provider>
+    </div>
+  );
+}
+root.render(
+  <Main></Main>
   
 );
 
