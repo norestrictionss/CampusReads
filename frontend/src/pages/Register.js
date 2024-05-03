@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import "../style.css"; // Import your CSS file for styling
+import { db } from "../config/firebase";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { ref, set } from "firebase/database";
+import bcrypt from "bcryptjs-react";
+
 
 export default function Register() {
   // State variables for registration fields
@@ -11,23 +16,47 @@ export default function Register() {
   const [department, setDepartment] = useState("");
 
   // Function to handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Here you can implement your registration logic using the form fields
-    // For example, you can send an API request to register the user
-    console.log("Username:", username);
-    console.log("Password:", password);
-    console.log("Phone Number:", phoneNumber);
-    console.log("Gender:", gender);
-    console.log("Email:", email);
-    console.log("Department:", department);
-    // Reset the form fields after submission if needed
-    setUsername("");
-    setPassword("");
-    setPhoneNumber("");
-    setGender("");
-    setEmail("");
-    setDepartment("");
+
+    const auth = getAuth();
+    
+    // Create user with email and password
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // After user is created and authenticated, get the UID
+        const uid = userCredential.user.uid;
+
+        // Hash the password before saving it to the database
+        const salt = bcrypt.genSaltSync(10);
+        const hashedPassword = bcrypt.hashSync(password, salt);
+
+        // Save user data to the database
+        set(ref(db, 'users/' + uid), {
+          email: email,
+          username: username,
+          password: hashedPassword,
+          phoneNumber: phoneNumber,
+          gender: gender,
+          department: department
+        });
+
+        // Reset the form fields after successful registration
+        setUsername("");
+        setPassword("");
+        setPhoneNumber("");
+        setGender("");
+        setEmail("");
+        setDepartment("");
+
+        console.log("Registration successful!");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+      });
   };
 
   return (
@@ -42,6 +71,16 @@ export default function Register() {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
@@ -78,16 +117,6 @@ export default function Register() {
               <option value="female">Female</option>
               <option value="other">Other</option>
             </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
           </div>
           <div className="form-group">
             <label htmlFor="department">Department:</label>
