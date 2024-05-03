@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import "../style.css"; // Import your CSS file for styling
+import "../style.css"; // Import your CSS file for styling
+import { db, auth } from "../config/firebase";
+import { ref, get, orderByChild, equalTo, limitToFirst, query } from "firebase/database";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import bcrypt from "bcryptjs-react";
 
 export default function Login() {
-  // State variables for username and password
-  const [username, setUsername] = useState("");
+  // State variables for email and password
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   // Function to handle changes in the username field
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
   };
 
   // Function to handle changes in the password field
@@ -17,16 +22,47 @@ export default function Login() {
   };
 
   // Function to handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Here you can implement your login logic using the username and password
-    // For example, you can send an API request to authenticate the user
-    console.log("Username:", username);
-    console.log("Password:", password);
-    // Reset the form fields after submission if needed
-    setUsername("");
-    setPassword("");
-  };
+  // Function to handle form submission
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  try {
+    // Retrieve the hashed password from the database based on the username
+    const queryRef = query(ref(db, 'users/'), orderByChild('email'), equalTo("girayakman1@gmail.com"), limitToFirst(1));
+    const snapshot = await get(queryRef);
+    if (snapshot.exists()) {  
+      const userData = snapshot.val();
+      const uid = Object.keys(userData)[0];
+      const hashedPasswordFromDB = userData[uid].password;
+      var email = userData[uid].email
+
+      // Compare the hashed password from the database with the hashed version of the password entered by the user
+      const isPasswordMatch = bcrypt.compareSync(password, hashedPasswordFromDB);
+      if (isPasswordMatch) {
+        console.log("Password matches!");
+        // Here you can proceed with authenticating the user
+      } else {
+        console.log("Password does not match!");
+        // Handle incorrect password
+      }
+    } else {
+      console.log("User not found!");
+      // Handle user not found
+    }
+  } catch (error) {
+    console.error("Error:", error.message);
+    // Handle errors, such as displaying error messages to the user
+  }
+
+  try {
+    // Sign in the user with the provided username and password
+    await signInWithEmailAndPassword(auth, email, password);
+    console.log("User signed in successfully!");
+    // You can redirect the user to another page or perform other actions upon successful sign-in
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+};
+
 
   return (
     <div className="login-container">
@@ -34,12 +70,12 @@ export default function Login() {
         <h2>Login</h2>
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="username">Username:</label>
+            <label htmlFor="email">Email:</label>
             <input
               type="text"
-              id="username"
-              value={username}
-              onChange={handleUsernameChange}
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
               required
             />
           </div>

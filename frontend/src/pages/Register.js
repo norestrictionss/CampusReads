@@ -8,7 +8,6 @@ import bcrypt from "bcryptjs-react";
 
 export default function Register() {
   // State variables for registration fields
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
@@ -34,7 +33,6 @@ export default function Register() {
         // Save user data to the database
         set(ref(db, 'users/' + uid), {
           email: email,
-          username: username,
           password: hashedPassword,
           phoneNumber: phoneNumber,
           gender: gender,
@@ -42,12 +40,6 @@ export default function Register() {
         });
 
         // Reset the form fields after successful registration
-        setUsername("");
-        setPassword("");
-        setPhoneNumber("");
-        setGender("");
-        setEmail("");
-        setDepartment("");
 
         console.log("Registration successful!");
       })
@@ -64,16 +56,6 @@ export default function Register() {
       <div className="login-box">
         <h2>Registration</h2>
         <form className="login-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </div>
           <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
