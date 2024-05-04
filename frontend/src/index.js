@@ -7,6 +7,9 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Header from "./components/Header";
 import {MyContext} from "./MyContext";
+import Books from './pages/Books';
+import Details from './pages/DetailPages';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 export default function Main(){
@@ -24,7 +27,11 @@ export default function Main(){
 
                   <Route path="/login" element={<Login/>} ></Route>
                   <Route path="/register" element={<Register/>} ></Route>
-                  <Route path="/" element={<Login/>} ></Route>
+                  <Route path="/books" element={<Books/>} ></Route>
+                  <Route path="/" element={<Books/>} ></Route>
+                  <Route path="/details" element={<Details/>} ></Route>
+                  
+
               </Routes>
             </BrowserRouter>
 
