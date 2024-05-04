@@ -3,7 +3,6 @@ import "../style.css"; // Import your CSS file for styling
 import { db } from "../config/firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { ref, set } from "firebase/database";
-import bcrypt from "bcryptjs-react";
 
 
 export default function Register() {
@@ -27,13 +26,9 @@ export default function Register() {
         const uid = userCredential.user.uid;
 
         // Hash the password before saving it to the database
-        const salt = bcrypt.genSaltSync(10);
-        const hashedPassword = bcrypt.hashSync(password, salt);
-
         // Save user data to the database
         set(ref(db, 'users/' + uid), {
           email: email,
-          password: hashedPassword,
           phoneNumber: phoneNumber,
           gender: gender,
           department: department

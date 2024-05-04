@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import "../style.css"; // Import your CSS file for styling
 import "../style.css"; // Import your CSS file for styling
-import { db, auth } from "../config/firebase";
-import { ref, get, orderByChild, equalTo, limitToFirst, query } from "firebase/database";
+import { auth } from "../config/firebase";
+// import { ref, get, orderByChild, equalTo, limitToFirst, query, push, update, remove } from "firebase/database";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import bcrypt from "bcryptjs-react";
+import { addBookToBooklist, removeBookFromBooklist }  from "./Operations";
 
 export default function Login() {
   // State variables for email and password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   // Function to handle changes in the username field
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -25,15 +24,16 @@ export default function Login() {
   // Function to handle form submission
 const handleSubmit = async (event) => {
   event.preventDefault();
+  /*
   try {
     // Retrieve the hashed password from the database based on the username
-    const queryRef = query(ref(db, 'users/'), orderByChild('email'), equalTo("girayakman1@gmail.com"), limitToFirst(1));
+    const queryRef = query(ref(db, 'users/'), orderByChild('email'), equalTo(email), limitToFirst(1));
     const snapshot = await get(queryRef);
+    
     if (snapshot.exists()) {  
       const userData = snapshot.val();
       const uid = Object.keys(userData)[0];
       const hashedPasswordFromDB = userData[uid].password;
-      var email = userData[uid].email
 
       // Compare the hashed password from the database with the hashed version of the password entered by the user
       const isPasswordMatch = bcrypt.compareSync(password, hashedPasswordFromDB);
@@ -52,11 +52,29 @@ const handleSubmit = async (event) => {
     console.error("Error:", error.message);
     // Handle errors, such as displaying error messages to the user
   }
-
+  */
   try {
     // Sign in the user with the provided username and password
-    await signInWithEmailAndPassword(auth, email, password);
-    console.log("User signed in successfully!");
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const userId = user.uid;
+      console.log("User ID:", userId);
+      console.log("User signed in successfully!");
+      const bookData = {
+        bookName: "Hayvan Ciftligi",
+        bookType: "Bilim Kurgu",
+        bookDescription: "safasasgasgasasg",
+        author: "George Orwell",
+        comments: [] // Initialize comments list as empty
+      }
+      addBookToBooklist(userId, bookData);
+      removeBookFromBooklist(userId, "-Nx2p90-KIt3tudAiwge");
+    } catch (error) {
+      // Handle sign-in errors here
+      console.error("Error signing in:", error.message);
+    }
+
     // You can redirect the user to another page or perform other actions upon successful sign-in
   } catch (error) {
     console.error("Error:", error.message);
