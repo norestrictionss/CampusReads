@@ -7,6 +7,9 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Header from "./components/Header";
 import {MyContext} from "./MyContext";
+import UserPage from './pages/Profile';
+import AddNewBook from './pages/AddNewBook';
+import EditProfile from './pages/EditProfile';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 export default function Main(){
@@ -21,10 +24,12 @@ export default function Main(){
               {/* Whole pages will be settled in that block to provide routing */}
 
               <Routes>
-
                   <Route path="/login" element={<Login/>} ></Route>
                   <Route path="/register" element={<Register/>} ></Route>
                   <Route path="/" element={<Login/>} ></Route>
+                  <Route path="/profile" element={<UserPage/>} ></Route>
+                  <Route path="/addnewbook" element={<AddNewBook/>} ></Route>
+                  <Route path="/editProfile" element={<EditProfile/>} ></Route>
               </Routes>
             </BrowserRouter>
 

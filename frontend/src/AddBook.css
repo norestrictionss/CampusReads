@@ -1,0 +1,16 @@
+
+.form-control:focus {
+    box-shadow:none;
+    border-color: #6459e0
+}
+
+.addForm-container {
+    background-color: #ccd9fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Sayfa yüksekliği kadar formu dikeyde ortala */
+    max-width: 600px; /* Formun maksimum genişliğini belirle */
+    margin: 0 auto; /* Formu yatayda ortala */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
