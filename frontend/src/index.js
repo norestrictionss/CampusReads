@@ -10,6 +10,9 @@ import {MyContext} from "./MyContext";
 import UserPage from './pages/Profile';
 import AddNewBook from './pages/AddNewBook';
 import EditProfile from './pages/EditProfile';
+import SendedRequests from './pages/SendedRequests';
+import Notification from './pages/Notification';
+import PastSwaps from './pages/PastSwaps';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 export default function Main(){
@@ -30,6 +33,9 @@ export default function Main(){
                   <Route path="/profile" element={<UserPage/>} ></Route>
                   <Route path="/addnewbook" element={<AddNewBook/>} ></Route>
                   <Route path="/editProfile" element={<EditProfile/>} ></Route>
+                  <Route path="/sendedRequests" element={<SendedRequests/>} ></Route>
+                  <Route path="/notifications" element={<Notification/>} ></Route>
+                  <Route path="/pastSwaps" element={<PastSwaps/>} ></Route>
               </Routes>
             </BrowserRouter>
 
