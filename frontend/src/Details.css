@@ -1,40 +1,80 @@
-
-
-.container {
-  margin-top: 50px;
+.column{
+  width: 50%;
 }
 
-.book-detail-container {
-  background-color: #f2f2f2;
-  padding: 20px;
+.long-text {
+  overflow-wrap: break-word; /* Metni sınırlar içinde kırmak için */
+}
+.bookDetailImage{
+  max-width: 100%;
+  height: auto;
+}
+.bookSum{
+  padding-left: 20px;
+}
+.contact-box {
+  margin: 30px;
+  width: 100%; /* Expand the login box to fill the entire width */
+  max-width: 400px; /* Limit the maximum width of the login box */
+  padding: 40px; /* Increase padding for better spacing */
+  border-radius: 10px; /* Adjust border radius for rounded corners */
+  background-color: #f9f9f9;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
+  border: 5px solid #5D6DC0;
 }
 
-.form-container {
-  border: 1px solid #ccc;
-  padding: 20px;
-  background-color: #fff;
+.book-box {
+  margin: 30px;
+  width: 100%; /* Expand the login box to fill the entire width */
+  max-width: 900px; /* Limit the maximum width of the login box */
+  padding: 40px; /* Increase padding for better spacing */
+  border-radius: 10px; /* Adjust border radius for rounded corners */
+  background-color: #f9f9f9;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
+  border: 5px solid #5D6DC0;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 30px; /* Add space below the heading */
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
 }
 
 .form-group {
   margin-bottom: 20px;
 }
 
-.form-control {
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
+label {
+  font-weight: bold;
+}
+
+input,
+select {
+  padding: 12px;
   border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 16px; /* Increase font size for better readability */
 }
 
-.btn-primary {
-  background-color: #007bff;
-  color: #fff;
+button {
+  padding: 12px;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 6px;
+  background-color: #5D6DC0;
+  color: white;
   cursor: pointer;
+  font-size: 18px; /* Increase font size for better visibility */
 }
 
-.btn-primary:hover {
-  background-color: #0056b3;
+button:hover {
+  background-color: #4451a0;
 }
+
+
+
+

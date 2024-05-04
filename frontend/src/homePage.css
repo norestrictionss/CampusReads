@@ -13,7 +13,7 @@
 
   .card {
     margin: 30px;
-    width: 100%; /* Kart genişliği, sayfa genişliğine uyum sağlar */
+    width: 100%;/* Kart genişliği, sayfa genişliğine uyum sağlar */
     max-width: 200px; /* Maksimum kart genişliği */
     height: 300px;
     background-color: #f3f3f3;
@@ -28,13 +28,12 @@
   
   .card img {
     width: 100%; /* Resmin genişliği */
-    height: 60%; /* Resmin yüksekliği */
+    height: 150px; /* Resmin yüksekliği */
     object-fit: cover; /* Resmin kart boyutuna oturması */
   }
   
   .card>img:hover {
     opacity: 0.5;
-
   }
 
 
@@ -79,7 +78,7 @@
   .search {
     width: 100%;
     max-width: 400px;
-    height: 25px;
+    height: 40px;
     padding: 10px;
     background-color: #5D6DC0; /* Arkaplan rengini gri yapar */
     padding-right: 30px; /* Arama simgesi için sağ boşluk bırak */
