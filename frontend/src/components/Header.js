@@ -11,7 +11,7 @@ export default function Header() {
       <div className="links">
         {status && <a href="/profile">Profile</a>}
         <a href="/offers">Offers</a>
-        <a href="/adverts">Books</a>
+        <a href="/books">Books</a>
         {!status && <a href="/login">Login</a>}
         {!status && <a href="/register">Register</a>}
       </div>

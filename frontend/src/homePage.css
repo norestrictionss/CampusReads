@@ -1,0 +1,110 @@
+  .bookList {
+    color:rgb(2, 0, 0)
+  }
+  
+  .footer {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f8f9fa; /* Footer arka plan rengi */
+    padding: 20px;
+    text-align: center;
+  }
+
+  .card {
+    margin: 30px;
+    width: 100%;/* Kart genişliği, sayfa genişliğine uyum sağlar */
+    max-width: 200px; /* Maksimum kart genişliği */
+    height: 300px;
+    background-color: #f3f3f3;
+    border: 1px solid #ccc; /* Kenarlık */
+    border-radius: 4px; /* Köşe yuvarlaklığı */
+    padding: 16px; /* İç boşluk */
+    margin-bottom: 16px; /* Kartlar arası boşluk */
+    box-sizing: border-box; /* Kenarlık ve dolgu dahil olacak şekilde genişlik hesaplaması yapar */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  }
+
+  
+  .card img {
+    width: 100%; /* Resmin genişliği */
+    height: 150px; /* Resmin yüksekliği */
+    object-fit: cover; /* Resmin kart boyutuna oturması */
+  }
+  
+  .card>img:hover {
+    opacity: 0.5;
+  }
+
+
+  .card_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Kartların dikeyde ortalanması */
+    align-items: center; /* Kartların yatayda ortalanması */
+    width: 100%;
+    max-width: 1200px; /* Adjust max width as needed */
+    margin: 20px auto;
+  
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px; /* Adjust margin as needed */
+  }
+  
+  .col {
+    flex: 0 0 auto;
+    padding: 0 15px; /* Adjust padding as needed */
+    margin-bottom: 30px; /* Adjust margin bottom as needed */
+  }
+  
+  .banner {
+    max-width: 1500px; /* Maksimum genişlik belirlenecek */
+    margin: 20px auto 0; /* Banner'ı sayfanın ortasına hizalar ve üstünde 20px boşluk bırakır */
+    border: 2px solid #ddd; /* Kenarlara 2 piksel kalınlığında solgun bir border ekler */
+    border-radius: 8px; /* Köşeleri yuvarlar */
+    overflow: hidden; /* İçeriği sınırlı alanın içinde tutar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Kenarlara hafif bir gölge ekler */
+  }
+  
+  .banner img {
+    width: 100%; /* Resim banner genişliğine sığacak şekilde ayarlanır */
+    height: auto; /* Orantılı bir şekilde boyutlandırma sağlar */
+    display: block; /* Resmi blok eleman olarak ayarlar */
+  }
+  
+  .search {
+    width: 100%;
+    max-width: 400px;
+    height: 40px;
+    padding: 10px;
+    background-color: #5D6DC0; /* Arkaplan rengini gri yapar */
+    padding-right: 30px; /* Arama simgesi için sağ boşluk bırak */
+    box-shadow: 0 0 10px rgba(10, 10, 10, 0.3);
+    outline-color: #42357c;
+    margin-bottom: 20px;
+  }
+  
+  .search:hover {
+    background-color: #7f8cc4; /* Mouse üzerine gelindiğinde arkaplan rengini biraz daha açık gri yapar */
+  }
+
+  .search::placeholder {
+    color: rgb(233, 232, 232); /* Placeholder'ın rengini beyaz yapar */
+  }
+
+  .bookList {
+    margin-top: 50px;
+    font-family:Georgia, 'Times New Roman', Times, serif; /* Daha güzel bir font kullanımı */
+    font-size: 50px; /* Metni büyütme */
+    color: purple; /* Metnin rengini mor yapma */
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Dikey eksende ortalamak için */
+  }
+  
