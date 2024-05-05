@@ -11,7 +11,7 @@
     text-align: center;
   }
 
-  .card {
+  #bookcard {
     margin: 30px;
     width: 100%;/* Kart genişliği, sayfa genişliğine uyum sağlar */
     max-width: 200px; /* Maksimum kart genişliği */
@@ -26,7 +26,7 @@
   }
 
   
-  .card img {
+  #bookcard img {
     width: 100%; /* Resmin genişliği */
     height: 150px; /* Resmin yüksekliği */
     object-fit: cover; /* Resmin kart boyutuna oturması */
@@ -48,13 +48,13 @@
   
   }
   
-  .row {
+  #bookPageRow {
     display: flex;
     flex-wrap: wrap;
     margin: 0 -15px; /* Adjust margin as needed */
   }
   
-  .col {
+  #bookPageCol {
     flex: 0 0 auto;
     padding: 0 15px; /* Adjust padding as needed */
     margin-bottom: 30px; /* Adjust margin bottom as needed */
@@ -102,7 +102,7 @@
     color: purple; /* Metnin rengini mor yapma */
   }
 
-  .container {
+  #bookContainer {
     display: flex;
     flex-direction: column;
     align-items: center; /* Dikey eksende ortalamak için */
