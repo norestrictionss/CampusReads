@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../details.css"; // Stil dosyanızı içe aktarın
+import "../Details.css"; // Stil dosyanızı içe aktarın
 
 export default function ContactForm() {
   // Ad, soyad, e-posta, telefon ve mesaj için state değişkenleri

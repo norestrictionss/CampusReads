@@ -11,8 +11,6 @@ function App() {
       <Header></Header>
       <Register></Register>
     </div>
-
-    
   );
 }
 

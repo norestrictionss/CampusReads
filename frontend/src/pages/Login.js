@@ -61,6 +61,7 @@ const handleSubmit = async (event) => {
       const userId = user.uid;
       console.log("User ID:", userId);
       console.log("User signed in successfully!");
+      
       const bookData = {
         bookName: "Hayvan Ciftligi",
         bookType: "Bilim Kurgu",
@@ -68,8 +69,9 @@ const handleSubmit = async (event) => {
         author: "George Orwell",
         comments: [] // Initialize comments list as empty
       }
-      addBookToBooklist(userId, bookData);
-      removeBookFromBooklist(userId, "-Nx2p90-KIt3tudAiwge");
+
+      removeBookFromBooklist(userId, "-Nx2pKjGHUOnBvaj352z");
+      
     } catch (error) {
       // Handle sign-in errors here
       console.error("Error signing in:", error.message);

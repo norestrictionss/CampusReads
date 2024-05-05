@@ -7,6 +7,12 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Header from "./components/Header";
 import {MyContext} from "./MyContext";
+import UserPage from './pages/Profile';
+import AddNewBook from './pages/AddNewBook';
+import EditProfile from './pages/EditProfile';
+import SendedRequests from './pages/SendedRequests';
+import Notification from './pages/Notification';
+import PastSwaps from './pages/PastSwaps';
 import Books from './pages/Books';
 import Details from './pages/DetailPages';
 
@@ -24,7 +30,6 @@ export default function Main(){
               {/* Whole pages will be settled in that block to provide routing */}
 
               <Routes>
-
                   <Route path="/login" element={<Login/>} ></Route>
                   <Route path="/register" element={<Register/>} ></Route>
                   <Route path="/books" element={<Books/>} ></Route>
@@ -32,6 +37,12 @@ export default function Main(){
                   <Route path="/details" element={<Details/>} ></Route>
                   
 
+                  <Route path="/profile" element={<UserPage/>} ></Route>
+                  <Route path="/addnewbook" element={<AddNewBook/>} ></Route>
+                  <Route path="/editProfile" element={<EditProfile/>} ></Route>
+                  <Route path="/sendedRequests" element={<SendedRequests/>} ></Route>
+                  <Route path="/notifications" element={<Notification/>} ></Route>
+                  <Route path="/pastSwaps" element={<PastSwaps/>} ></Route>
               </Routes>
             </BrowserRouter>
 
