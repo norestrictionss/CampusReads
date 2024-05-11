@@ -1,19 +1,20 @@
-import React, {useState, useContext} from 'react';
+import React, { useContext } from 'react';
 import "../style.css"; // Import your CSS file for styling
-import {MyContext} from "../MyContext";
+import { Context } from "../contexts/AuthContext";
 
 export default function Header() {
   
-  const { status, setStatus } = useContext(MyContext);
+  const { user } = useContext(Context);
   return (
     <div className="header">
       <h1 className="title">CampusReads</h1>
       <div className="links">
-        {status && <a href="/profile">Profile</a>}
+        {user && <a href="/profile">Profile</a>}
         <a href="/offers">Offers</a>
         <a href="/books">Books</a>
-        {!status && <a href="/login">Login</a>}
-        {!status && <a href="/register">Register</a>}
+        {!user && <a href="/login">Login</a>}
+        {!user && <a href="/register">Register</a>}
+        {user && <a href="/logout">Logout</a>}
       </div>
     </div>
   );

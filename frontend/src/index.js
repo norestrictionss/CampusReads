@@ -15,6 +15,7 @@ import Notification from './pages/Notification';
 import PastSwaps from './pages/PastSwaps';
 import Books from './pages/Books';
 import Details from './pages/DetailPages';
+import { AuthContext } from "./contexts/AuthContext";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -23,7 +24,7 @@ export default function Main(){
   const [status, setStatus] = useState(false);
   return(
     <div>
-      <MyContext.Provider value={{status, setStatus}}>
+      <AuthContext>
         <Header></Header>
         <React.StrictMode>
           <BrowserRouter>
@@ -47,7 +48,7 @@ export default function Main(){
             </BrowserRouter>
 
         </React.StrictMode>
-      </MyContext.Provider>
+      </AuthContext>
     </div>
   );
 }
