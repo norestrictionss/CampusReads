@@ -1,8 +1,22 @@
 import React, { useContext } from 'react';
 import "../style.css"; // Import your CSS file for styling
 import { Context } from "../contexts/AuthContext";
+import { auth } from "../config/firebase";
+import { signOut } from 'firebase/auth';
 
 export default function Header() {
+
+  
+  function handleSignOut(){
+    signOut(auth)
+    .then(()=>{
+      console.log("User signed out successfully.");
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
+  }
+  
   
   const { user } = useContext(Context);
   return (
@@ -14,7 +28,7 @@ export default function Header() {
         <a href="/books">Books</a>
         {!user && <a href="/login">Login</a>}
         {!user && <a href="/register">Register</a>}
-        {user && <a href="/logout">Logout</a>}
+        {user && <a href="/login" onClick = { handleSignOut }>Logout</a>}
       </div>
     </div>
   );
