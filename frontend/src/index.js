@@ -16,12 +16,11 @@ import PastSwaps from './pages/PastSwaps';
 import Books from './pages/Books';
 import Details from './pages/DetailPages';
 import { AuthContext } from "./contexts/AuthContext";
-
+import LoginChecker from './pages/LoginChecker';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 export default function Main(){
-  
-  const [status, setStatus] = useState(false);
+
   return(
     <div>
       <AuthContext>
@@ -31,8 +30,8 @@ export default function Main(){
               {/* Whole pages will be settled in that block to provide routing */}
 
               <Routes>
-                  <Route path="/login" element={<Login/>} ></Route>
-                  <Route path="/register" element={<Register/>} ></Route>
+                  <Route path="/login" element={<LoginChecker><Login/></LoginChecker>} ></Route>
+                  <Route path="/register" element={<LoginChecker><Register/></LoginChecker>} ></Route>
                   <Route path="/books" element={<Books/>} ></Route>
                   <Route path="/" element={<Books/>} ></Route>
                   <Route path="/details" element={<Details/>} ></Route>
