@@ -74,3 +74,34 @@ export const exchangeBooks = async(offererId, offeredPersonId, offererBookId, of
   }
 };
 
+export const offerBook = async(offererId, offeredPersonId, offererBookId, offeredBookId) =>{
+  try {
+      // Retrieve the books of the offerer and the offered person
+      const offererBooksSnapshot = await db.ref(`users/${offererId}/books`).once('value');
+      const offeredPersonBooksSnapshot = await db.ref(`users/${offeredPersonId}/books`).once('value');
+
+      // Get the book details
+      const offererBooks = offererBooksSnapshot.val();
+      const offeredPersonBooks = offeredPersonBooksSnapshot.val();
+
+      // Retrieve the books to be exchanged
+      const offererBook = offererBooks[offererBookId];
+      const offeredBook = offeredPersonBooks[offeredBookId];
+
+      // Swap books between users
+      delete offererBooks[offererBookId];
+      delete offeredPersonBooks[offeredBookId];
+
+      offererBooks[offeredBookId] = offeredBook;
+      offeredPersonBooks[offererBookId] = offererBook;
+
+      // Update the books for each user in the database
+      await db.ref(`users/${offererId}/books`).set(offererBooks);
+      await db.ref(`users/${offeredPersonId}/books`).set(offeredPersonBooks);
+
+      console.log("Books exchanged successfully!");
+  } catch (error) {
+      console.error("Error exchanging books:", error.message);
+  }
+};
+

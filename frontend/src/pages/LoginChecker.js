@@ -13,9 +13,9 @@ export default function LoginChecker({children}){
             console.log('hi');
             navigate("/books");
         }
-        else{
-            return children;
-        }
     }, []);
+
+    if(!user)
+            return children;
     
 }
