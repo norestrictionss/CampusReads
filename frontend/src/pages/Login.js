@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "../style.css"; // Import your CSS file for styling
 import "../style.css"; // Import your CSS file for styling
-import { auth } from "../config/firebase";
+//import { auth } from "../config/firebase";
 // import { ref, get, orderByChild, equalTo, limitToFirst, query, push, update, remove } from "firebase/database";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { addBookToBooklist, removeBookFromBooklist }  from "./Operations";
+//import { signInWithEmailAndPassword } from "firebase/auth";
+//import { addBookToBooklist, removeBookFromBooklist }  from "./Operations";
 
 export default function Login() {
   // State variables for email and password
@@ -51,36 +51,8 @@ const handleSubmit = async (event) => {
   } catch (error) {
     console.error("Error:", error.message);
     // Handle errors, such as displaying error messages to the user
-  }
-  */
-  try {
-    // Sign in the user with the provided username and password
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      const userId = user.uid;
-      console.log("User ID:", userId);
-      console.log("User signed in successfully!");
-      
-      const bookData = {
-        bookName: "Hayvan Ciftligi",
-        bookType: "Bilim Kurgu",
-        bookDescription: "safasasgasgasasg",
-        author: "George Orwell",
-        comments: [] // Initialize comments list as empty
-      }
-
-      removeBookFromBooklist(userId, "-Nx2pKjGHUOnBvaj352z");
-      
-    } catch (error) {
-      // Handle sign-in errors here
-      console.error("Error signing in:", error.message);
-    }
-
-    // You can redirect the user to another page or perform other actions upon successful sign-in
-  } catch (error) {
-    console.error("Error:", error.message);
-  }
+  }*/
+ 
 };
 
 

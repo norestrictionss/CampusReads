@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "../style.css"; // Import your CSS file for styling
-import { db } from "../config/firebase";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { ref, set } from "firebase/database";
+//import { db } from "../config/firebase";
+//import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+//import { ref, set } from "firebase/database";
 
 
 export default function Register() {
@@ -17,33 +17,10 @@ export default function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const auth = getAuth();
+    //const auth = getAuth();
     
     // Create user with email and password
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // After user is created and authenticated, get the UID
-        const uid = userCredential.user.uid;
-
-        // Hash the password before saving it to the database
-        // Save user data to the database
-        set(ref(db, 'users/' + uid), {
-          email: email,
-          phoneNumber: phoneNumber,
-          gender: gender,
-          department: department
-        });
-
-        // Reset the form fields after successful registration
-
-        console.log("Registration successful!");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-      });
+    
   };
 
   return (
