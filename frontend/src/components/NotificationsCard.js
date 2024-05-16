@@ -1,17 +1,6 @@
 import React from 'react';
 
-const SendedRequestCard = ({ title, bookOwner, bookimage, ownerIcon, requestStatus }) => {
-    const getStatusLabel = () => {
-        if (requestStatus === 'accepted') {
-            return <span style={{ color: 'green' }}>Accepted</span>;
-        } else if (requestStatus === 'rejected') {
-            return <span style={{ color: 'red' }}>Rejected</span>;
-        } else if (requestStatus === 'pending') {
-            return <span style={{ color: 'orange' }}>Pending...</span>;
-        }
-        return null;
-    };
-
+const NotificationsCard = ({ title, bookOwner, bookimage, ownerIcon, requestStatus, acceptRequest, rejectRequest }) => {
     return (
         <div className="sendedRequest-col">
             <div className="card text-bg-light mb-3">
@@ -38,7 +27,12 @@ const SendedRequestCard = ({ title, bookOwner, bookimage, ownerIcon, requestStat
                             </div>
                             <br />
                             <h6 className="card-text" style={{ marginBottom: "0" }}>
-                                Status: {getStatusLabel()}
+                                {requestStatus === "pending" && (
+                                    <div>
+                                        <button onClick={acceptRequest} className="btn btn-success" style={{ marginRight: "10px" }}>Accept</button>
+                                        <button onClick={rejectRequest} className="btn btn-danger">Reject</button>
+                                    </div>
+                                )}
                             </h6>
                         </div>
                     </div>
@@ -48,4 +42,4 @@ const SendedRequestCard = ({ title, bookOwner, bookimage, ownerIcon, requestStat
     );
 };
 
-export default SendedRequestCard;
+export default NotificationsCard;
