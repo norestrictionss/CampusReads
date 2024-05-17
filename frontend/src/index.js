@@ -15,6 +15,9 @@ import Notification from './pages/Notification';
 import PastSwaps from './pages/PastSwaps';
 import Books from './pages/Books';
 import Details from './pages/DetailPages';
+import AdminBooks from './pages/AdminBooks';
+import Footer from './components/Footer';
+import AdminDetailPage from './pages/AdminDetailPage';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -35,18 +38,19 @@ export default function Main(){
                   <Route path="/books" element={<Books/>} ></Route>
                   <Route path="/" element={<Books/>} ></Route>
                   <Route path="/details" element={<Details/>} ></Route>
-                  
-
                   <Route path="/profile" element={<UserPage/>} ></Route>
                   <Route path="/addnewbook" element={<AddNewBook/>} ></Route>
                   <Route path="/editProfile" element={<EditProfile/>} ></Route>
                   <Route path="/sendedRequests" element={<SendedRequests/>} ></Route>
                   <Route path="/notifications" element={<Notification/>} ></Route>
                   <Route path="/pastSwaps" element={<PastSwaps/>} ></Route>
+                  <Route path="/adminBooks" element={<AdminBooks/>} ></Route>
+                  <Route path="/adminDetails" element={<AdminDetailPage/>} ></Route>
+                  
               </Routes>
             </BrowserRouter>
-
         </React.StrictMode>
+        <Footer></Footer>
       </MyContext.Provider>
     </div>
   );

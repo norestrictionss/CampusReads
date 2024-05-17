@@ -73,63 +73,6 @@ export default function ContactForm() {
 
           </div>
         </div>
-        <div className="col-md-12 col-lg-5">
-          <div className="contact-box">
-            <h2>CONTACT FORM</h2>
-            <form className="contact-form" onSubmit={handleSubmit}>
-              <div className="form-group">
-                <input
-                  type="text"
-                  id="firstName"
-                  value={firstName}
-                  onChange={handleFirstNameChange}
-                  placeholder="Enter your first name"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <input
-                  type="text"
-                  id="lastName"
-                  value={lastName}
-                  onChange={handleLastNameChange}
-                  placeholder="Enter your last name"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  placeholder="Enter your email"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <input
-                  type="tel"
-                  id="phoneNumber"
-                  value={phoneNumber}
-                  onChange={handlePhoneNumberChange}
-                  placeholder="Enter your phone number"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <textarea
-                  id="message"
-                  value={message}
-                  onChange={handleMessageChange}
-                  placeholder="Enter your message"
-                  required
-                />
-              </div>
-              <button type="submit">Send</button>
-            </form>
-          </div>
-        </div>
       </div>
     </div>
   );
