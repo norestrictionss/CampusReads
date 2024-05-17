@@ -30,11 +30,8 @@ export default function AddNewBook() {
                                     <label htmlFor="formFile" className="form-label" >Select an image</label>
                                     <input className="form-control" name="imageUrl" type="file" id="formFile" />
                                 </div>
-                                <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="submit">Add Book</button></div>
-                                
-                            </form>
-
-                            
+                                <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="submit">Add Book</button></div>              
+                            </form>         
                         </div>
                     </div>
                 </div>

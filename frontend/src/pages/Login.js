@@ -3,7 +3,7 @@ import "../style.css"; // Import your CSS file for styling
 import "../style.css"; // Import your CSS file for styling
 //import { auth } from "../config/firebase";
 // import { ref, get, orderByChild, equalTo, limitToFirst, query, push, update, remove } from "firebase/database";
-//import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 //import { addBookToBooklist, removeBookFromBooklist }  from "./Operations";
 
 export default function Login() {
