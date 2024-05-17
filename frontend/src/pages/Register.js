@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "../style.css"; // Import your CSS file for styling
-//import { db } from "../config/firebase";
-//import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-//import { ref, set } from "firebase/database";
+import { auth, db } from "../config/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom"
+import { ref, set } from "firebase/database";
 
 
 export default function Register() {
@@ -12,14 +13,36 @@ export default function Register() {
   const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState("");
-
+  const navigate = useNavigate();
   // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    //const auth = getAuth();
-    
-    // Create user with email and password
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+       
+        const uid = userCredential.uid;
+        set(ref(db, 'users/' + uid), {
+          department: department,
+          email: email,
+          gender: gender,
+          phoneNumber: phoneNumber
+        });
+        setPassword("");
+        setPhoneNumber("");
+        setGender("");
+        setEmail("");
+        setDepartment("");
+
+        console.log("Registration successful!");
+        navigate("/books");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+      });
     
   };
 
