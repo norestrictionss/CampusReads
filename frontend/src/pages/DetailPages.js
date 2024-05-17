@@ -62,8 +62,12 @@ export default function ContactForm() {
                 <img className="bookDetailImage" src="/images/harry.png" alt="Book Cover"/>
               </div> 
               <div className="col-md-12 col-lg-6 column">
-                <h4 className="bookSum">Harry Potter</h4>
-                <p className="bookSum">Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek.itabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. K Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek.</p>
+                <h3 className="bookTitle"><strong>Harry Potter</strong></h3>
+                <p className="bookSum"><strong>Summary: </strong>Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek.itabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. K Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek.</p>
+                <p className="bookAuthor"><strong>Author:</strong> J.K. ROWLING </p>
+                <p className="SSN"><strong>SSN:</strong> 1111111111</p>
+                <p className="bookGender"><strong>Gender:</strong> Fantastic</p>
+                <p className="bookOwner"><strong>Owner:</strong> İrem Kıranmezar</p>
               </div>
             </div>
 

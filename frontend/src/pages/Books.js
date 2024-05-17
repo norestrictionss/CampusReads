@@ -28,7 +28,7 @@ const Books = () => {
   );
 
   return (
-    <div className='container'>
+    <div className='container' id="bookContainer">
       <Banner />
       <h1 className="bookList" ><strong>Book List</strong></h1>
       <input className='search'
@@ -38,7 +38,7 @@ const Books = () => {
         onChange={handleChange}
       />
       <div className="card_container">
-        <div className="row">
+        <div className="row" id="bookPageRow">
           {filteredBooks.map(book => (
             <div key={book.id} className="col-lg-3 col-md-4 col-sm-6 col-12">
               <BookCard title={book.title} author={book.author} image={book.image} />

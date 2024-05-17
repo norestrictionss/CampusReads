@@ -13,8 +13,8 @@ const BookCard = ({title, author, image}) => {
   const authorFontSize = author.length > maxAuthorLength ? '0.8rem' : '1rem';
 
   return (
-    <div className="col">
-      <div className="card">
+    <div className="col" id="bookPageCol">
+      <div className="card" id="bookcard">
         <a href="/details" >
           <img src={image} alt={title} />
         </a>

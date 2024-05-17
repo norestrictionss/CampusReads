@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../Profile.css"; // Import your CSS file for styling
-import ProfileHeader from '../../src/components/ProfileHeader';
 
 export default function EditProfile() {
 
@@ -62,7 +61,6 @@ const handleSubmit = (event) => {
                             <a href="/Profile" className="btn btn-sm btn-dark mb-2">Back to Your Profile</a>
                         </form>
 
-                        
                     </div>
                 </div>
             </div>
