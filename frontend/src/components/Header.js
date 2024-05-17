@@ -24,7 +24,7 @@ export default function Header() {
       <h1 className="title">CampusReads</h1>
       <div className="links">
         {user && <a href="/profile">Profile</a>}
-        <a href="/offers">Offers</a>
+        {user && <a href="/offers">Offers</a>}
         <a href="/books">Books</a>
         {!user && <a href="/login">Login</a>}
         {!user && <a href="/register">Register</a>}

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Header from "./components/Header";
-import {MyContext} from "./MyContext";
 import UserPage from './pages/Profile';
 import AddNewBook from './pages/AddNewBook';
 import EditProfile from './pages/EditProfile';

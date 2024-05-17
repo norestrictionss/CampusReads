@@ -12,10 +12,11 @@ export async function addBookToBooklist(userId, bookData) {
 
     // Set the book data
     const bookEntry = {
-      bookName: bookData.bookName,
-      bookType: bookData.bookType,
-      bookDescription: bookData.bookDescription,
-      author: bookData.author,
+      bookSSN: bookData.ssn,
+      bookName: bookData.bookname,
+      author: bookData.bookauthor,
+      bookType: bookData.bookgender,
+      bookDescription: bookData.description,
       comments: [] // Initialize comments list as empty
     };
 
@@ -23,9 +24,11 @@ export async function addBookToBooklist(userId, bookData) {
     await update(newBookRef, bookEntry);
 
     console.log("Book added to user's booklist successfully");
+    return true;
   } catch (error) {
     console.error("Error adding book to user's booklist:", error);
   }
+  return false;
 };
 
 // Function to remove a book from a user's booklist
