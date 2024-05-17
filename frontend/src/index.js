@@ -31,7 +31,7 @@ export default function Main(){
         <React.StrictMode>
           <BrowserRouter>
               {/* Whole pages will be settled in that block to provide routing */}
-
+              
               <Routes>
                   <Route path="/login" element={<Login/>} ></Route>
                   <Route path="/register" element={<Register/>} ></Route>
@@ -46,7 +46,7 @@ export default function Main(){
                   <Route path="/pastSwaps" element={<PastSwaps/>} ></Route>
                   <Route path="/adminBooks" element={<AdminBooks/>} ></Route>
                   <Route path="/adminDetails" element={<AdminDetailPage/>} ></Route>
-                  
+
               </Routes>
             </BrowserRouter>
         </React.StrictMode>
