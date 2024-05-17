@@ -15,7 +15,7 @@ const UserBookCards = ({ title, author, image }) => {
                         <div className="card-body">
                             <h5 className="card-title">{title}</h5>
                             <p className="card-text">Author : {author}</p>
-                            <a href="#" className="btn btn-sm btn-dark mb-2" >DELETE</a>
+                            <a href="#" className="btn btn-sm btn-dark mb-2" style={{float:"right"}}>DELETE</a>
                         </div>
                     </div>
                 </div>
