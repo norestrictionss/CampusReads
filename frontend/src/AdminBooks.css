@@ -85,26 +85,26 @@
     max-width: 400px;
     height: 40px;
     padding: 10px;
-    background-color: #5D6DC0; /* Arkaplan rengini gri yapar */
+    background-color: #bfbfbf; /* Arkaplan rengini gri yapar */
     padding-right: 30px; /* Arama simgesi için sağ boşluk bırak */
-    box-shadow: 0 0 10px rgba(10, 10, 10, 0.3);
-    outline-color: #42357c;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    outline-color: #080707;
     margin-bottom: 20px;
   }
   
   .search:hover {
-    background-color: #7f8cc4; /* Mouse üzerine gelindiğinde arkaplan rengini biraz daha açık gri yapar */
+    background-color: #8c8c8c; /* Mouse üzerine gelindiğinde arkaplan rengini biraz daha açık gri yapar */
   }
 
   .search::placeholder {
-    color: rgb(233, 232, 232); /* Placeholder'ın rengini beyaz yapar */
+    color: rgb(12, 10, 10); /* Placeholder'ın rengini beyaz yapar */
   }
 
   .bookList {
     margin-top: 50px;
     font-family:Georgia, 'Times New Roman', Times, serif; /* Daha güzel bir font kullanımı */
     font-size: 50px; /* Metni büyütme */
-    color: purple; /* Metnin rengini mor yapma */
+    color: rgb(3, 17, 168); /* Metnin rengini mor yapma */
   }
 
   #bookContainer {
