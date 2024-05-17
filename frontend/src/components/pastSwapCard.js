@@ -15,8 +15,8 @@ const PastSwapCard = ({ swapDate, firstBookTitle, firstBookImg, secondBookTitle,
                     </div>
                     <div class="col-md-4">
                         <div class="card-body">
-                            <h6 class="card-text" >{firstBookTitle}</h6>
-                            <h6 class="card-text" style={{ marginBottom: "0" }}>Book Owner : {advertOwnerUserName}</h6>
+                            <h6 class="card-text" ><strong>{firstBookTitle}</strong></h6>
+                            <h6 class="card-text" style={{ marginBottom: "0" }}><strong>Book Owner : </strong>{advertOwnerUserName}</h6>
                         </div>
                     </div>
                     <div class="col-md-4" style={{ width: "100px", display: "flex", alignItems: "center" }}>
@@ -25,7 +25,7 @@ const PastSwapCard = ({ swapDate, firstBookTitle, firstBookImg, secondBookTitle,
                     <div class="col-md-4">
                         <div class="card-body">
                             <h6 class="card-text" >{secondBookTitle}</h6>
-                            <h6 class="card-text" style={{ marginBottom: "0" }}>Book Owner : {offererUserName}</h6>
+                            <h6 class="card-text" style={{ marginBottom: "0" }}><strong>Book Owner : </strong>{offererUserName}</h6>
                         </div>
                     </div>
                 </div>
