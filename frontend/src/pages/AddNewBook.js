@@ -6,6 +6,10 @@ import { addBookToBooklist } from "./Operations";
 import { useNavigate } from "react-router-dom"
 import { useContext } from "react"; 
 import { Context } from "../contexts/AuthContext";
+import { storage } from "../config/firebase";
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+
 
 export default function AddNewBook() {
     const { user } = useContext(Context);
@@ -15,12 +19,15 @@ export default function AddNewBook() {
     const [bookauthor, setBookauthor] = useState("");
     const [bookgender, setBookgender] = useState("");
     const [description, setDescription] = useState("");
-    const [imageUrl, setImageUrl] = useState(null);
+    const [imageFile, setImageFile] = useState(null);
     const navigate = useNavigate();
     const handleChange = (e) => {
         const { name, value, files } = e.target;
-        if (name === "imageUrl") {
-            setImageUrl(files[0]);
+        console.log(name);
+        console.log(files);
+        if (name === "imageFile") {
+            setImageFile(files[0]);
+            console.log("image file: ", imageFile);
         } else {
             switch (name) {
                 case "ssn":
@@ -44,8 +51,22 @@ export default function AddNewBook() {
         }
     };
 
+    const uploadImage = async (file, ssn) => {
+
+        const storageRef = ref(storage, `images/${ssn}`);
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        return downloadURL;
+    };
+
     const addBook = async (event) => {
         event.preventDefault();
+        if (!imageFile) {
+            alert("Please select an image");
+            return;
+        }
+        await uploadImage(imageFile, ssn);
+
         const formData = { ssn, bookname, bookauthor, bookgender, description };
         const success = await addBookToBooklist(user.uid, formData);
         console.log(success);
@@ -92,7 +113,7 @@ export default function AddNewBook() {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="formFile" className="form-label">Select an image</label>
-                                    <input className="form-control" name="imageUrl" type="file" id="formFile" onChange={handleChange} />
+                                    <input className="form-control" name="imageFile" type="file" id="formFile" onChange={handleChange} />
                                 </div>
                                 <div className="mt-5 text-center">
                                     <button className="btn btn-primary profile-button" type="submit">Add Book</button>
