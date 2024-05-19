@@ -4,7 +4,7 @@ import "../homePage.css";
 const Banner = () => {
   return (
     <div className="banner">
-      <img src={process.env.PUBLIC_URL + '/images/banner.jpg'} alt="Banner" />
+      <img src={process.env.PUBLIC_URL + '/images/campus.jpg'} alt="Banner" />
     </div>
   );
 };
