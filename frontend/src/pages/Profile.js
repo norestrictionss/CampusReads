@@ -29,7 +29,7 @@ export default function UserPage() {
                 <div className="col-md-12">
                     <div id="content" className="content content-full-width">
                         <div className="profile">
-                            <ProfileHeader userName="@iremaydin" userDepartment="Computer Science Engineering"/>
+                            <ProfileHeader userName="@iremaydin" userDepartment="Computer Science Engineering" userIcon="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN6marVqh3eZx1rmily_92k6hw4hp7sZCSL0NRJYdvMA&s"/>
                         </div>
                         <div className="userAds" style={{ marginTop: "30px" }}>
                             <div class="row row-cols-1 row-cols-md-3 g-4">
