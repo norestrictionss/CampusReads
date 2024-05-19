@@ -17,10 +17,9 @@
   width: 100%; /* Expand the login box to fill the entire width */
   max-width: 400px; /* Limit the maximum width of the login box */
   padding: 40px; /* Increase padding for better spacing */
-  border-radius: 10px; /* Adjust border radius for rounded corners */
-  background-color: #f9f9f9;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
-  border: 5px solid #5D6DC0;
+  box-shadow: 0 -1px 6px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9; /* Add a subtle box shadow for depth */
+  
 }
 
 .book-box {
@@ -28,10 +27,9 @@
   width: 100%; /* Expand the login box to fill the entire width */
   max-width: 900px; /* Limit the maximum width of the login box */
   padding: 40px; /* Increase padding for better spacing */
-  border-radius: 10px; /* Adjust border radius for rounded corners */
-  background-color: #f9f9f9;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
-  border: 5px solid #5D6DC0;
+  box-shadow: 0 -1px 6px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9; /* Add a subtle box shadow for depth */
+  
 }
 
 h2 {
