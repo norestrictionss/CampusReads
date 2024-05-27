@@ -1,13 +1,4 @@
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #5D6DC0; /* Background color */
-    color: white; /* Text color */
-  }
-  
   .title {
     margin: 0;
   }

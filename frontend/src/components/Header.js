@@ -6,7 +6,6 @@ import { signOut } from 'firebase/auth';
 
 export default function Header() {
 
-  
   function handleSignOut(){
     signOut(auth)
     .then(()=>{
@@ -16,7 +15,6 @@ export default function Header() {
       console.log(error);
     })
   }
-  
   
   const { user } = useContext(Context);
   return (
