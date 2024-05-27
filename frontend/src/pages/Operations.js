@@ -1,4 +1,4 @@
-import { ref, push, update, remove } from 'firebase/database';
+import { ref, push, update, remove, get } from 'firebase/database';
 import { db } from "../config/firebase"; // Import your Firebase configuration file
 
 
@@ -103,6 +103,27 @@ export const offerBook = async(offererId, offeredPersonId, offererBookId, offere
       console.log("Offer process successfully completed!");
   } catch (error) {
       console.error("Error to sending offer:", error.message);
+  }
+};
+
+export const showBookList = async(studentID) =>{
+
+  try {
+    const booklist = ref(db, `users/${studentID}/booklist`);
+    const snapshot = await get(booklist); // It fetches the booklist through the reference.
+    if (snapshot.exists()) {
+      const bookList = snapshot.val();
+      console.log("Book list fetched successfully:", bookList);
+      
+
+      return bookList;
+    } else {
+      console.log("No book list found for this student.");
+      return null;
+    }
+
+  } catch (error) {
+      console.error("Error to fetching the books:", error.message);
   }
 };
 

@@ -1,10 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../Profile.css"; // Import your CSS file for styling
 import UserBookCards from '../../src/components/UserBookCards';
 import ProfileHeader from '../../src/components/ProfileHeader';
+import { showBookList } from "./Operations";
+import { Context } from "../contexts/AuthContext";
 
 export default function UserPage() {
+
+    const { user } = useContext(Context);
     const [searchTerm, setSearchTerm] = useState('');
+    const [fetchedBooks, setFetchedBooks] = useState([]);
+    const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
+
+    console.log("BookLists:",fetchedBooks,fetchedBooks.length);
+    useEffect(() => {
+        const fetchBookList = async () => {
+            
+            try {
+                const bookList = await showBookList(user.uid);
+                if(bookList) {
+                    setFetchedBooks(Object.values(bookList));
+                    setLoadingBooks(false); // Set loading to false when data is fetched
+                }
+            } catch (error) {
+                console.error("Error fetching book list:", error);
+                setLoadingBooks(false); // Set loading to false in case of error
+            }
+
+    
+        };
+        fetchBookList();
+    }, [user]);
     const [books, setBooks] = useState([
         { id: 1, title: 'Harry Potter', author: 'J.K. Rowling', image: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcR5h4e7Njgs6hlF0Et2LoQK5Az1SK_gmd0w2VZvgkJndwlSi7gixrlCHb14m2dWmTdiofWTf4cHUlcP7VhmC8i3qZw7EaL63317YvMpcFt6zOVWpaBJVaTYig&usqp=CAE" },
         { id: 2, title: 'Lord of the Rings', author: 'J.R.R. Tolkien', image: "https://i.dr.com.tr/cache/500x400-0/originals/0000000113094-1.jpg" },
@@ -22,7 +48,6 @@ export default function UserPage() {
     const filteredBooks = books.filter(book =>
         book.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
     return (
         <div className="container" style={{ marginTop: "30px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
             <div className="row">
@@ -34,8 +59,27 @@ export default function UserPage() {
                         <div className="userAds" style={{ marginTop: "30px" }}>
                             <div class="row row-cols-1 row-cols-md-3 g-4">
                                 {filteredBooks.map(book => (
-                                    <UserBookCards title={book.title} author={book.author} image={book.image} />
+                                    <div>
+                                        <UserBookCards title={book.title} author={book.author} image={book.image} />
+                                    </div>
                                 ))}
+
+                                {loadingBooks ? <p>Loading...</p>: 
+                                <>
+                                {fetchedBooks.length > 0  ? 
+                                    fetchedBooks.map((book, index) => <div key={index}>
+                                            <UserBookCards title={book.title} author={book.author} image={book.image} /></div>
+                                    )
+                                 : (
+                                    <div className="col-12">
+                                        <p>You don't have any books yet added to the platform.</p>
+                                    </div>
+                                )}
+                                </>
+                                }
+                                
+
+                               
                             </div>
                         </div>
                     </div>
