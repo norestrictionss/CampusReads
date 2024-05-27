@@ -15,7 +15,7 @@ export default function UserPage() {
     const [fetchedBooks, setFetchedBooks] = useState([]);
     const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
 
-    console.log("BookLists:",fetchedBooks,fetchedBooks.length);
+    // This part fetches books with images.
     useEffect(() => {
         const fetchBookList = async () => {
             
@@ -24,7 +24,7 @@ export default function UserPage() {
                 if(bookList) {
                     console.log("Bookies:", bookList);
 
-                    
+                    // It merges the book lists with image URL's.
                     const bookEntriesWithImageURLs = await Promise.all(Object.entries(bookList).map(async ([key, book]) => {
                         try {
                             const imageURL = await getDownloadURL(ref(storage, `images/${key}`));
@@ -36,18 +36,18 @@ export default function UserPage() {
                         }
                     }));
                     setFetchedBooks(bookEntriesWithImageURLs);
-                    setLoadingBooks(false); // Set loading to false when data is fetched
+                    setLoadingBooks(false); // It keeps the loading.
                     
                 }
             } catch (error) {
                 console.error("Error fetching book list:", error);
-                setLoadingBooks(false); // Set loading to false in case of error
+                setLoadingBooks(false); // It keeps loading part.
             }
 
     
         };
         fetchBookList();
-    }, [user]);
+    }, []);
     console.log(fetchedBooks);
     async function getImage(imageName, imgURL){
         
@@ -98,10 +98,7 @@ export default function UserPage() {
                                 <>
 
                                 {fetchedBooks.length > 0  ? 
-
-                                    
                                     fetchedBooks.map(([key, attributes]) => <div>
-                                            
                                             <UserBookCards title={attributes.bookName} author={attributes.author} image={ attributes.imageURL} /></div>
                                     )
                                  : (
