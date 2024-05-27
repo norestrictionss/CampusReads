@@ -1,10 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BookCard from '../components/BookCard';  
 import Banner from '../components/Banner';
 import "../homePage.css";
-
+import { returnUsers, showBookList } from './Operations';
+import { ref, getDownloadURL, getStorage } from 'firebase/storage';
 const Books = () => {
+
+  const [ imgURL, setImgURL] = useState({});
+  const storage = getStorage();
   const [searchTerm, setSearchTerm] = useState('');
+  const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
+  const [users, setUsers] = useState([]); // Users
+
+
+
+  useEffect(() => {
+    const fetchUserList = async () => {
+        
+        try {
+            const userList = Object.entries(await returnUsers());
+            if(userList) {
+                // It merges the book lists with image URL's.
+                setUsers(userList);
+                setLoadingBooks(false); // It keeps the loading.
+                //console.log("hi");
+                //console.log("Hello", users[1][1]["phoneNumber"]);
+            }
+        } catch (error) {
+            console.error("Error fetching user list:", error);
+            setLoadingBooks(false); // It keeps loading part.
+        }
+
+
+    };
+    fetchUserList();
+}, []);
+
   const [books, setBooks] = useState([
     { id: 1, title: 'Harry Potter', author: 'J.K. Rowling' ,image:"./images/harry.png"},
     { id: 2, title: 'Lord of the Rings', author: 'J.R.R. Tolkien' , image:"./images/lotr.jpg"},
@@ -23,9 +54,6 @@ const Books = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredBooks = books.filter(book =>
-    book.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div className='container' id="bookContainer">
@@ -39,13 +67,26 @@ const Books = () => {
       />
       <div className="card_container">
         <div className="row" id="bookPageRow">
-          {filteredBooks.map(book => (
-            <div key={book.id} className="col-lg-3 col-md-4 col-sm-6 col-12">
-              <BookCard title={book.title} author={book.author} image={book.image} />
-            </div>
-          ))}
+          {users.length > 0 ?
+            users.map(([key, attributes]) => (
+              <React.Fragment key={key}>
+                {attributes.booklist &&
+                  Object.entries(attributes.booklist)
+                    .filter(([bookKey, bookAttribute]) => bookAttribute.bookName.toLowerCase().includes(searchTerm.toLowerCase()))
+                    .map(([bookKey, bookAttribute]) => (
+                      <div key={bookKey} className="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <BookCard id={bookKey} userId = {key} title={bookAttribute.bookName} author={bookAttribute.author} image={bookAttribute.imageURL} />
+                      </div>
+                    ))
+                }
+              </React.Fragment>
+            ))
+            :
+            <p>Loading...</p>
+          }
         </div>
       </div>
+
     </div>
   );
 };

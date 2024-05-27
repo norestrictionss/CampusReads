@@ -9,7 +9,7 @@ export default function PastSwaps() {
     return (
         <div className="container" style={{ marginTop: "30px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
             <div className="profile">
-                <ProfileHeader userName="@iremaydin" userDepartment="Computer Science Engineering" />
+                <ProfileHeader userName="@iremaydin" userDepartment="Computer Science Engineering" userIcon="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN6marVqh3eZx1rmily_92k6hw4hp7sZCSL0NRJYdvMA&s"/>
             </div>
             <div className="pastSwaps-container" style={{ marginTop: "30px", borderRadius: "10px", padding: "20px" }}>
                 <div class="row row-cols-1 row-cols-md-1 g-4">

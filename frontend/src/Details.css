@@ -9,9 +9,8 @@
   max-width: 100%;
   height: auto;
 }
-.bookSum{
-  padding-left: 20px;
-}
+
+
 .contact-box {
   margin: 30px;
   width: 100%; /* Expand the login box to fill the entire width */
@@ -20,7 +19,7 @@
   border-radius: 10px; /* Adjust border radius for rounded corners */
   background-color: #f9f9f9;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
-  border: 5px solid #5D6DC0;
+  border: 1px solid #b6bee7;
 }
 
 .book-box {
@@ -31,7 +30,7 @@
   border-radius: 10px; /* Adjust border radius for rounded corners */
   background-color: #f9f9f9;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
-  border: 5px solid #5D6DC0;
+  border: 1px solid #b6bee7;
 }
 
 h2 {

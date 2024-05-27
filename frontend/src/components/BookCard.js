@@ -1,7 +1,8 @@
 import React from 'react';
 import "../homePage.css";
+import { Link } from 'react-router-dom';
 
-const BookCard = ({title, author, image}) => {
+const BookCard = ({ id, userId, title, author, image }) => {
   // Başlık ve yazarın belirli bir karakter sınırını aşması durumunda kısaltma işlemi
   const maxTitleLength = 30;
   const maxAuthorLength = 15;
@@ -15,15 +16,15 @@ const BookCard = ({title, author, image}) => {
   return (
     <div className="col" id="bookPageCol">
       <div className="card" id="bookcard">
-        <a href="/details" >
+        <Link to={`/details/${userId}/${id}`}>
           <img src={image} alt={title} />
-        </a>
+        </Link>
         <div className="card-body" style={{ maxWidth: '100%' }}>
           <h2 style={{ textAlign: 'left', fontSize: titleFontSize, marginBottom: '0.5rem' }}>{truncatedTitle}</h2>
           <p style={{ textAlign: 'left', fontSize: authorFontSize, marginBottom: '0' }}>Author: {truncatedAuthor}</p>
         </div>
       </div>
-    </div> 
+    </div>
   );
 };
 

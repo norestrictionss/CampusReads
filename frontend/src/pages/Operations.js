@@ -1,5 +1,6 @@
-import { ref, push, update, remove } from 'firebase/database';
+import { ref, push, update, remove, get } from 'firebase/database';
 import { db } from "../config/firebase"; // Import your Firebase configuration file
+
 
 
 // Function to add a book to a user's booklist
@@ -17,18 +18,20 @@ export async function addBookToBooklist(userId, bookData) {
       author: bookData.bookauthor,
       bookType: bookData.bookgender,
       bookDescription: bookData.description,
+      imageURL: bookData.imageURL,
       comments: [] // Initialize comments list as empty
     };
 
     // Update the user's booklist with the new book entry
     await update(newBookRef, bookEntry);
-
+    const bookId = newBookRef.key; 
     console.log("Book added to user's booklist successfully");
-    return true;
+    return bookId;
+    return bookId;
   } catch (error) {
     console.error("Error adding book to user's booklist:", error);
   }
-  return false;
+  return -1;
 };
 
 // Function to remove a book from a user's booklist
@@ -40,6 +43,8 @@ export const removeBookFromBooklist = async (userId, bookId) => {
     await remove(userBookRef);
 
     console.log("Book removed from user's booklist successfully");
+    window.location.reload();
+
   } catch (error) {
     console.error("Error removing book from user's booklist:", error);
   }
@@ -81,9 +86,11 @@ export const offerBook = async(offererId, offeredPersonId, offererBookId, offere
 
   const userOfferlistRef = ref(db, `users/${offeredPersonId}/offerlist`);
   try {
-      // Retrieve the books of the offerer and the offered person
+      
+      
       try {
-        // Generate a unique key for the new book entry
+     
+     
         const newOfferRef = push(userOfferlistRef);
     
         // Set the book data
@@ -92,7 +99,8 @@ export const offerBook = async(offererId, offeredPersonId, offererBookId, offere
           offeredBookId: offeredBookId,
         };
     
-        // Update the user's booklist with the new book entry
+      
+      
         await update(newOfferRef, offerEntry);
     
         console.log("Offer added to user's offerlist successfully");
@@ -103,6 +111,74 @@ export const offerBook = async(offererId, offeredPersonId, offererBookId, offere
       console.log("Offer process successfully completed!");
   } catch (error) {
       console.error("Error to sending offer:", error.message);
+  }
+};
+
+export const showBookList = async(studentID) =>{
+
+  try {
+    const booklist = ref(db, `users/${studentID}/booklist`);
+    const snapshot = await get(booklist); // It fetches the booklist through the reference.
+    if (snapshot.exists()) {
+      const bookList = snapshot.val();
+      console.log("Book list fetched successfully:", bookList);
+
+      return bookList;
+    } else {
+      console.log("No book list found for this student.");
+      return [];
+    }
+
+  } catch (error) {
+      console.error("Error to fetching the books:", error.message);
+  }
+};
+
+export const returnUsers = async()=>{
+
+  try {
+    const userlist = ref(db, `users/`);
+    const snapshot = await get(userlist); // It fetches the booklist through the reference.
+    if (snapshot.exists()) {
+      const userList = snapshot.val();
+      console.log("User list fetched successfully:", userList);
+
+      return userList;
+    } else {
+      console.log("There are no users in the system");
+      return [];
+    }
+
+  } catch (error) {
+      console.error("Error to fetching the books:", error.message);
+  }
+
+}
+
+
+export const getUserDetails = async (user) => {
+  if (user) {
+    console.log("User data:", user);
+    
+    try {
+       // Ensure db is initialized here or passed in as an argument
+      const userRef = ref(db, 'users/' + user.uid);
+      const snapshot = await get(userRef);
+      
+      if (snapshot.exists()) {
+        const userData = snapshot.val();
+        return userData;
+      } else {
+        console.log("No data available");
+        return null; // Return null if no data is available
+      }
+    } catch (error) {
+      console.error(error);
+      throw error; // Optionally re-throw the error if you want to handle it upstream
+    }
+  } else {
+    console.log("User object is undefined or null");
+    return null;
   }
 };
 
