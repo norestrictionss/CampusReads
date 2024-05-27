@@ -21,21 +21,12 @@ export default function UserPage() {
             
             try {
                 const bookList = await showBookList(user.uid);
+                const books = Object.entries(bookList);
                 if(bookList) {
                     console.log("Bookies:", bookList);
                     console.log("Book List:", bookList);
                     // It merges the book lists with image URL's.
-                    const bookEntriesWithImageURLs = await Promise.all(Object.entries(bookList).map(async ([key, book]) => {
-                        try {
-                            const imageURL = await getDownloadURL(ref(storage, `images/${key}`));
-                            console.log("IMAGE URL:", imageURL);
-                            return [key, { ...book, imageURL }];
-                        } catch (error) {
-                            console.error("Error fetching image URL for book with key", key, ":", error);
-                            return [key, { ...book, imageURL: null }];
-                        }
-                    }));
-                    setFetchedBooks(bookEntriesWithImageURLs);
+                    setFetchedBooks(books);
                     console.log("Fetched books:", fetchedBooks);
                     setLoadingBooks(false); // It keeps the loading.
                     
@@ -49,17 +40,6 @@ export default function UserPage() {
         };
         fetchBookList();
     }, []);
-    async function getImage(imageName, imgURL){
-        
-        try {
-            const imageURL = await getDownloadURL(ref(storage, imageName));
-            console.log("Image URL:", imageURL);
-            return imageURL;
-        } catch (error) {
-            console.error("Error fetching image URL:", error);
-            return null; // Return null when the image URL does not exist
-        }
-    }
     
     const [books, setBooks] = useState([
         { id: 1, title: 'Harry Potter', author: 'J.K. Rowling', image: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcR5h4e7Njgs6hlF0Et2LoQK5Az1SK_gmd0w2VZvgkJndwlSi7gixrlCHb14m2dWmTdiofWTf4cHUlcP7VhmC8i3qZw7EaL63317YvMpcFt6zOVWpaBJVaTYig&usqp=CAE" },

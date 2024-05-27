@@ -17,6 +17,7 @@ export async function addBookToBooklist(userId, bookData) {
       author: bookData.bookauthor,
       bookType: bookData.bookgender,
       bookDescription: bookData.description,
+      imageURL: bookData.imageURL,
       comments: [] // Initialize comments list as empty
     };
 
