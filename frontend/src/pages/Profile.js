@@ -36,6 +36,7 @@ export default function UserPage() {
                         }
                     }));
                     setFetchedBooks(bookEntriesWithImageURLs);
+                    console.log("Fetched books:", fetchedBooks);
                     setLoadingBooks(false); // It keeps the loading.
                     
                 }
@@ -98,7 +99,8 @@ export default function UserPage() {
 
                                 {fetchedBooks.length > 0  ? 
                                     fetchedBooks.map(([key, attributes]) => <div>
-                                            <UserBookCards title={attributes.bookName} author={attributes.author} image={ attributes.imageURL} /></div>
+                                            <UserBookCards title={attributes.bookName} author={attributes.author} image={ attributes.imageURL} 
+                                            bookID ={ key} userID = {user.uid} /></div>
                                     )
                                  : (
                                     <div className="col-12">

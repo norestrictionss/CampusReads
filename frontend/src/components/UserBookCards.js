@@ -1,7 +1,8 @@
 import React from 'react';
 import { getDownloadURL, refFromURL } from 'firebase/storage';
+import { removeBookFromBooklist } from '../pages/Operations';
 
-const UserBookCards = ({ title, author, image }) => {
+const UserBookCards = ({ title, author, image, bookID, userID }) => {
     return (
         
         <div class="col">
@@ -16,7 +17,7 @@ const UserBookCards = ({ title, author, image }) => {
                         <div className="card-body">
                             <h5 className="card-title">{title}</h5>
                             <p className="card-text">Author : {author}</p>
-                            <a href="#" className="btn btn-sm btn-dark mb-2" style={{float:"right"}}>DELETE</a>
+                            <a href="#" onClick = {()=>removeBookFromBooklist(userID, bookID)} className="btn btn-sm btn-dark mb-2" style={{float:"right"}}>DELETE</a>
                         </div>
                     </div>
                 </div>
