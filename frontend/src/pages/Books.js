@@ -6,23 +6,20 @@ import { returnUsers, showBookList } from './Operations';
 import { ref, getDownloadURL, getStorage } from 'firebase/storage';
 const Books = () => {
 
-  const [ imgURL, setImgURL] = useState("");
+  const [ imgURL, setImgURL] = useState({});
   const storage = getStorage();
-  const [fetchedBooks, setFetchedBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
   const [users, setUsers] = useState([]); // Users
-  const [bookKey, setBookKey] = useState("");
-  console.log("asdasfas:",users);
+
 
   useEffect(() => {
-    const fetchBookList = async (bookKey) => {
+    const fetchBookList = async (bookID) => {
         try {
-            if(bookKey) {
-                console.log("Bookies:", bookKey);
+            if(bookID) {
                 // It merges the book lists with image URL's.
                     try {
-                        const imageURL = await getDownloadURL(ref(storage, `images/${bookKey}`));
+                        const imageURL = await getDownloadURL(ref(storage, `images/${bookID}`));
                         setImgURL(imageURL);
                         return imgURL;
                     } catch (error) {
@@ -37,16 +34,47 @@ const Books = () => {
     };
     fetchBookList();
   }, []);
+
+    useEffect(() => {
+      
+      const fetchImages = async () => {
+        const all_urls = {};
+        for (const [_, attributes] of users) {
+          if (attributes.booklist) {
+            for (const [bookKey, _] of Object.entries(attributes.booklist)) {
+              const imageURL = await getImage(`images/${bookKey}`);
+              all_urls[bookKey] = imageURL;
+            }
+          }
+        }
+        setImgURL(all_urls);
+      };
+      if (users.length > 0) {
+        fetchImages();
+      }
+    }, [users]);
+
+    async function getImage(imageName, imgURL){
+        
+      try {
+          const imageURL = await getDownloadURL(ref(storage, imageName));
+          return imageURL;
+      } catch (error) {
+          console.error("Error fetching image URL:", error);
+          return null;
+      }
+  }
   useEffect(() => {
     const fetchUserList = async () => {
         
         try {
             const userList = Object.entries(await returnUsers());
             if(userList) {
-                console.log("Users:", userList);
                 // It merges the book lists with image URL's.
                 setUsers(userList);
                 setLoadingBooks(false); // It keeps the loading.
+                //console.log("hi");
+                //console.log("Hello", users[1][1]["phoneNumber"]);
             }
         } catch (error) {
             console.error("Error fetching user list:", error);
@@ -98,8 +126,9 @@ const Books = () => {
             <div key={key}>
               {attributes.booklist && 
                   Object.entries(attributes.booklist).map(([bookKey, bookAttribute]) => (
+                  
                     <div key = {bookKey} className="col-lg-3 col-md-4 col-sm-6 col-12">
-                       <BookCard title={bookAttribute.bookName} author={bookAttribute.author} image = {imgURL} />
+                       <BookCard title={bookAttribute.bookName} author={bookAttribute.author} image = {imgURL[bookKey]} />
                     </div>
                       
                   ))

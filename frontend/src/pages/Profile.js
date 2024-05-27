@@ -23,7 +23,7 @@ export default function UserPage() {
                 const bookList = await showBookList(user.uid);
                 if(bookList) {
                     console.log("Bookies:", bookList);
-
+                    console.log("Book List:", bookList);
                     // It merges the book lists with image URL's.
                     const bookEntriesWithImageURLs = await Promise.all(Object.entries(bookList).map(async ([key, book]) => {
                         try {
@@ -48,7 +48,6 @@ export default function UserPage() {
         };
         fetchBookList();
     }, []);
-    console.log(fetchedBooks);
     async function getImage(imageName, imgURL){
         
         try {
