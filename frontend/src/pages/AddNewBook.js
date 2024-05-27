@@ -10,7 +10,6 @@ import { storage } from "../config/firebase";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 
-
 export default function AddNewBook() {
     const { user } = useContext(Context);
   

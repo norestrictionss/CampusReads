@@ -21,7 +21,7 @@ export default function Register() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
        
-        const uid = userCredential.uid;
+        const uid = userCredential.user.uid;
         set(ref(db, 'users/' + uid), {
           department: department,
           email: email,
