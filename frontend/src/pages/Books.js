@@ -37,6 +37,7 @@ const Books = () => {
     };
     fetchBookList();
   }, []);
+
   useEffect(() => {
     const fetchUserList = async () => {
 
@@ -84,7 +85,7 @@ const Books = () => {
                     .filter(([bookKey, bookAttribute]) => bookAttribute.bookName.toLowerCase().includes(searchTerm.toLowerCase()))
                     .map(([bookKey, bookAttribute]) => (
                       <div key={bookKey} className="col-lg-3 col-md-4 col-sm-6 col-12">
-                        <BookCard title={bookAttribute.bookName} author={bookAttribute.author} image={imgURL} />
+                        <BookCard id={bookKey} userId = {key} title={bookAttribute.bookName} author={bookAttribute.author} image={imgURL} />
                       </div>
                     ))
                 }

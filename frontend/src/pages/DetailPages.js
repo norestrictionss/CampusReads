@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../comment.css";
+
+import { useParams } from 'react-router-dom';
+import { db } from '../../src/config/firebase';
+import { get , ref} from 'firebase/database';
 
 export default function ContactForm() {
   const [firstName, setFirstName] = useState("");
@@ -42,6 +46,44 @@ export default function ContactForm() {
     setMessage("");
   };
 
+  const { userId, id } = useParams();
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        console.log(`Fetching book for userId: ${userId} and bookId: ${id}`);
+        const bookRef = ref(db, `users/${userId}/booklist/${id}`);
+        get(bookRef)
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              console.log('Book data:', snapshot.val());
+              setBook(snapshot.val());
+              setLoading(false);
+            } else {
+              console.error('No such document!');
+              setLoading(false);
+            }
+          });
+      } catch (error) {
+        console.error('Error getting document:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchBook();
+  }, [userId, id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!book) {
+    return <div>Book not found</div>;
+  }
+
+ 
   return (
     <div className="contact-container" style={{ margin: "30px" }}>
       <div className="row">
@@ -49,15 +91,15 @@ export default function ContactForm() {
           <div className="book-box">
             <div className="row">
               <div className="col-md-12 col-lg-6 column">
-                <img className="bookDetailImage" src="/images/harry.png" alt="Book Cover" />
+                <img className="bookDetailImage" src="" alt="Book Cover" />
               </div>
               <div className="col-md-12 col-lg-6 column">
-                <h3 className="bookTitle"><strong>Harry Potter</strong></h3>
-                <p className="bookSum"><strong>Summary: </strong>Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek.itabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. K Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek.</p>
-                <p className="bookAuthor"><strong>Author:</strong> J.K. ROWLING </p>
-                <p className="SSN"><strong>SSN:</strong> 1111111111</p>
-                <p className="bookGender"><strong>Gender:</strong> Fantastic</p>
-                <p className="bookOwner"><strong>Owner:</strong> İrem Kıranmezar</p>
+                <h3 className="bookTitle"><strong>{book.bookName}</strong></h3>
+                <p className="bookSum"><strong>Summary: </strong>{book.bookDescription}</p>
+                <p className="bookAuthor"><strong>Author:</strong> {book.author} </p>
+                <p className="SSN"><strong>SSN:</strong> {book.bookSSN}</p>
+                <p className="bookGender"><strong>Gender:</strong> {book.bookType}</p>
+                <p className="bookOwner"><strong>Owner:</strong> ?????????</p>
               </div>
             </div>
           </div>
