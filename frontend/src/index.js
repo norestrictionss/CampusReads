@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Header from "./components/Header";
 import UserPage from './pages/Profile';
+import OffererUserPage from './pages/OffererProfile';
 import AddNewBook from './pages/AddNewBook';
 import EditProfile from './pages/EditProfile';
 import SendedRequests from './pages/SendedRequests';
@@ -36,8 +37,9 @@ export default function Main(){
                   <Route path="/register" element={<LoginChecker><Register/></LoginChecker>} ></Route>
                   <Route path="/books" element={<Books/>} ></Route>
                   <Route path="/" element={<Books/>} ></Route>
-                  <Route path="/details" element={<Details/>} ></Route>
+                  <Route path="/details/:id" element={<Details/>} ></Route>
                   <Route path="/profile" element={<UserPage/>} ></Route>
+                  <Route path="/OffererProfile" element={<OffererUserPage/>} ></Route>
                   <Route path="/addnewbook" element={<AddNewBook/>} ></Route>
                   <Route path="/editProfile" element={<EditProfile/>} ></Route>
                   <Route path="/sendedRequests" element={<SendedRequests/>} ></Route>
