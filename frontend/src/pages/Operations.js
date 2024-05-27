@@ -119,7 +119,7 @@ export const showBookList = async(studentID) =>{
       return bookList;
     } else {
       console.log("No book list found for this student.");
-      return null;
+      return [];
     }
 
   } catch (error) {
