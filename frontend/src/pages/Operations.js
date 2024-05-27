@@ -22,13 +22,13 @@ export async function addBookToBooklist(userId, bookData) {
 
     // Update the user's booklist with the new book entry
     await update(newBookRef, bookEntry);
-
+    const bookId = newBookRef.key; 
     console.log("Book added to user's booklist successfully");
-    return true;
+    return bookId;
   } catch (error) {
     console.error("Error adding book to user's booklist:", error);
   }
-  return false;
+  return -1;
 };
 
 // Function to remove a book from a user's booklist
@@ -81,9 +81,9 @@ export const offerBook = async(offererId, offeredPersonId, offererBookId, offere
 
   const userOfferlistRef = ref(db, `users/${offeredPersonId}/offerlist`);
   try {
-      // Retrieve the books of the offerer and the offered person
+      
       try {
-        // Generate a unique key for the new book entry
+     
         const newOfferRef = push(userOfferlistRef);
     
         // Set the book data
@@ -92,7 +92,7 @@ export const offerBook = async(offererId, offeredPersonId, offererBookId, offere
           offeredBookId: offeredBookId,
         };
     
-        // Update the user's booklist with the new book entry
+      
         await update(newOfferRef, offerEntry);
     
         console.log("Offer added to user's offerlist successfully");
@@ -114,7 +114,6 @@ export const showBookList = async(studentID) =>{
     if (snapshot.exists()) {
       const bookList = snapshot.val();
       console.log("Book list fetched successfully:", bookList);
-      
 
       return bookList;
     } else {
@@ -126,3 +125,24 @@ export const showBookList = async(studentID) =>{
       console.error("Error to fetching the books:", error.message);
   }
 };
+
+export const returnUsers = async()=>{
+
+  try {
+    const userlist = ref(db, `users/`);
+    const snapshot = await get(userlist); // It fetches the booklist through the reference.
+    if (snapshot.exists()) {
+      const userList = snapshot.val();
+      console.log("User list fetched successfully:", userList);
+
+      return userList;
+    } else {
+      console.log("There are no users in the system");
+      return [];
+    }
+
+  } catch (error) {
+      console.error("Error to fetching the books:", error.message);
+  }
+
+}
