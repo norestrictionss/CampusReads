@@ -42,8 +42,8 @@ export default function UserPage() {
                 const userRef = ref(db, 'users/' + user.uid);
                 get(userRef).then((snapshot) => {
                     if (snapshot.exists()) {
-                        setProfileData(snapshot.val());
-                        console.log(user.phoneNumber);
+                        const userData = snapshot.val();
+                        setProfileData(userData);
                     } else {
                         console.log("No data available");
                     }
@@ -51,15 +51,14 @@ export default function UserPage() {
                     console.error(error);
                 });
             } else {
-                console.log("Kullanıcı oturumu yok");
                 setUser(null);
                 setProfileData(null);
             }
         });
-
+    
         return () => unsubscribe();
-    }, []);
-
+    }, [auth, db]);
+    
 
     if (!user) {
         return <div>Please log in</div>;
@@ -72,7 +71,7 @@ export default function UserPage() {
                     <div id="content" className="content content-full-width">
                         {profileData ? (
                             <div className="profile">
-                                <ProfileHeader userName={user.email} userDepartment={user.department} userIcon="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN6marVqh3eZx1rmily_92k6hw4hp7sZCSL0NRJYdvMA&s" />
+                                <ProfileHeader userName={profileData.email} userDepartment={profileData.department} userIcon="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN6marVqh3eZx1rmily_92k6hw4hp7sZCSL0NRJYdvMA&s" />
                             </div>
                         ) : (
                             <p>Loading profile...</p>

@@ -97,13 +97,23 @@ export default function Register() {
           </div>
           <div className="form-group">
             <label htmlFor="department">Department:</label>
-            <input
+            <select
               type="text"
               id="department"
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
               required
-            />
+            >
+              <option selected>Select Department</option>
+              <option value="Computer Engineering">Computer Engineering</option>
+              <option value="Bioengineering">Bioengineering</option>
+              <option value="Environmental Engineering">Environmental Engineering</option>
+              <option value="Electrical and Electronic Engineering">Electrical and Electronic Engineering</option>
+              <option value="Industrial Engineering">Industrial Engineering</option>
+              <option value="Civil Engineering">Civil Engineering</option>
+              <option value="Chemical Engineering">Chemical Engineering</option>
+              <option value="Mechanical Engineering">Mechanical Engineering</option>
+            </select>
           </div>
           <button type="submit">Register</button>
         </form>
