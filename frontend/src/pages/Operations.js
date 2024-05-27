@@ -22,13 +22,13 @@ export async function addBookToBooklist(userId, bookData) {
 
     // Update the user's booklist with the new book entry
     await update(newBookRef, bookEntry);
-
+    const bookId = newBookRef.key; 
     console.log("Book added to user's booklist successfully");
-    return true;
+    return bookId;
   } catch (error) {
     console.error("Error adding book to user's booklist:", error);
   }
-  return false;
+  return -1;
 };
 
 // Function to remove a book from a user's booklist

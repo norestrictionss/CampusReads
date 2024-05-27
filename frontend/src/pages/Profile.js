@@ -4,9 +4,12 @@ import UserBookCards from '../../src/components/UserBookCards';
 import ProfileHeader from '../../src/components/ProfileHeader';
 import { showBookList } from "./Operations";
 import { Context } from "../contexts/AuthContext";
+import { ref, getDownloadURL, getStorage } from 'firebase/storage';
 
 export default function UserPage() {
 
+    const storage = getStorage();
+    const [ imgURL, setImgURL] = useState("");
     const { user } = useContext(Context);
     const [searchTerm, setSearchTerm] = useState('');
     const [fetchedBooks, setFetchedBooks] = useState([]);
@@ -19,8 +22,22 @@ export default function UserPage() {
             try {
                 const bookList = await showBookList(user.uid);
                 if(bookList) {
-                    setFetchedBooks(Object.values(bookList));
+                    console.log("Bookies:", bookList);
+
+                    
+                    const bookEntriesWithImageURLs = await Promise.all(Object.entries(bookList).map(async ([key, book]) => {
+                        try {
+                            const imageURL = await getDownloadURL(ref(storage, `images/${key}`));
+                            console.log("IMAGE URL:", imageURL);
+                            return [key, { ...book, imageURL }];
+                        } catch (error) {
+                            console.error("Error fetching image URL for book with key", key, ":", error);
+                            return [key, { ...book, imageURL: null }];
+                        }
+                    }));
+                    setFetchedBooks(bookEntriesWithImageURLs);
                     setLoadingBooks(false); // Set loading to false when data is fetched
+                    
                 }
             } catch (error) {
                 console.error("Error fetching book list:", error);
@@ -31,6 +48,19 @@ export default function UserPage() {
         };
         fetchBookList();
     }, [user]);
+    console.log(fetchedBooks);
+    async function getImage(imageName, imgURL){
+        
+        try {
+            const imageURL = await getDownloadURL(ref(storage, imageName));
+            console.log("Image URL:", imageURL);
+            return imageURL;
+        } catch (error) {
+            console.error("Error fetching image URL:", error);
+            return null; // Return null when the image URL does not exist
+        }
+    }
+    
     const [books, setBooks] = useState([
         { id: 1, title: 'Harry Potter', author: 'J.K. Rowling', image: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcR5h4e7Njgs6hlF0Et2LoQK5Az1SK_gmd0w2VZvgkJndwlSi7gixrlCHb14m2dWmTdiofWTf4cHUlcP7VhmC8i3qZw7EaL63317YvMpcFt6zOVWpaBJVaTYig&usqp=CAE" },
         { id: 2, title: 'Lord of the Rings', author: 'J.R.R. Tolkien', image: "https://i.dr.com.tr/cache/500x400-0/originals/0000000113094-1.jpg" },
@@ -66,9 +96,13 @@ export default function UserPage() {
 
                                 {loadingBooks ? <p>Loading...</p>: 
                                 <>
+
                                 {fetchedBooks.length > 0  ? 
-                                    fetchedBooks.map((book, index) => <div key={index}>
-                                            <UserBookCards title={book.title} author={book.author} image={book.image} /></div>
+
+                                    
+                                    fetchedBooks.map(([key, attributes]) => <div>
+                                            
+                                            <UserBookCards title={attributes.bookName} author={attributes.author} image={ attributes.imageURL} /></div>
                                     )
                                  : (
                                     <div className="col-12">
