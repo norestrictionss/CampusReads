@@ -2,6 +2,7 @@ import { ref, push, update, remove, get } from 'firebase/database';
 import { db } from "../config/firebase"; // Import your Firebase configuration file
 
 
+
 // Function to add a book to a user's booklist
 export async function addBookToBooklist(userId, bookData) {
   const userBooklistRef = ref(db, `users/${userId}/booklist`);
@@ -25,6 +26,7 @@ export async function addBookToBooklist(userId, bookData) {
     await update(newBookRef, bookEntry);
     const bookId = newBookRef.key; 
     console.log("Book added to user's booklist successfully");
+    return bookId;
     return bookId;
   } catch (error) {
     console.error("Error adding book to user's booklist:", error);
@@ -85,7 +87,9 @@ export const offerBook = async(offererId, offeredPersonId, offererBookId, offere
   const userOfferlistRef = ref(db, `users/${offeredPersonId}/offerlist`);
   try {
       
+      
       try {
+     
      
         const newOfferRef = push(userOfferlistRef);
     
@@ -95,6 +99,7 @@ export const offerBook = async(offererId, offeredPersonId, offererBookId, offere
           offeredBookId: offeredBookId,
         };
     
+      
       
         await update(newOfferRef, offerEntry);
     
@@ -149,4 +154,31 @@ export const returnUsers = async()=>{
   }
 
 }
+
+
+export const getUserDetails = async (user) => {
+  if (user) {
+    console.log("User data:", user);
+    
+    try {
+       // Ensure db is initialized here or passed in as an argument
+      const userRef = ref(db, 'users/' + user.uid);
+      const snapshot = await get(userRef);
+      
+      if (snapshot.exists()) {
+        const userData = snapshot.val();
+        return userData;
+      } else {
+        console.log("No data available");
+        return null; // Return null if no data is available
+      }
+    } catch (error) {
+      console.error(error);
+      throw error; // Optionally re-throw the error if you want to handle it upstream
+    }
+  } else {
+    console.log("User object is undefined or null");
+    return null;
+  }
+};
 

@@ -1,49 +1,44 @@
-import React, { useState } from "react";
-import "../Details.css"; // Stil dosyanızı içe aktarın
+import React, { useEffect, useState } from "react";
+import "../comment.css";
+
+import { useParams } from 'react-router-dom';
+import { db } from '../../src/config/firebase';
+import { get , ref} from 'firebase/database';
 
 export default function ContactForm() {
-  // Ad, soyad, e-posta, telefon ve mesaj için state değişkenleri
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
 
-  // Ad değişikliklerini işleyen fonksiyon
   const handleFirstNameChange = (event) => {
     setFirstName(event.target.value);
   };
 
-  // Soyad değişikliklerini işleyen fonksiyon
   const handleLastNameChange = (event) => {
     setLastName(event.target.value);
   };
 
-  // E-posta değişikliklerini işleyen fonksiyon
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
-  // Telefon değişikliklerini işleyen fonksiyon
   const handlePhoneNumberChange = (event) => {
     setPhoneNumber(event.target.value);
   };
 
-  // Mesaj değişikliklerini işleyen fonksiyon
   const handleMessageChange = (event) => {
     setMessage(event.target.value);
   };
 
-  // Form gönderimini işleyen fonksiyon
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Form gönderim işlemleri burada gerçekleştirilebilir
     console.log("Ad:", firstName);
     console.log("Soyad:", lastName);
     console.log("E-posta:", email);
     console.log("Telefon Numarası:", phoneNumber);
     console.log("Mesaj:", message);
-    // Gönderimden sonra form alanlarını sıfırlayın
     setFirstName("");
     setLastName("");
     setEmail("");
@@ -51,29 +46,65 @@ export default function ContactForm() {
     setMessage("");
   };
 
-  return (
+  const { userId, id } = useParams();
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        console.log(`Fetching book for userId: ${userId} and bookId: ${id}`);
+        const bookRef = ref(db, `users/${userId}/booklist/${id}`);
+        get(bookRef)
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              console.log('Book data:', snapshot.val());
+              setBook(snapshot.val());
+              setLoading(false);
+            } else {
+              console.error('No such document!');
+              setLoading(false);
+            }
+          });
+      } catch (error) {
+        console.error('Error getting document:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchBook();
+  }, [userId, id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!book) {
+    return <div>Book not found</div>;
+  }
+
+ 
+  return (
     <div className="contact-container" style={{ margin: "30px" }}>
       <div className="row">
-        <div className="col-md-12 col-lg-7">
+        <div className="col-md-12 col-lg-8">
           <div className="book-box">
             <div className="row">
               <div className="col-md-12 col-lg-6 column">
-                <img className="bookDetailImage" src="/images/harry.png" alt="Book Cover"/>
-              </div> 
+                <img className="bookDetailImage" src="" alt="Book Cover" />
+              </div>
               <div className="col-md-12 col-lg-6 column">
-                <h3 className="bookTitle"><strong>Harry Potter</strong></h3>
-                <p className="bookSum"><strong>Summary: </strong>Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek.itabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. K Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek. Kitabın özeti buraya gelecek.</p>
-                <p className="bookAuthor"><strong>Author:</strong> J.K. ROWLING </p>
-                <p className="SSN"><strong>SSN:</strong> 1111111111</p>
-                <p className="bookGender"><strong>Gender:</strong> Fantastic</p>
-                <p className="bookOwner"><strong>Owner:</strong> İrem Kıranmezar</p>
+                <h3 className="bookTitle"><strong>{book.bookName}</strong></h3>
+                <p className="bookSum"><strong>Summary: </strong>{book.bookDescription}</p>
+                <p className="bookAuthor"><strong>Author:</strong> {book.author} </p>
+                <p className="SSN"><strong>SSN:</strong> {book.bookSSN}</p>
+                <p className="bookGender"><strong>Gender:</strong> {book.bookType}</p>
+                <p className="bookOwner"><strong>Owner:</strong> ?????????</p>
               </div>
             </div>
-
           </div>
         </div>
-        <div className="col-md-12 col-lg-5">
+        <div className="col-md-12 col-lg-4">
           <div className="contact-box">
             <h2>CONTACT FORM</h2>
             <form className="contact-form" onSubmit={handleSubmit}>
@@ -126,12 +157,46 @@ export default function ContactForm() {
                   required
                 />
               </div>
-              <button type="submit">Send</button>
+              <button type="submit" className="btn btn-primary btn-small">Send</button>
             </form>
           </div>
         </div>
       </div>
+      <section className="content-item" id="comments">
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-8">
+              <form>
+                <h3>New Comment</h3>
+                <div className="form-group">
+                  <div className="row">
+                    <div className="col-sm-3 col-lg-2 hidden-xs">
+                      <img className="img-responsive comment-avatar" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
+                    </div>
+                    <div className="col-xs-12 col-sm-9 col-lg-10">
+                      <textarea className="form-control" id="commentMessage" placeholder="Your message" required></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div className="form-group text-right" style={{ textAlign: "right", marginRight: "15px" }}>
+                  <button type="submit" className="btn btn-primary">Submit</button>
+                </div>
+              </form>
+              <h3>Comments</h3>
+              <div className="media">
+                <a className="pull-left" href="#"><img className="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" /></a>
+                <div className="media-body">
+                  <h4 className="media-heading">John Doe</h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                  <ul className="list-unstyled list-inline media-detail pull-left">
+                    <li><i className="fa fa-calendar"></i>27/02/2014</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
-
 }

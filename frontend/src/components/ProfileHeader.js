@@ -1,7 +1,7 @@
 import React from 'react';
 import "../Profile.css"; // Import your CSS file for styling
 
-const ProfileHeader = ({ userName, userDepartment}) => {
+const ProfileHeader = ({ userName, userDepartment ,userIcon}) => {
     return (
         <div className="profile-header">
             <div className="profile-header-cover"></div>
@@ -9,7 +9,7 @@ const ProfileHeader = ({ userName, userDepartment}) => {
             <div className="profile-header-content">
 
                 <div className="profile-header-img">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN6marVqh3eZx1rmily_92k6hw4hp7sZCSL0NRJYdvMA&s" alt="" />
+                    <img src={userIcon} alt="" />
                 </div>
 
                 <div className="profile-header-info">

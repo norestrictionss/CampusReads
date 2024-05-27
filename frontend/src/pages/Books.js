@@ -54,9 +54,6 @@ const Books = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredBooks = books.filter(book =>
-    book.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div className='container' id="bookContainer">
@@ -70,32 +67,26 @@ const Books = () => {
       />
       <div className="card_container">
         <div className="row" id="bookPageRow">
-
-        { users.length > 0 ? 
-          users.map(([key, attributes]) => (
-            <div key={key}>
-              {attributes.booklist && 
-                  Object.entries(attributes.booklist).map(([bookKey, bookAttribute]) => (
-                  
-                    <div key = {bookKey} className="col-lg-3 col-md-4 col-sm-6 col-12">
-                       <BookCard title={bookAttribute.bookName} author={bookAttribute.author} image = {bookAttribute.imageURL} />
-                    </div>
-                      
-                  ))
-              }
-            </div>
-          )) 
-          : 
-          <p>Loading...</p>
-        }
-
-          {filteredBooks.map(book => (
-            <div key={book.id} className="col-lg-3 col-md-4 col-sm-6 col-12">
-              <BookCard title={book.title} author={book.author} image={book.image} />
-            </div>
-          ))}
+          {users.length > 0 ?
+            users.map(([key, attributes]) => (
+              <React.Fragment key={key}>
+                {attributes.booklist &&
+                  Object.entries(attributes.booklist)
+                    .filter(([bookKey, bookAttribute]) => bookAttribute.bookName.toLowerCase().includes(searchTerm.toLowerCase()))
+                    .map(([bookKey, bookAttribute]) => (
+                      <div key={bookKey} className="col-lg-3 col-md-4 col-sm-6 col-12">
+                        <BookCard id={bookKey} userId = {key} title={bookAttribute.bookName} author={bookAttribute.author} image={bookAttribute.imageURL} />
+                      </div>
+                    ))
+                }
+              </React.Fragment>
+            ))
+            :
+            <p>Loading...</p>
+          }
         </div>
       </div>
+
     </div>
   );
 };

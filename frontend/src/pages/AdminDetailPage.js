@@ -55,7 +55,7 @@ export default function ContactForm() {
 
     <div className="contact-container" style={{ margin: "30px" }}>
       <div className="row">
-        <div className="col-md-12 col-lg-7">
+        <div className="col-md-12 col-lg-8">
           <div className="book-box">
             <div className="row">
               <div className="col-md-12 col-lg-6 column">
@@ -72,6 +72,30 @@ export default function ContactForm() {
             </div>
 
           </div>
+        </div>
+        <div className="col-md-12 col-lg-9">
+        <section className="content-item" id="comments">
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-8">
+              <h3>Comments</h3>
+              <div className="media">
+                <a className="pull-left" href="#"><img className="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" /></a>
+                <div className="media-body">
+                  <h4 className="media-heading">John Doe</h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                  <ul className="list-unstyled list-inline media-detail pull-left">
+                    <li><i className="fa fa-calendar"></i>27/02/2014</li>
+                  </ul>
+                  <div className="form-group text-right" style={{ textAlign: "right", marginRight: "15px" }}>
+                  <button type="submit" className="btn btn-danger">Delete</button>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
         </div>
       </div>
     </div>
