@@ -30,7 +30,7 @@ const Books = () => {
   return (
     <div className='container' id="bookContainer">
       <Banner />
-      <h1 class="bookList" ><strong>Book List</strong></h1>
+      <h1 className="bookList" ><strong>Book List</strong></h1>
       <input className='search'
         type="text"
         placeholder="Search book..."

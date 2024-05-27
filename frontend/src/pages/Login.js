@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import "../style.css"; // Import your CSS file for styling
 import "../style.css"; // Import your CSS file for styling
+import { auth } from "../config/firebase";
+
 //import { auth } from "../config/firebase";
 // import { ref, get, orderByChild, equalTo, limitToFirst, query, push, update, remove } from "firebase/database";
 import { signInWithEmailAndPassword } from "firebase/auth";
-//import { addBookToBooklist, removeBookFromBooklist }  from "./Operations";
+import { addBookToBooklist, removeBookFromBooklist }  from "./Operations";
+import { useNavigate } from "react-router-dom"
 
 export default function Login() {
   // State variables for email and password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
   // Function to handle changes in the username field
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -21,38 +26,30 @@ export default function Login() {
   };
 
   // Function to handle form submission
-  // Function to handle form submission
 const handleSubmit = async (event) => {
   event.preventDefault();
-  /*
-  try {
-    // Retrieve the hashed password from the database based on the username
-    const queryRef = query(ref(db, 'users/'), orderByChild('email'), equalTo(email), limitToFirst(1));
-    const snapshot = await get(queryRef);
-    
-    if (snapshot.exists()) {  
-      const userData = snapshot.val();
-      const uid = Object.keys(userData)[0];
-      const hashedPasswordFromDB = userData[uid].password;
 
-      // Compare the hashed password from the database with the hashed version of the password entered by the user
-      const isPasswordMatch = bcrypt.compareSync(password, hashedPasswordFromDB);
-      if (isPasswordMatch) {
-        console.log("Password matches!");
-        // Here you can proceed with authenticating the user
-      } else {
-        console.log("Password does not match!");
-        // Handle incorrect password
+    // Sign in the user with the provided username and password
+      await signInWithEmailAndPassword(auth, email, password)
+      .then((user)=>{
+          console.log(user);
+          console.log("User signed in successfully!");
+          navigate('/books');
+
+      }).catch((error)=>{
+          console.log("Error signing in: ", error.message);
+      });
+      /*
+      const bookData = {
+        bookName: "Hayvan Ciftligi",
+        bookType: "Bilim Kurgu",
+        bookDescription: "safasasgasgasasg",
+        author: "George Orwell",
+        comments: [] // Initialize comments list as empty
       }
-    } else {
-      console.log("User not found!");
-      // Handle user not found
-    }
-  } catch (error) {
-    console.error("Error:", error.message);
-    // Handle errors, such as displaying error messages to the user
-  }*/
- 
+      */
+      //addBookToBooklist(userId, bookData);
+  
 };
 
 

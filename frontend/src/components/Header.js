@@ -1,10 +1,24 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import "../style.css"; // Import your CSS file for styling
-import { MyContext } from "../MyContext";
+import { Context } from "../contexts/AuthContext";
+import { auth } from "../config/firebase";
+import { signOut } from 'firebase/auth';
 
 export default function Header() {
 
-  const { status, setStatus } = useContext(MyContext);
+  
+  function handleSignOut(){
+    signOut(auth)
+    .then(()=>{
+      console.log("User signed out successfully.");
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
+  }
+  
+  
+  const { user } = useContext(Context);
   return (
     <div><nav class="navbar navbar-expand-sm bg-dark navbar-dark">
       <div class="container-fluid">
@@ -22,12 +36,17 @@ export default function Header() {
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/books">Home</a>
             </li>  
-            <li class="nav-item">
+            {!user && <li class="nav-item">
               <a class="nav-link" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
+            </li>}
+            {!user && <li class="nav-item">
               <a class="nav-link" href="/register">Register</a>
-            </li>
+            </li>}
+
+            {user && <li class="nav-item">
+              <a class="nav-link" href="/login" onClick = {handleSignOut}>Logout</a>
+            </li>}
+
             <li class="nav-item">
               <a class="nav-link toggle" role="button" aria-expanded="false" href="/Profile">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">

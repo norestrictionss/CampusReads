@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Header from "./components/Header";
-import {MyContext} from "./MyContext";
 import UserPage from './pages/Profile';
 import AddNewBook from './pages/AddNewBook';
 import EditProfile from './pages/EditProfile';
@@ -18,23 +17,23 @@ import Details from './pages/DetailPages';
 import AdminBooks from './pages/AdminBooks';
 import Footer from './components/Footer';
 import AdminDetailPage from './pages/AdminDetailPage';
-
+import { AuthContext } from "./contexts/AuthContext";
+import LoginChecker from './pages/LoginChecker';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 export default function Main(){
-  
-  const [status, setStatus] = useState(false);
+
   return(
     <div>
-      <MyContext.Provider value={{status, setStatus}}>
+      <AuthContext>
         <Header></Header>
         <React.StrictMode>
           <BrowserRouter>
               {/* Whole pages will be settled in that block to provide routing */}
               
               <Routes>
-                  <Route path="/login" element={<Login/>} ></Route>
-                  <Route path="/register" element={<Register/>} ></Route>
+                  <Route path="/login" element={<LoginChecker><Login/></LoginChecker>} ></Route>
+                  <Route path="/register" element={<LoginChecker><Register/></LoginChecker>} ></Route>
                   <Route path="/books" element={<Books/>} ></Route>
                   <Route path="/" element={<Books/>} ></Route>
                   <Route path="/details" element={<Details/>} ></Route>
@@ -51,7 +50,7 @@ export default function Main(){
             </BrowserRouter>
         </React.StrictMode>
         <Footer></Footer>
-      </MyContext.Provider>
+      </AuthContext>
     </div>
   );
 }
