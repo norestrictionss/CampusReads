@@ -64,12 +64,12 @@ export default function AddNewBook() {
             alert("Please select an image");
             return;
         }
-        await uploadImage(imageFile, ssn);
-
+        
         const formData = { ssn, bookname, bookauthor, bookgender, description };
-        const success = await addBookToBooklist(user.uid, formData);
-        console.log(success);
-        if (success) {
+        const bookId = await addBookToBooklist(user.uid, formData);
+        await uploadImage(imageFile, bookId);
+        console.log(bookId);
+        if (bookId) {
             console.log("Book added successfully!");
             navigate('/books');
         } else {

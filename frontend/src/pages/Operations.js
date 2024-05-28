@@ -40,6 +40,8 @@ export const removeBookFromBooklist = async (userId, bookId) => {
     await remove(userBookRef);
 
     console.log("Book removed from user's booklist successfully");
+    window.location.reload();
+
   } catch (error) {
     console.error("Error removing book from user's booklist:", error);
   }
