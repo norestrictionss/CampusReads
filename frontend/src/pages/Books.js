@@ -35,11 +35,9 @@ const Books = () => {
     fetchUserList();
 }, []);
 
-
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
-
 
   return (
     <div className='container' id="bookContainer">

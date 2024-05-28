@@ -4,6 +4,7 @@ import "../comment.css";
 import { useParams } from 'react-router-dom';
 import { db } from '../../src/config/firebase';
 import { get , ref} from 'firebase/database';
+import { getUserDetails } from "./Operations";
 
 export default function ContactForm() {
   const [firstName, setFirstName] = useState("");
@@ -11,7 +12,7 @@ export default function ContactForm() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
-
+  const [owner, setOwner] = useState("");
   const handleFirstNameChange = (event) => {
     setFirstName(event.target.value);
   };
@@ -55,6 +56,9 @@ export default function ContactForm() {
       try {
         console.log(`Fetching book for userId: ${userId} and bookId: ${id}`);
         const bookRef = ref(db, `users/${userId}/booklist/${id}`);
+        const userInfo = await getUserDetails(userId);
+        console.log("Infooo2:", userInfo, userId);
+        setOwner(userInfo.email);
         get(bookRef)
           .then((snapshot) => {
             if (snapshot.exists()) {
@@ -99,7 +103,7 @@ export default function ContactForm() {
                 <p className="bookAuthor"><strong>Author:</strong> {book.author} </p>
                 <p className="SSN"><strong>SSN:</strong> {book.bookSSN}</p>
                 <p className="bookGender"><strong>Gender:</strong> {book.bookType}</p>
-                <p className="bookOwner"><strong>Owner:</strong> ?????????</p>
+                <p className="bookOwner"><strong>Owner email:</strong> {owner}</p>
               </div>
             </div>
           </div>

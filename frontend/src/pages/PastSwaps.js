@@ -12,15 +12,15 @@ export default function PastSwaps() {
     const [profileData, setProfileData] = useState(null);
     const { user } = useContext(Context);
 
-    useEffect(() => {
-        const userDetailsProcess = async () => {
-            try {
-                console.log("user infoooo:", user.uid);
-                const profileInfo = await getUserDetails(user);
-                console.log("Hii:", profileInfo);
+    useEffect(()=>{
+        const userDetailsProcess = async()=>{
+            try{
+                console.log("user infoooo:",user.uid);
+                const profileInfo = await getUserDetails(user.uid);
+                console.log("Hii:",profileInfo);
                 setProfileData(profileInfo);
             }
-            catch (error) {
+            catch(error){
                 console.log("Error fetching user data.");
                 console.log(error.message);
             }

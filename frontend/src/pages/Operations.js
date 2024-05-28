@@ -2,7 +2,6 @@ import { ref, push, update, remove, get } from 'firebase/database';
 import { db } from "../config/firebase"; // Import your Firebase configuration file
 
 
-
 // Function to add a book to a user's booklist
 export async function addBookToBooklist(userId, bookData) {
   const userBooklistRef = ref(db, `users/${userId}/booklist`);
@@ -32,6 +31,7 @@ export async function addBookToBooklist(userId, bookData) {
   }
   return -1;
 };
+
 
 // Function to remove a book from a user's booklist
 export const removeBookFromBooklist = async (userId, bookId) => {
@@ -152,13 +152,13 @@ export const returnUsers = async()=>{
 }
 
 
-export const getUserDetails = async (user) => {
-  if (user) {
-    console.log("User data:", user);
+export const getUserDetails = async (userId) => {
+  if (userId) {
+    console.log("User data:", userId);
     
     try {
        // Ensure db is initialized here or passed in as an argument
-      const userRef = ref(db, 'users/' + user.uid);
+      const userRef = ref(db, 'users/' + userId);
       const snapshot = await get(userRef);
       
       if (snapshot.exists()) {
