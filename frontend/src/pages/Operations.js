@@ -152,13 +152,13 @@ export const returnUsers = async()=>{
 }
 
 
-export const getUserDetails = async (user) => {
-  if (user) {
-    console.log("User data:", user);
+export const getUserDetails = async (userId) => {
+  if (userId) {
+    console.log("User data:", userId);
     
     try {
        // Ensure db is initialized here or passed in as an argument
-      const userRef = ref(db, 'users/' + user.uid);
+      const userRef = ref(db, 'users/' + userId);
       const snapshot = await get(userRef);
       
       if (snapshot.exists()) {
