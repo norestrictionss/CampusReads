@@ -1,7 +1,9 @@
 import React from 'react';
 import "../AdminBooks.css";
+import { Link } from 'react-router-dom';
+import { removeBookFromBooklist } from '../pages/Operations';
 
-const AdminBookCard = ({ title, author, image }) => {
+const AdminBookCard = ({ id, userId, title, author, image }) => {
   // Başlık ve yazarın belirli bir karakter sınırını aşması durumunda kısaltma işlemi
   const maxTitleLength = 30;
   const maxAuthorLength = 15;
@@ -15,15 +17,15 @@ const AdminBookCard = ({ title, author, image }) => {
   return (
     <div className="col" id="adminBookPageCol">
       <div className="card" id="adminBookcard">
-        <a href="/adminDetails">
-          <img src={image} alt={title} className="card-img-top" />
-        </a>
+      <Link to={`/adminDetails/${userId}/${id}`}>
+          <img src={image} alt={title} />
+        </Link>
         <div className="card-body" style={{ maxWidth: '100%' }}>
           <h2 style={{ textAlign: 'left', fontSize: titleFontSize, marginBottom: '0.5rem' }}>{truncatedTitle}</h2>
           <p style={{ textAlign: 'left', fontSize: authorFontSize, marginBottom: '0.5rem' }}>Author: {truncatedAuthor}</p>
         </div>
         <div className="card-footer">
-          <button className="btn btn-danger">Delete</button>
+        <a onClick = {()=>removeBookFromBooklist(userId, id)} className="btn btn-sm btn-danger mb-2" style={{float:"center"}}>DELETE</a>
         </div>
       </div>
     </div>
