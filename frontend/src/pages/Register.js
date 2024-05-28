@@ -13,6 +13,7 @@ export default function Register() {
   const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState("");
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
   // Function to handle form submission
   const handleSubmit = async (event) => {
@@ -26,7 +27,8 @@ export default function Register() {
           department: department,
           email: email,
           gender: gender,
-          phoneNumber: phoneNumber
+          phoneNumber: phoneNumber,
+          username: username
         });
         setPassword("");
         setPhoneNumber("");
@@ -51,6 +53,17 @@ export default function Register() {
       <div className="login-box">
         <h2>Registration</h2>
         <form className="login-form" onSubmit={handleSubmit}>
+
+        <div className="form-group">
+            <label htmlFor="username">Username:</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
           <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
