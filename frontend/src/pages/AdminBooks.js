@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import BookCard from '../components/BookCard';  
+import React, { useEffect, useState } from 'react';  
 import Banner from '../components/Banner';
 import "../homePage.css";
 import AdminBookCard from '../components/AdminBookCard'; 
