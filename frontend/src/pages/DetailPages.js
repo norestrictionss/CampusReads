@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "../comment.css";
+import { useNavigate } from "react-router-dom"
 import { useParams } from 'react-router-dom';
 import { db,auth } from '../../src/config/firebase';
 import { get, ref, push, onValue } from 'firebase/database';
 import { getUserDetails } from "./Operations";
+import { sendRequest } from "./Operations";
+import { useContext } from "react"; 
+import { Context } from "../contexts/AuthContext";
 
 export default function ContactForm() {
+
+  const { user } = useContext(Context);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -64,6 +70,7 @@ export default function ContactForm() {
         console.log("Infooo2:", userInfo, userId);
         setOwner(userInfo.email);
         setCurrentUser(userInfo); // Kullanıcı bilgilerini state'e kaydet
+        setOwnerEmail(userInfo.email);
         get(bookRef)
           .then((snapshot) => {
             if (snapshot.exists()) {
@@ -110,6 +117,18 @@ export default function ContactForm() {
     return <div>Book not found</div>;
   }
 
+  const send = async(event)=>{
+      event.preventDefault();
+      
+      const requestId = await sendRequest(id, userId,user.uid,firstName,lastName,email,phoneNumber,message);
+      console.log(requestId);
+      if(requestId){
+         console.log("Request sent successfully.");
+         navigate('/books');
+      }
+  };
+ 
+
   return (
     <div className="contact-container" style={{ margin: "30px" }}>
       <div className="row">
@@ -125,7 +144,7 @@ export default function ContactForm() {
                 <p className="bookAuthor"><strong>Author:</strong> {book.author} </p>
                 <p className="SSN"><strong>SSN:</strong> {book.bookSSN}</p>
                 <p className="bookGender"><strong>Gender:</strong> {book.bookType}</p>
-                <p className="bookOwner"><strong>Owner email:</strong> {owner}</p>
+                <p className="bookOwner"><strong>Owner email:</strong> {ownerEmail}</p>
               </div>
             </div>
           </div>
@@ -133,7 +152,7 @@ export default function ContactForm() {
         <div className="col-md-12 col-lg-4">
           <div className="contact-box">
             <h2>CONTACT FORM</h2>
-            <form className="contact-form" onSubmit={handleSubmit}>
+            <form className="contact-form" onSubmit={send}>
               <div className="form-group">
                 <input
                   type="text"
