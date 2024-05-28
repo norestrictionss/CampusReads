@@ -69,7 +69,7 @@ export default function ContactForm() {
         const bookRef = ref(db, `users/${userId}/booklist/${id}`);
         const userInfo = await getUserDetails(userId);
         console.log("Infooo2:", userInfo, userId);
-        setOwner(userInfo.email);
+        setOwnerEmail(userInfo.email);
         setCurrentUser(userInfo); // Kullanıcı bilgilerini state'e kaydet
         setOwnerEmail(userInfo.email);
         get(bookRef)
