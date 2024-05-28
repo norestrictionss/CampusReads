@@ -20,10 +20,25 @@ export default function Notification() {
     const { user } = useContext(Context);
     const [fetchedBooks, setFetchedBooks] = useState([]);
     const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
+    const [notifications, setNotifications] = useState([]);
     // This part fetches books with images.
     useEffect(() => {
+        const notificationCardProcess = async () => {
+          try {
+            const allRequests = Object.entries(await getRequests(user.uid));
+            if(allRequests){
+                setRequests(allRequests);
+            }
+            console.log("Requests:",allRequests);
+          } catch (error) {
+            console.error("Error with getting requests", error);
+          }
+        };
+        notificationCardProcess();
+      }, []);
+
+    useEffect(() => {
         const fetchBookList = async () => {
-            
             try {
                 const bookList = await showBookList(user.uid);
                 const books = Object.entries(bookList);
@@ -34,13 +49,11 @@ export default function Notification() {
                     setFetchedBooks(books);
                     console.log("Fetched books:", fetchedBooks);
                     setLoadingBooks(false); // It keeps the loading.
-                    
                 }
             } catch (error) {
                 console.error("Error fetching book list:", error);
                 setLoadingBooks(false); // It keeps loading part.
             }
-
     
         };
         fetchBookList();
@@ -117,6 +130,32 @@ export default function Notification() {
                     selectedBookName={request.selectedBookName}
                 />
             ))}
+            {requests.length > 0 ? 
+                            requests
+                                .filter(([key, attributes]) => attributes.ownerID === user.uid) // It filters the all requests according to user
+                                .map(([key, attributes]) => (
+                                    <div className="row row-cols-1 row-cols-md-2 g-4" key={key}>
+                                        <NotificationsCard
+                                            id={attributes.requestId}
+                                            senderId={attributes.senderId}
+                                            book1Id={attributes.book1ID}
+                                            title=""
+                                            name={attributes.senderName}
+                                            lastName={attributes.senderSurname}
+                                            email={attributes.senderEmail}
+                                            phoneNumber={attributes.senderPhoneNumber}
+                                            bookimage=""
+                                            message={attributes.senderMessage}
+                                            ownerIcon="https://cdn-icons-png.freepik.com/256/552/552721.png?semt=ais_hybrid"
+                                            requestStatus={attributes.requestStatus}
+                                            acceptRequest={() => acceptRequest(attributes.id)}
+                                            rejectRequest={() => rejectRequest(attributes.id)}
+                                            selectedBookName={attributes.selectedBookName}/>
+                                    </div>
+                                ))
+                            :
+                            <p>Loading...</p>
+                        }
                 </div>
             </div>
         </div>
