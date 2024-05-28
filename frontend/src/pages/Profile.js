@@ -46,7 +46,7 @@ export default function UserPage() {
         const userDetailsProcess = async()=>{
             try{
                 console.log("user infoooo:",user.uid);
-                const profileInfo = await getUserDetails(user);
+                const profileInfo = await getUserDetails(user.uid);
                 console.log("Hii:",profileInfo);
                 setProfileData(profileInfo);
             }
