@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../comment.css";
-
 import { useParams } from 'react-router-dom';
-import { db } from '../../src/config/firebase';
-import { get , ref} from 'firebase/database';
+import { db,auth } from '../../src/config/firebase';
+import { get, ref, push, onValue } from 'firebase/database';
 import { getUserDetails } from "./Operations";
 
 export default function ContactForm() {
@@ -13,25 +12,19 @@ export default function ContactForm() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
   const [owner, setOwner] = useState("");
-  const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value);
-  };
+  const [commentMessage, setCommentMessage] = useState("");
+  const [comments, setComments] = useState([]);
+  const { userId, id } = useParams();
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState(null); // Yeni state
 
-  const handleLastNameChange = (event) => {
-    setLastName(event.target.value);
-  };
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePhoneNumberChange = (event) => {
-    setPhoneNumber(event.target.value);
-  };
-
-  const handleMessageChange = (event) => {
-    setMessage(event.target.value);
-  };
+  const handleFirstNameChange = (event) => setFirstName(event.target.value);
+  const handleLastNameChange = (event) => setLastName(event.target.value);
+  const handleEmailChange = (event) => setEmail(event.target.value);
+  const handlePhoneNumberChange = (event) => setPhoneNumber(event.target.value);
+  const handleMessageChange = (event) => setMessage(event.target.value);
+  const handleCommentMessageChange = (event) => setCommentMessage(event.target.value);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -47,10 +40,21 @@ export default function ContactForm() {
     setMessage("");
   };
 
-  const { userId, id } = useParams();
-  const [book, setBook] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const user = auth.currentUser;
+  const handleCommentSubmit = async (event) => {
+    event.preventDefault();
+    if (commentMessage.trim() === "") return;
+    const newComment = {
+      message: commentMessage,
+      timestamp: new Date().toISOString(),
+      author: currentUser ? `${user.email}` : "Anonymous",
+    };
+    const commentRef = ref(db, `users/${userId}/booklist/${id}/comments`);
+    await push(commentRef, newComment);
+    setCommentMessage("");
+  };
 
+  
   useEffect(() => {
     const fetchBook = async () => {
       try {
@@ -59,6 +63,7 @@ export default function ContactForm() {
         const userInfo = await getUserDetails(userId);
         console.log("Infooo2:", userInfo, userId);
         setOwner(userInfo.email);
+        setCurrentUser(userInfo); // Kullanıcı bilgilerini state'e kaydet
         get(bookRef)
           .then((snapshot) => {
             if (snapshot.exists()) {
@@ -76,7 +81,25 @@ export default function ContactForm() {
       }
     };
 
+    
+    const fetchComments = () => {
+      const commentRef = ref(db, `users/${userId}/booklist/${id}/comments`);
+      onValue(commentRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const commentsData = snapshot.val();
+          const commentsArray = Object.keys(commentsData).map(key => ({
+            id: key,
+            ...commentsData[key],
+          }));
+          setComments(commentsArray);
+        } else {
+          setComments([]);
+        }
+      });
+    };
+
     fetchBook();
+    fetchComments();
   }, [userId, id]);
 
   if (loading) {
@@ -87,7 +110,6 @@ export default function ContactForm() {
     return <div>Book not found</div>;
   }
 
- 
   return (
     <div className="contact-container" style={{ margin: "30px" }}>
       <div className="row">
@@ -170,7 +192,7 @@ export default function ContactForm() {
         <div className="container">
           <div className="row">
             <div className="col-sm-8">
-              <form>
+              <form onSubmit={handleCommentSubmit}>
                 <h3>New Comment</h3>
                 <div className="form-group">
                   <div className="row">
@@ -178,7 +200,14 @@ export default function ContactForm() {
                       <img className="img-responsive comment-avatar" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
                     </div>
                     <div className="col-xs-12 col-sm-9 col-lg-10">
-                      <textarea className="form-control" id="commentMessage" placeholder="Your message" required></textarea>
+                      <textarea
+                        className="form-control"
+                        id="commentMessage"
+                        placeholder="Your message"
+                        value={commentMessage}
+                        onChange={handleCommentMessageChange}
+                        required
+                      ></textarea>
                     </div>
                   </div>
                 </div>
@@ -187,16 +216,18 @@ export default function ContactForm() {
                 </div>
               </form>
               <h3>Comments</h3>
-              <div className="media">
-                <a className="pull-left" href="#"><img className="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" /></a>
-                <div className="media-body">
-                  <h4 className="media-heading">John Doe</h4>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  <ul className="list-unstyled list-inline media-detail pull-left">
-                    <li><i className="fa fa-calendar"></i>27/02/2014</li>
-                  </ul>
+              {comments.map((comment) => (
+                <div key={comment.id} className="media">
+                  <a className="pull-left" href="#"><img className="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" /></a>
+                  <div className="media-body">
+                    <h4 className="media-heading">{comment.author}</h4>
+                    <p>{comment.message}</p>
+                    <ul className="list-unstyled list-inline media-detail pull-left">
+                      <li><i className="fa fa-calendar"></i>{new Date(comment.timestamp).toLocaleDateString()}</li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
