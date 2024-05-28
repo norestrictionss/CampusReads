@@ -35,6 +35,7 @@ export default function Register() {
         setGender("");
         setEmail("");
         setDepartment("");
+        setUsername("");
 
         console.log("Registration successful!");
         navigate("/books");
