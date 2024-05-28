@@ -182,3 +182,6 @@ export const getUserDetails = async (user) => {
   }
 };
 
+export const sendRequest = async()=>{
+
+}

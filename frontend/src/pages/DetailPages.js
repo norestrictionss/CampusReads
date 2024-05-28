@@ -91,7 +91,7 @@ export default function ContactForm() {
           <div className="book-box">
             <div className="row">
               <div className="col-md-12 col-lg-6 column">
-                <img className="bookDetailImage" src="" alt="Book Cover" />
+                <img className="bookDetailImage" src={book.imageURL} alt="Book Cover" />
               </div>
               <div className="col-md-12 col-lg-6 column">
                 <h3 className="bookTitle"><strong>{book.bookName}</strong></h3>
