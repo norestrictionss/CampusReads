@@ -1,6 +1,6 @@
 import React from 'react';
 
-const OffererBookCards = ({ ssn, title, author, image ,isChecked, onCheckboxChange }) => {
+const OffererBookCards = ({ bookID, userID, ssn, title, author, image ,isChecked, onCheckboxChange }) => {
 
     return (
 

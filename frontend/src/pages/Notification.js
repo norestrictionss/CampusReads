@@ -5,7 +5,7 @@ import "../sendedRequest.css"; // Stil dosyanızı içe aktarın
 import NotificationsCard from '../components/NotificationsCard';
 
 import { useParams } from 'react-router-dom';
-import { getUserDetails } from "./Operations";
+import { getUserDetails,getRequests } from "./Operations";
 import { auth } from "../../src/config/firebase";
 import { db } from "../../src/config/firebase";
 import { ref, get } from 'firebase/database';
@@ -16,6 +16,7 @@ import { Context } from "../contexts/AuthContext";
 export default function Notification() {
 
     const [profileData, setProfileData] = useState(null);
+    const [requests, setRequests] = useState([]);
     const { user } = useContext(Context);
     const [fetchedBooks, setFetchedBooks] = useState([]);
     const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
@@ -45,21 +46,32 @@ export default function Notification() {
         fetchBookList();
     }, []);
     
-    useEffect(()=>{
-        const userDetailsProcess = async()=>{
-            try{
-                console.log("user infoooo:",user.uid);
+    useEffect(() => {
+        const userDetailsProcess = async () => {
+            try {
                 const profileInfo = await getUserDetails(user.uid);
-                console.log("Hii:",profileInfo);
                 setProfileData(profileInfo);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
             }
-            catch(error){
-                console.log("Error fetching user data.");
-                console.log(error.message);
-            }
-        }
+        };
         userDetailsProcess();
     }, [user]);
+
+
+ const [books, setBooks] = useState([]);
+    useEffect(() => {
+        const notificationCardProcess = async () => {
+          try {
+            const allRequests = await getRequests(user.uid);
+            const userRequests = allRequests.filter(request => request.ownerID === user.uid);
+            setRequests(userRequests);
+          } catch (error) {
+            console.error("Error with getting requests", error);
+          }
+        };
+        notificationCardProcess();
+      }, [user.uid]);
 
     const [requestStatus, setRequestStatus] = useState("pending");
 
@@ -86,22 +98,25 @@ export default function Notification() {
             )}
             <div className="sendedRequest-container" style={{ marginTop: "30px", borderRadius: "10px", padding: "20px" }}>
                 <div className="row row-cols-1 row-cols-md-2 g-4">
-                    <NotificationsCard
-                        userId = {userId}
-                        bookId=""
-                        title="Martin Eden"
-                        name="İrem"
-                        lastName="Kıranmezar"
-                        email="iremkiranmezar@gmail.com"
-                        phoneNumber="555555555"
-                        message="merhabaaaaaaaaaaaaaaaaaaa"
-                        bookimage="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcR5h4e7Njgs6hlF0Et2LoQK5Az1SK_gmd0w2VZvgkJndwlSi7gixrlCHb14m2dWmTdiofWTf4cHUlcP7VhmC8i3qZw7EaL63317YvMpcFt6zOVWpaBJVaTYig&usqp=CAE"
-                        ownerIcon="https://www.shareicon.net/download/2016/05/24/770080_people_512x512.png"
-                        requestStatus={requestStatus}
-                        acceptRequest={acceptRequest}
-                        rejectRequest={rejectRequest}
-                        selectedBookName="There is no selected book"
-                    />
+                {requests.map((request) => (
+                <NotificationsCard
+                    id={request.requestId}
+                    senderId={request.senderId}
+                    book1Id={request.book1ID}
+                    title=""
+                    name={request.senderName}
+                    lastName={request.senderSurname}
+                    email={request.senderEmail}
+                    phoneNumber={request.senderPhoneNumber}
+                    bookimage=""
+                    message={request.senderMessage}
+                    ownerIcon="https://cdn-icons-png.freepik.com/256/552/552721.png?semt=ais_hybrid"
+                    requestStatus={request.requestStatus}
+                    acceptRequest={() => acceptRequest(request.id)}
+                    rejectRequest={() => rejectRequest(request.id)}
+                    selectedBookName={request.selectedBookName}
+                />
+            ))}
                 </div>
             </div>
         </div>

@@ -152,7 +152,6 @@ export const returnUsers = async()=>{
 
 }
 
-
 export const getUserDetails = async (userId) => {
   if (userId) {
     console.log("User data:", userId);
@@ -179,7 +178,7 @@ export const getUserDetails = async (userId) => {
   }
 };
 
-export const sendRequest = async(bookId, ownerId, senderId, senderName, senderSurname, senderEmail, senderPhoneNumber, senderMessage)=>{
+export const sendRequest = async(book1Id, book2ID, ownerId, senderId, senderName, senderSurname, senderEmail, senderPhoneNumber, senderMessage, requestStatus)=>{
   
   const userRequestRef = ref(db, `Requests/`);
   try {
@@ -187,19 +186,21 @@ export const sendRequest = async(bookId, ownerId, senderId, senderName, senderSu
     const newRequestRef = push(userRequestRef);
 
     // Set the book data
-    const bookEntry = {
+    const requestEntry = {
       ownerID: ownerId,
-      bookID: bookId,
+      book1ID: book1Id,
+      book2ID: book2ID,
       senderId: senderId,
       senderName: senderName,
       senderSurname: senderSurname,
       senderEmail: senderEmail,
       senderPhoneNumber: senderPhoneNumber,
-      senderMessage: senderMessage
+      senderMessage: senderMessage,
+      requestStatus: requestStatus
     };
 
     // Update the user's booklist with the new book entry
-    await update(newRequestRef, bookEntry);
+    await update(newRequestRef, requestEntry);
     const requestId = newRequestRef.key; 
     console.log("Book added to user's booklist successfully");
     return requestId;
@@ -209,3 +210,38 @@ export const sendRequest = async(bookId, ownerId, senderId, senderName, senderSu
   return -1;
   
 }
+export const getRequests = async (userId) => {
+  const userRequestsRef = ref(db, `Requests/`);
+  try {
+    const snapshot = await get(userRequestsRef);
+    if (snapshot.exists()) {
+      const requests = [];
+      snapshot.forEach((childSnapshot) => {
+        const requestId = childSnapshot.key;
+        const requestData = childSnapshot.val();
+        if (requestData.senderId === userId || requestData.ownerID === userId) {
+          requests.push({
+            requestId: requestId,
+            ownerID: requestData.ownerID,
+            book1ID: requestData.book1ID,
+            book2ID: requestData.book2ID,
+            senderId: requestData.senderId,
+            senderName: requestData.senderName,
+            senderSurname: requestData.senderSurname,
+            senderEmail: requestData.senderEmail,
+            senderPhoneNumber: requestData.senderPhoneNumber,
+            senderMessage: requestData.senderMessage,
+            requestStatus: requestData.requestStatus
+          });
+        }
+      });
+      return requests;
+    } else {
+      console.log("No requests found");
+      return [];
+    }
+  } catch (error) {
+    console.error("Error getting requests:", error);
+    return [];
+  }
+};

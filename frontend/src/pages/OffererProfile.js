@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState,useEffect ,useContext} from "react";
 import "../Profile.css"; // Import your CSS file for styling
 import OffererBookCards from '../../src/components/OffererBookCard';
 import OffererProfileHeader from '../../src/components/OffererProfileHeader';
+import { getUserDetails } from "./Operations";
+import { Context } from "../contexts/AuthContext";
+import { useParams } from 'react-router-dom';
+import { showBookList } from "./Operations";
 
 export default function OffererUserPage() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -22,6 +26,37 @@ export default function OffererUserPage() {
       setCheckedCardId(id === checkedCardId ? null : id);
     };
 
+    const [profileData, setProfileData] = useState(null);
+    const { user } = useContext(Context);
+    const { senderId } = useParams(); 
+    const [fetchedBooks, setFetchedBooks] = useState([]);
+    const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
+    useEffect(() => {
+        const fetchBookList = async () => {
+            try {
+                const bookList = await showBookList(senderId);
+                const books = Object.entries(bookList);
+                if(bookList) {
+                    console.log("Bookies:", bookList);
+                    console.log("Book List:", bookList);
+                    // It merges the book lists with image URL's.
+                    setFetchedBooks(books);
+                    console.log("Fetched books:", fetchedBooks);
+                }
+            } catch (error) {
+                console.error("Error fetching book list:", error);
+            } finally {
+                setLoadingBooks(false); // Loading durumunu buraya taşıdık.
+            }
+        };
+    
+        // Eğer senderId doluysa fetchBookList'i çağır
+        if (senderId) {
+            setLoadingBooks(true); // Loading durumunu buraya taşıdık.
+            fetchBookList();
+        }
+    }, [senderId]);
+
     return (
         <div className="container" style={{ marginTop: "30px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
             <div className="row">
@@ -32,10 +67,20 @@ export default function OffererUserPage() {
                         </div>
                         <div className="userAds" style={{ marginTop: "30px" }}>
                             <div class="row row-cols-1 row-cols-md-3 g-4">
-                                {filteredBooks.map(book => (
-                                    <OffererBookCards ssn = {book.id} title={book.title} author={book.author} image={book.image} isChecked={book.id === checkedCardId}
-                                    onCheckboxChange={handleCheckboxChange}/>
-                                ))}
+                            {loadingBooks ? <p>Loading...</p>: 
+                                <>
+                                {fetchedBooks.length > 0  ? 
+                                    fetchedBooks.map(([key, attributes]) => <div key={key}>
+                                    <OffererBookCards ssn = {attributes.id} title={attributes.bookName} author={attributes.author} image={attributes.imageURL} isChecked={attributes.id === checkedCardId } bookID ={key} userID = {senderId}
+                                    onCheckboxChange={handleCheckboxChange}/></div>
+                                )
+                             : (
+                                <div className="col-12">
+                                    <p>There is not any books yet added to the platform.</p>
+                                </div>
+                            )}
+                            </>
+                            }
                             </div>
                         </div>
                     </div>

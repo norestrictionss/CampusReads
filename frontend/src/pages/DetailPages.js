@@ -18,13 +18,14 @@ export default function ContactForm() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
   const [owner, setOwner] = useState("");
+  const [ownerEmail, setOwnerEmail] = useState("");
   const [commentMessage, setCommentMessage] = useState("");
   const [comments, setComments] = useState([]);
   const { userId, id } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null); // Yeni state
-
+  const navigate = useNavigate();
   const handleFirstNameChange = (event) => setFirstName(event.target.value);
   const handleLastNameChange = (event) => setLastName(event.target.value);
   const handleEmailChange = (event) => setEmail(event.target.value);
@@ -120,7 +121,7 @@ export default function ContactForm() {
   const send = async(event)=>{
       event.preventDefault();
       
-      const requestId = await sendRequest(id, userId,user.uid,firstName,lastName,email,phoneNumber,message);
+      const requestId = await sendRequest(id, "", userId,user.uid,firstName,lastName,email,phoneNumber,message, "pending");
       console.log(requestId);
       if(requestId){
          console.log("Request sent successfully.");

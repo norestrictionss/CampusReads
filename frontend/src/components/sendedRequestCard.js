@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SendedRequestCard = ({ title, bookOwner, bookimage, ownerIcon, requestStatus }) => {
+const SendedRequestCard = ({ title, bookOwnerEmail, bookimage, ownerIcon, requestStatus }) => {
     const getStatusLabel = () => {
         if (requestStatus === 'accepted') {
             return <span style={{ color: 'green' }}>Accepted</span>;
@@ -33,7 +33,7 @@ const SendedRequestCard = ({ title, bookOwner, bookimage, ownerIcon, requestStat
                             <div className="image mr-3">
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <a href="#"><img className="square" style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }} src={ownerIcon} alt="Owner Profile" /></a>
-                                    <h6 className="card-text" style={{ marginBottom: "0" }}><strong>Book Owner: </strong>{bookOwner}</h6>
+                                    <h6 className="card-text" style={{ marginBottom: "0" }}><strong>Book Owner: </strong>{bookOwnerEmail}</h6>
                                 </div>
                             </div>
                             <br />
