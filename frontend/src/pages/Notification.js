@@ -22,6 +22,8 @@ export default function Notification() {
     const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
     const [notifications, setNotifications] = useState([]);
     console.log(user.uid);
+
+    // It fetches the whole book requests that exists in the system.
     // This part fetches books with images.
     useEffect(() => {
         const notificationCardProcess = async () => {
@@ -60,6 +62,7 @@ export default function Notification() {
         fetchBookList();
     }, []);
     
+    // User details are fetched to display the profile header properly.
     useEffect(() => {
         const userDetailsProcess = async () => {
             try {
@@ -72,21 +75,6 @@ export default function Notification() {
         userDetailsProcess();
     }, [user]);
 
-
- const [books, setBooks] = useState([]);
-    useEffect(() => {
-        const notificationCardProcess = async () => {
-          try {
-            const allRequests = await getRequests(user.uid);
-            const userRequests = allRequests.filter(request => request.ownerID === user.uid);
-            setRequests(userRequests);
-          } catch (error) {
-            console.error("Error with getting requests", error);
-          }
-        };
-        notificationCardProcess();
-      }, [user.uid]);
-
     const [requestStatus, setRequestStatus] = useState("pending");
 
     const acceptRequest = () => {
@@ -97,9 +85,6 @@ export default function Notification() {
         setRequestStatus("reject");
     };
 
-    const { userId} = useParams();
-    const [book, setBook] = useState(null);
-    const [loading, setLoading] = useState(true);
 
     return (
         <div className="container" style={{ marginTop: "30px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>

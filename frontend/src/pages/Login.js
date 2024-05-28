@@ -10,12 +10,13 @@ import { addBookToBooklist, removeBookFromBooklist }  from "./Operations";
 import { useNavigate } from "react-router-dom"
 
 export default function Login() {
-  // State variables for email and password
+  
+  // Email and password fields
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // Function to handle changes in the username field
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -55,7 +56,7 @@ const handleSubmit = async (event) => {
 
   return (
     <div className="login-container">
-      <div className="login-box"> {/* Add login-box class */}
+      <div className="login-box"> 
         <h2>Login</h2>
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">

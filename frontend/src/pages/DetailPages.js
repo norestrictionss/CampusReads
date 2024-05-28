@@ -91,7 +91,7 @@ export default function ContactForm() {
       }
     };
 
-    
+    // The method that fetches the comments.
     const fetchComments = () => {
       const commentRef = ref(db, `users/${userId}/booklist/${id}/comments`);
       onValue(commentRef, (snapshot) => {
@@ -120,6 +120,7 @@ export default function ContactForm() {
     return <div>Book not found</div>;
   }
 
+  // It sends the request to the database server. 
   const send = async(event)=>{
       event.preventDefault();
       
