@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useContext} from "react";
 import "../Profile.css"; // Stil dosyanızı içe aktarın
 import ProfileHeader from '../components/ProfileHeader';
 import "../sendedRequest.css"; // Stil dosyanızı içe aktarın
 import NotificationsCard from '../components/NotificationsCard';
 
+import { useParams } from 'react-router-dom';
+import { getUserDetails } from "./Operations";
 import { auth } from "../../src/config/firebase";
 import { db } from "../../src/config/firebase";
 import { ref, get } from 'firebase/database';
@@ -12,33 +14,52 @@ import { showBookList } from "./Operations";
 import { Context } from "../contexts/AuthContext";
 
 export default function Notification() {
-    const [user, setUser] = useState(null);
+
     const [profileData, setProfileData] = useState(null);
-
+    const { user } = useContext(Context);
+    const [fetchedBooks, setFetchedBooks] = useState([]);
+    const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
+    // This part fetches books with images.
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                console.log("User data:", user);
-                setUser(user);
-                const userRef = ref(db, 'users/' + user.uid);
-                get(userRef).then((snapshot) => {
-                    if (snapshot.exists()) {
-                        const userData = snapshot.val();
-                        setProfileData(userData);
-                    } else {
-                        console.log("No data available");
-                    }
-                }).catch((error) => {
-                    console.error(error);
-                });
-            } else {
-                setUser(null);
-                setProfileData(null);
+        const fetchBookList = async () => {
+            
+            try {
+                const bookList = await showBookList(user.uid);
+                const books = Object.entries(bookList);
+                if(bookList) {
+                    console.log("Bookies:", bookList);
+                    console.log("Book List:", bookList);
+                    // It merges the book lists with image URL's.
+                    setFetchedBooks(books);
+                    console.log("Fetched books:", fetchedBooks);
+                    setLoadingBooks(false); // It keeps the loading.
+                    
+                }
+            } catch (error) {
+                console.error("Error fetching book list:", error);
+                setLoadingBooks(false); // It keeps loading part.
             }
-        });
 
-        return () => unsubscribe();
-    }, [auth, db]);
+    
+        };
+        fetchBookList();
+    }, []);
+    
+    useEffect(()=>{
+        const userDetailsProcess = async()=>{
+            try{
+                console.log("user infoooo:",user.uid);
+                const profileInfo = await getUserDetails(user.uid);
+                console.log("Hii:",profileInfo);
+                setProfileData(profileInfo);
+            }
+            catch(error){
+                console.log("Error fetching user data.");
+                console.log(error.message);
+            }
+        }
+        userDetailsProcess();
+    }, [user]);
 
     const [requestStatus, setRequestStatus] = useState("pending");
 
@@ -49,6 +70,10 @@ export default function Notification() {
     const rejectRequest = () => {
         setRequestStatus("reject");
     };
+
+    const { userId} = useParams();
+    const [book, setBook] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     return (
         <div className="container" style={{ marginTop: "30px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
@@ -62,6 +87,8 @@ export default function Notification() {
             <div className="sendedRequest-container" style={{ marginTop: "30px", borderRadius: "10px", padding: "20px" }}>
                 <div className="row row-cols-1 row-cols-md-2 g-4">
                     <NotificationsCard
+                        userId = {userId}
+                        bookId=""
                         title="Martin Eden"
                         name="İrem"
                         lastName="Kıranmezar"

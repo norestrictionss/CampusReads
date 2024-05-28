@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const NotificationsCard = ({ title, name, lastName, email, phoneNumber, bookimage, message, ownerIcon, requestStatus, acceptRequest, rejectRequest, selectedBookName }) => {
+
+const NotificationsCard = ({ userId, bookId, title, name, lastName, email, phoneNumber, bookimage, message, ownerIcon, requestStatus, acceptRequest, rejectRequest, selectedBookName }) => {
     return (
         <div className="sendedRequest-col">
             <div className="card text-bg-light mb-3">
@@ -22,7 +24,7 @@ const NotificationsCard = ({ title, name, lastName, email, phoneNumber, bookimag
                             <br />
                             <div className="image mr-3">
                                 <div style={{ display: "flex", alignItems: "center" }}>
-                                    <a href="/OffererProfile"><img className="square" style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }} src={ownerIcon} alt="Owner Profile" /></a>
+                                <Link to={`/OffererProfile/${userId}`}><img className="square" style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }} src={ownerIcon} alt="Owner Profile" /></Link>
                                     <h6 className="card-text" style={{ marginBottom: "0" }}><strong>Request Owner :</strong>{name} {lastName}</h6>
                                 </div>
                             </div>

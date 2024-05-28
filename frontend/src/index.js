@@ -38,7 +38,7 @@ export default function Main(){
                   <Route path="/" element={<Books/>} ></Route>
                   <Route path="/details/:userId/:id" element={<Details/>} ></Route>
                   <Route path="/profile" element={<UserPage/>} ></Route>
-                  <Route path="/OffererProfile" element={<OffererUserPage/>} ></Route>
+                  <Route path="/OffererProfile/:userId" element={<OffererUserPage/>} ></Route>
                   <Route path="/addnewbook" element={<AddNewBook/>} ></Route>
                   <Route path="/editProfile" element={<EditProfile/>} ></Route>
                   <Route path="/sendedRequests" element={<SendedRequests/>} ></Route>

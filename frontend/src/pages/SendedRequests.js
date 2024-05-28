@@ -52,7 +52,7 @@ export default function SendedRequests() {
             )}
             <div className="sendedRequest-container" style={{ marginTop: "30px", borderRadius: "10px", padding: "20px" }}>
                 <div class="row row-cols-1 row-cols-md-2 g-4">
-                    <RequestCards title="Martin Eden" bookOwner="İrem Kıranmezar" bookimage="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcR5h4e7Njgs6hlF0Et2LoQK5Az1SK_gmd0w2VZvgkJndwlSi7gixrlCHb14m2dWmTdiofWTf4cHUlcP7VhmC8i3qZw7EaL63317YvMpcFt6zOVWpaBJVaTYig&usqp=CAE" ownerIcon="https://www.shareicon.net/download/2016/05/24/770080_people_512x512.png" requestStatus="pending"></RequestCards>
+                    <RequestCards title="Martin Eden" bookOwnerEmail="iremkranmezar" bookimage="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcR5h4e7Njgs6hlF0Et2LoQK5Az1SK_gmd0w2VZvgkJndwlSi7gixrlCHb14m2dWmTdiofWTf4cHUlcP7VhmC8i3qZw7EaL63317YvMpcFt6zOVWpaBJVaTYig&usqp=CAE" ownerIcon="https://www.shareicon.net/download/2016/05/24/770080_people_512x512.png" requestStatus="pending"></RequestCards>
                 </div>
             </div>
 
