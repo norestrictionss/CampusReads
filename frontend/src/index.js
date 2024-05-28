@@ -37,7 +37,7 @@ export default function Main(){
                   <Route path="/register" element={<LoginChecker><Register/></LoginChecker>} ></Route>
                   <Route path="/books" element={<Books/>} ></Route>
                   <Route path="/" element={<Books/>} ></Route>
-                  <Route path="/details" element={<Details/>} ></Route>
+                  <Route path="/details/:userId/:id" element={<Details/>} ></Route>
                   <Route path="/profile" element={<UserPage/>} ></Route>
                   <Route path="/OffererProfile" element={<OffererUserPage/>} ></Route>
                   <Route path="/addnewbook" element={<AddNewBook/>} ></Route>

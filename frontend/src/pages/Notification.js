@@ -63,7 +63,11 @@ export default function Notification() {
                 <div className="row row-cols-1 row-cols-md-2 g-4">
                     <NotificationsCard
                         title="Martin Eden"
-                        bookOwner="İrem Kıranmezar"
+                        name="İrem"
+                        lastName="Kıranmezar"
+                        email="iremkiranmezar@gmail.com"
+                        phoneNumber="555555555"
+                        message="merhabaaaaaaaaaaaaaaaaaaa"
                         bookimage="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcR5h4e7Njgs6hlF0Et2LoQK5Az1SK_gmd0w2VZvgkJndwlSi7gixrlCHb14m2dWmTdiofWTf4cHUlcP7VhmC8i3qZw7EaL63317YvMpcFt6zOVWpaBJVaTYig&usqp=CAE"
                         ownerIcon="https://www.shareicon.net/download/2016/05/24/770080_people_512x512.png"
                         requestStatus={requestStatus}

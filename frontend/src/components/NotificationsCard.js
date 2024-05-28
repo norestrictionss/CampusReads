@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NotificationsCard = ({ title, bookOwner, bookimage, ownerIcon, requestStatus, acceptRequest, rejectRequest , selectedBookName}) => {
+const NotificationsCard = ({ title, name, lastName, email, phoneNumber, bookimage, message, ownerIcon, requestStatus, acceptRequest, rejectRequest, selectedBookName }) => {
     return (
         <div className="sendedRequest-col">
             <div className="card text-bg-light mb-3">
@@ -16,15 +16,20 @@ const NotificationsCard = ({ title, bookOwner, bookimage, ownerIcon, requestStat
                     <div className="col-md-4" style={{ width: "100px", display: "flex", alignItems: "center" }}>
                         <img src={bookimage} className="img-fluid rounded-start" alt="Book Cover" style={{ width: "100%", borderRadius: "10px" }} />
                     </div>
-                    <div className="col-md-8">
+                    <div className="col-md-10">
                         <div className="card-body">
-                            <h6>Selected Book From User : <h6 style={{color:"red"}}>{selectedBookName}</h6></h6>
+                            <h6>Selected Book From User : <span style={{ color: "red" }}>{selectedBookName}</span></h6>
+                            <br />
                             <div className="image mr-3">
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <a href="/OffererProfile"><img className="square" style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }} src={ownerIcon} alt="Owner Profile" /></a>
-                                    <h6 className="card-text" style={{ marginBottom: "0" }}><strong>Request Owner: </strong>{bookOwner}</h6>
+                                    <h6 className="card-text" style={{ marginBottom: "0" }}><strong>Request Owner :</strong>{name} {lastName}</h6>
                                 </div>
                             </div>
+                            <br />
+                            <h6 className="card-text" style={{ marginBottom: "0" }}><strong>Email : </strong>{email}</h6>
+                            <h6 className="card-text" style={{ marginBottom: "0" }}><strong>Phone Number : </strong>{phoneNumber}</h6>
+                            <h6 className="card-text" style={{ marginBottom: "0" }}><strong>Message : </strong>{message}</h6>
                             <br />
                             <h6 className="card-text" style={{ marginBottom: "0" }}>
                                 {requestStatus === "pending" && (
