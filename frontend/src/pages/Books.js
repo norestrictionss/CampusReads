@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import BookCard from '../components/BookCard';
-import React, { useState, useEffect } from 'react';
-import BookCard from '../components/BookCard';  
 import Banner from '../components/Banner';
 import "../homePage.css";
 import { returnUsers, showBookList } from './Operations';
 import { ref, getDownloadURL, getStorage } from 'firebase/storage';
+
 const Books = () => {
 
   const [ imgURL, setImgURL] = useState({});
@@ -13,8 +12,6 @@ const Books = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
   const [users, setUsers] = useState([]); // Users
-
-
 
   useEffect(() => {
     const fetchUserList = async () => {

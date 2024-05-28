@@ -11,9 +11,6 @@ import { auth } from "../../src/config/firebase";
 import { db } from "../../src/config/firebase";
 import { ref, get } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
-import { showBookList } from "./Operations";
-import { Context } from "../contexts/AuthContext";
-import { getDownloadURL, getStorage } from 'firebase/storage';
 
 export default function UserPage() {
 
