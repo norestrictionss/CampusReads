@@ -117,19 +117,19 @@ export default function AddNewBook() {
                             <form className="row mt-3" onSubmit={addBook}>
                                 <div className="col-md-12">
                                     <label htmlFor="ssn" className="labels">Book SSN</label>
-                                    <input name="ssn" type="text" className="form-control" placeholder="enter book ssn" value={ssn} onChange={handleChange} />
+                                    <input name="ssn" type="text" className="form-control" placeholder="enter book ssn" value={ssn} onChange={handleChange} required/>
                                 </div>
                                 <div className="col-md-12">
                                     <label htmlFor="bookname" className="labels">Name</label>
-                                    <input name="bookname" type="text" className="form-control" placeholder="enter book name" value={bookname} onChange={handleChange} />
+                                    <input name="bookname" type="text" className="form-control" placeholder="enter book name" value={bookname} onChange={handleChange} required/>
                                 </div>
                                 <div className="col-md-12">
                                     <label htmlFor="bookauthor" className="labels">Author</label>
-                                    <input name="bookauthor" type="text" className="form-control" placeholder="enter book author" value={bookauthor} onChange={handleChange} />
+                                    <input name="bookauthor" type="text" className="form-control" placeholder="enter book author" value={bookauthor} onChange={handleChange} required/>
                                 </div>
                                 <div className="col-md-12">
                                     <label htmlFor="bookgender" className="labels">Gender</label>
-                                    <input name="bookgender" type="text" className="form-control" placeholder="enter book gender" value={bookgender} onChange={handleChange} />
+                                    <input name="bookgender" type="text" className="form-control" placeholder="enter book gender" value={bookgender} onChange={handleChange} required/>
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="exampleFormControlTextarea1" className="form-label">Description</label>
@@ -137,7 +137,7 @@ export default function AddNewBook() {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="formFile" className="form-label">Select an image</label>
-                                    <input className="form-control" name="imageFile" type="file" id="formFile" onChange={handleChange} />
+                                    <input className="form-control" name="imageFile" type="file" id="formFile" onChange={handleChange} required/>
                                 </div>
                                 <div className="mt-5 text-center">
                                     <button className="btn btn-primary profile-button" type="submit">Add Book</button>
