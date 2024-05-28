@@ -106,17 +106,23 @@ export default function ContactForm() {
                     <div key={comment.id} className="media">
                       <a className="pull-left" href="#"><img className="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" /></a>
                       <div className="media-body">
-                        <h4 className="media-heading">{comment.author || "Anonymous"}</h4>
-                        <p>{comment.message}</p>
-                        <ul className="list-unstyled list-inline media-detail pull-left">
-                          <li><i className="fa fa-calendar"></i>{new Date(comment.timestamp).toLocaleDateString()}</li>
-                        </ul>
-                        <div className="form-group text-right" style={{ textAlign: "right", marginRight: "15px" }}>
+                        <div className="comment-content">
+                          <h4 className="media-heading">{comment.author || "Anonymous"}</h4>
+                          <p>{comment.message}</p>
+                          <ul className="list-unstyled list-inline media-detail pull-left">
+                            <li><i className="fa fa-calendar"></i>{new Date(comment.timestamp).toLocaleDateString()}</li>
+                          </ul>
+                          <div className="comment-options" >
                           <button onClick={() => deleteComment(comment.id)} className="btn btn-danger">Delete</button>
                         </div>
+                        </div>
+                        
                       </div>
+                      
                     </div>
+                    
                   ))}
+
                 </div>
               </div>
             </div>

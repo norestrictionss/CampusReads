@@ -58,9 +58,9 @@ export default function Register() {
         <div className="form-group">
             <label htmlFor="username">Username:</label>
             <input
-              type="email"
-              id="email"
-              value={email}
+              type="text"
+              id="username"
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />

@@ -25,6 +25,7 @@ export default function ContactForm() {
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null); // Yeni state
   const navigate = useNavigate();
+  const [profileData, setProfileData] = useState(null);
   
   const handleFirstNameChange = (event) => setFirstName(event.target.value);
   const handleLastNameChange = (event) => setLastName(event.target.value);
@@ -33,6 +34,8 @@ export default function ContactForm() {
   const handleMessageChange = (event) => setMessage(event.target.value);
   const handleCommentMessageChange = (event) => setCommentMessage(event.target.value);
 
+
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Ad:", firstName);
@@ -47,14 +50,30 @@ export default function ContactForm() {
     setMessage("");
   };
 
-  const c_user = auth.currentUser;
+
+  useEffect(()=>{
+    const userDetailsProcess = async()=>{
+        try{
+            console.log("user infoooo:",user.uid);
+            const profileInfo = await getUserDetails(user.uid);
+            console.log("Hii:",profileInfo);
+            setProfileData(profileInfo);
+        }
+        catch(error){
+            console.log("Error fetching user data.");
+            console.log(error.message);
+        }
+    }
+    userDetailsProcess();
+}, [user]);
+  
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
     if (commentMessage.trim() === "") return;
     const newComment = {
       message: commentMessage,
       timestamp: new Date().toISOString(),
-      author: currentUser ? `${c_user.email}` : "Anonymous",
+      author: currentUser ? `${profileData.username}` : "Anonymous",
     };
     const commentRef = ref(db, `users/${userId}/booklist/${id}/comments`);
     await push(commentRef, newComment);
@@ -239,9 +258,9 @@ export default function ContactForm() {
               {comments.map((comment) => (
                 <div key={comment.id} className="media">
                   <a className="pull-left" href="#"><img className="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" /></a>
-                  <div className="media-body">
-                    <h4 className="media-heading">{comment.author}</h4>
-                    <p>{comment.message}</p>
+                  <div className="media-body hidden-xs" >
+                    <h4 className="media-heading" >{comment.author}</h4>
+                    <p className="message_comment">{comment.message}</p>
                     <ul className="list-unstyled list-inline media-detail pull-left">
                       <li><i className="fa fa-calendar"></i>{new Date(comment.timestamp).toLocaleDateString()}</li>
                     </ul>
