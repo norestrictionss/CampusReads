@@ -21,6 +21,7 @@ export default function Notification() {
     const [fetchedBooks, setFetchedBooks] = useState([]);
     const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
     const [notifications, setNotifications] = useState([]);
+    console.log(user.uid);
     // This part fetches books with images.
     useEffect(() => {
         const notificationCardProcess = async () => {
@@ -139,12 +140,12 @@ export default function Notification() {
                                             id={attributes.requestId}
                                             senderId={attributes.senderId}
                                             book1Id={attributes.book1ID}
-                                            title=""
+                                            title={attributes.bookName}
                                             name={attributes.senderName}
                                             lastName={attributes.senderSurname}
                                             email={attributes.senderEmail}
                                             phoneNumber={attributes.senderPhoneNumber}
-                                            bookimage=""
+                                            bookimage={attributes.imageURL}
                                             message={attributes.senderMessage}
                                             ownerIcon="https://cdn-icons-png.freepik.com/256/552/552721.png?semt=ais_hybrid"
                                             requestStatus={attributes.requestStatus}
