@@ -46,14 +46,14 @@ export default function ContactForm() {
     setMessage("");
   };
 
-  const user = auth.currentUser;
+  const c_user = auth.currentUser;
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
     if (commentMessage.trim() === "") return;
     const newComment = {
       message: commentMessage,
       timestamp: new Date().toISOString(),
-      author: currentUser ? `${user.email}` : "Anonymous",
+      author: currentUser ? `${c_user.email}` : "Anonymous",
     };
     const commentRef = ref(db, `users/${userId}/booklist/${id}/comments`);
     await push(commentRef, newComment);
