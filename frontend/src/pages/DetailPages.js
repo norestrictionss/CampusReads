@@ -103,7 +103,7 @@ export default function ContactForm() {
                 <p className="bookAuthor"><strong>Author:</strong> {book.author} </p>
                 <p className="SSN"><strong>SSN:</strong> {book.bookSSN}</p>
                 <p className="bookGender"><strong>Gender:</strong> {book.bookType}</p>
-                <p className="bookOwner"><strong>Owner:</strong>{owner}</p>
+                <p className="bookOwner"><strong>Owner email:</strong> {owner}</p>
               </div>
             </div>
           </div>
