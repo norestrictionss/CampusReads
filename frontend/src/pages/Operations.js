@@ -2,6 +2,7 @@ import { ref, push, update, remove, get } from 'firebase/database';
 import { db } from "../config/firebase"; // Import your Firebase configuration file
 
 
+
 // Function to add a book to a user's booklist
 export async function addBookToBooklist(userId, bookData) {
   const userBooklistRef = ref(db, `users/${userId}/booklist`);
@@ -178,6 +179,33 @@ export const getUserDetails = async (userId) => {
   }
 };
 
-export const sendRequest = async()=>{
+export const sendRequest = async(bookId, ownerId, senderId, senderName, senderSurname, senderEmail, senderPhoneNumber, senderMessage)=>{
+  
+  const userRequestRef = ref(db, `Requests/`);
+  try {
+    // Generate a unique key for the new book entry
+    const newRequestRef = push(userRequestRef);
 
+    // Set the book data
+    const bookEntry = {
+      ownerID: ownerId,
+      bookID: bookId,
+      senderId: senderId,
+      senderName: senderName,
+      senderSurname: senderSurname,
+      senderEmail: senderEmail,
+      senderPhoneNumber: senderPhoneNumber,
+      senderMessage: senderMessage
+    };
+
+    // Update the user's booklist with the new book entry
+    await update(newRequestRef, bookEntry);
+    const requestId = newRequestRef.key; 
+    console.log("Book added to user's booklist successfully");
+    return requestId;
+  } catch (error) {
+    console.error("Error adding book to user's booklist:", error);
+  }
+  return -1;
+  
 }

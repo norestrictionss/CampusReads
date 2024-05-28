@@ -3,15 +3,15 @@ import "../Details.css"; // Stil dosyanızı içe aktarın
 
 import { useParams } from 'react-router-dom';
 import { db } from '../../src/config/firebase';
-import { get , ref} from 'firebase/database';
+import { get, ref, onValue, remove } from 'firebase/database';
 import { getUserDetails } from "./Operations";
 
 export default function ContactForm() {
-
   const { userId, id } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [owner, setOwner] = useState("");
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -38,8 +38,35 @@ export default function ContactForm() {
       }
     };
 
+    const fetchComments = () => {
+      const commentRef = ref(db, `users/${userId}/booklist/${id}/comments`);
+      onValue(commentRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const commentsData = snapshot.val();
+          const commentsArray = Object.keys(commentsData).map(key => ({
+            id: key,
+            ...commentsData[key],
+          }));
+          setComments(commentsArray);
+        } else {
+          setComments([]);
+        }
+      });
+    };
+
     fetchBook();
+    fetchComments();
   }, [userId, id]);
+
+  const deleteComment = async (commentId) => {
+    try {
+      const commentRef = ref(db, `users/${userId}/booklist/${id}/comments/${commentId}`);
+      await remove(commentRef);
+      setComments(comments.filter(comment => comment.id !== commentId));
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -49,9 +76,7 @@ export default function ContactForm() {
     return <div>Book not found</div>;
   }
 
-
   return (
-
     <div className="contact-container" style={{ margin: "30px" }}>
       <div className="row">
         <div className="col-md-12 col-lg-8">
@@ -72,31 +97,32 @@ export default function ContactForm() {
           </div>
         </div>
         <div className="col-md-12 col-lg-9">
-        <section className="content-item" id="comments">
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-8">
-              <h3>Comments</h3>
-              <div className="media">
-                <a className="pull-left" href="#"><img className="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" /></a>
-                <div className="media-body">
-                  <h4 className="media-heading">John Doe</h4>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  <ul className="list-unstyled list-inline media-detail pull-left">
-                    <li><i className="fa fa-calendar"></i>27/02/2014</li>
-                  </ul>
-                  <div className="form-group text-right" style={{ textAlign: "right", marginRight: "15px" }}>
-                  <button type="submit" className="btn btn-danger">Delete</button>
-                </div>
+          <section className="content-item" id="comments">
+            <div className="container">
+              <div className="row">
+                <div className="col-sm-8">
+                  <h3>Comments</h3>
+                  {comments.map((comment) => (
+                    <div key={comment.id} className="media">
+                      <a className="pull-left" href="#"><img className="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" /></a>
+                      <div className="media-body">
+                        <h4 className="media-heading">{comment.author || "Anonymous"}</h4>
+                        <p>{comment.message}</p>
+                        <ul className="list-unstyled list-inline media-detail pull-left">
+                          <li><i className="fa fa-calendar"></i>{new Date(comment.timestamp).toLocaleDateString()}</li>
+                        </ul>
+                        <div className="form-group text-right" style={{ textAlign: "right", marginRight: "15px" }}>
+                          <button onClick={() => deleteComment(comment.id)} className="btn btn-danger">Delete</button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
         </div>
       </div>
     </div>
   );
-
 }
