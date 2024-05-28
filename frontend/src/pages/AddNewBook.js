@@ -1,18 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../Profile.css"; // Import your CSS file for styling
 import "../AddBook.css"; // Import your CSS file for styling
 import ProfileHeader from '../../src/components/ProfileHeader';
 import { addBookToBooklist } from "./Operations";
 import { useNavigate } from "react-router-dom"
-import { useContext } from "react"; 
 import { Context } from "../contexts/AuthContext";
 import { storage } from "../config/firebase";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getUserDetails } from "./Operations";
 
 
 export default function AddNewBook() {
     const { user } = useContext(Context);
-  
+
+    const [profileData, setProfileData] = useState(null);
+
+
+    useEffect(() => {
+        const userDetailsProcess = async () => {
+            try {
+                console.log("user infoooo:", user.uid);
+                const profileInfo = await getUserDetails(user);
+                console.log("Hii:", profileInfo);
+                setProfileData(profileInfo);
+            }
+            catch (error) {
+                console.log("Error fetching user data.");
+                console.log(error.message);
+            }
+        }
+        userDetailsProcess();
+    }, [user]);
+
     const [ssn, setSsn] = useState("");
     const [bookname, setBookname] = useState("");
     const [bookauthor, setBookauthor] = useState("");
@@ -80,7 +99,13 @@ export default function AddNewBook() {
     return (
         <div className="container" style={{ marginTop: "30px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
             <div className="profile">
-                <ProfileHeader userName="@iremaydin" userDepartment="Computer Science Engineering" userIcon="https://www.shareicon.net/download/2016/05/24/770080_people_512x512.png"/>
+                {profileData ? (
+                    <div className="profile">
+                        <ProfileHeader userName={profileData.email} userDepartment={profileData.department} userIcon="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN6marVqh3eZx1rmily_92k6hw4hp7sZCSL0NRJYdvMA&s" />
+                    </div>
+                ) : (
+                    <p>Loading Add Book Page...</p>
+                )}
             </div>
             <div className="addForm-container rounded mt-5 mb-5">
                 <div className="row">
@@ -116,8 +141,8 @@ export default function AddNewBook() {
                                 </div>
                                 <div className="mt-5 text-center">
                                     <button className="btn btn-primary profile-button" type="submit">Add Book</button>
-                                </div>          
-                            </form>         
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
