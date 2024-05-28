@@ -1,25 +1,62 @@
-import React, { useState } from "react";
-import "../Profile.css"; // Import your CSS file for styling
-import { db, auth } from "../config/firebase"; // Import Firebase configuration
-import { doc, updateDoc } from "firebase/firestore";
-import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
+import React, { useState, useEffect } from "react";
+import "../Profile.css";
+import { db, auth } from "../config/firebase";
+import { ref, get, update } from "firebase/database";
+import { updatePassword } from "firebase/auth";
 
 export default function EditProfile() {
+    // State variables to store user profile data
     const [password, setPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [gender, setGender] = useState("");
-    const [email, setEmail] = useState("");
     const [department, setDepartment] = useState("");
+
+    useEffect(() => {
+        // Fetch current user information
+        const user = auth.currentUser;
+        if (user) {
+            const userRef = ref(db, 'users/' + user.uid);
+            get(userRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    setPhoneNumber(userData.phoneNumber || "");
+                    setGender(userData.gender || "");
+                    setDepartment(userData.department || "");
+                }
+            }).catch((error) => {
+                console.error("Error fetching user data:", error);
+            });
+        }
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const user = auth.currentUser;
 
-        // Reset form fields
+        try {
+            // Update user profile information in the database
+            const userRef = ref(db, 'users/' + user.uid);
+            const updates = {
+                phoneNumber: phoneNumber,
+                gender: gender,
+                department: department
+            };
+            await update(userRef, updates);
+
+            // Update user's password if provided
+            if (password) {
+                await updatePassword(user, password);
+            }
+
+            alert("Profile updated successfully!");
+
+        } catch (error) {
+            console.error("Error updating profile: ", error);
+            alert("Error updating profile: " + error.message);
+        }
+
+        // Reset password field, but keep other fields
         setPassword("");
-        setPhoneNumber("");
-        setGender("");
-        setEmail("");
-        setDepartment("");
     };
 
     return (
@@ -68,16 +105,6 @@ export default function EditProfile() {
                                     <option value="female">Female</option>
                                     <option value="other">Other</option>
                                 </select>
-                            </div>
-                            <div className="col-md-12">
-                                <label className="labels">Email</label>
-                                <input
-                                    name="userEmail"
-                                    type="email"
-                                    className="form-control"
-                                    id="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)} />
                             </div>
                             <div className="col-md-12">
                                 <label className="labels">Department</label>
