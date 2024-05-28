@@ -2,6 +2,7 @@ import { ref, push, update, remove, get } from 'firebase/database';
 import { db } from "../config/firebase"; // Import your Firebase configuration file
 
 
+
 // Function to add a book to a user's booklist
 export async function addBookToBooklist(userId, bookData) {
   const userBooklistRef = ref(db, `users/${userId}/booklist`);
@@ -17,6 +18,7 @@ export async function addBookToBooklist(userId, bookData) {
       author: bookData.bookauthor,
       bookType: bookData.bookgender,
       bookDescription: bookData.description,
+      imageURL: bookData.imageURL,
       comments: [] // Initialize comments list as empty
     };
 
@@ -146,5 +148,36 @@ export const returnUsers = async()=>{
   } catch (error) {
       console.error("Error to fetching the books:", error.message);
   }
+
+}
+
+
+export const getUserDetails = async (user) => {
+  if (user) {
+    console.log("User data:", user);
+    
+    try {
+       // Ensure db is initialized here or passed in as an argument
+      const userRef = ref(db, 'users/' + user.uid);
+      const snapshot = await get(userRef);
+      
+      if (snapshot.exists()) {
+        const userData = snapshot.val();
+        return userData;
+      } else {
+        console.log("No data available");
+        return null; // Return null if no data is available
+      }
+    } catch (error) {
+      console.error(error);
+      throw error; // Optionally re-throw the error if you want to handle it upstream
+    }
+  } else {
+    console.log("User object is undefined or null");
+    return null;
+  }
+};
+
+export const sendRequest = async()=>{
 
 }
