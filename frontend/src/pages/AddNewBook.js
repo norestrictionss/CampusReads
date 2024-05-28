@@ -1,37 +1,18 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import "../Profile.css"; // Import your CSS file for styling
 import "../AddBook.css"; // Import your CSS file for styling
 import ProfileHeader from '../../src/components/ProfileHeader';
 import { addBookToBooklist } from "./Operations";
 import { useNavigate } from "react-router-dom"
+import { useContext } from "react"; 
 import { Context } from "../contexts/AuthContext";
 import { storage } from "../config/firebase";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { getUserDetails } from "./Operations";
 
 
 export default function AddNewBook() {
     const { user } = useContext(Context);
-
-    const [profileData, setProfileData] = useState(null);
-
-
-    useEffect(() => {
-        const userDetailsProcess = async () => {
-            try {
-                console.log("user infoooo:", user.uid);
-                const profileInfo = await getUserDetails(user);
-                console.log("Hii:", profileInfo);
-                setProfileData(profileInfo);
-            }
-            catch (error) {
-                console.log("Error fetching user data.");
-                console.log(error.message);
-            }
-        }
-        userDetailsProcess();
-    }, [user]);
-
+  
     const [ssn, setSsn] = useState("");
     const [bookname, setBookname] = useState("");
     const [bookauthor, setBookauthor] = useState("");
@@ -99,13 +80,7 @@ export default function AddNewBook() {
     return (
         <div className="container" style={{ marginTop: "30px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
             <div className="profile">
-                {profileData ? (
-                    <div className="profile">
-                        <ProfileHeader userName={profileData.email} userDepartment={profileData.department} userIcon="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN6marVqh3eZx1rmily_92k6hw4hp7sZCSL0NRJYdvMA&s" />
-                    </div>
-                ) : (
-                    <p>Loading Add Book Page...</p>
-                )}
+                <ProfileHeader userName="@iremaydin" userDepartment="Computer Science Engineering" userIcon="https://www.shareicon.net/download/2016/05/24/770080_people_512x512.png"/>
             </div>
             <div className="addForm-container rounded mt-5 mb-5">
                 <div className="row">
@@ -117,19 +92,19 @@ export default function AddNewBook() {
                             <form className="row mt-3" onSubmit={addBook}>
                                 <div className="col-md-12">
                                     <label htmlFor="ssn" className="labels">Book SSN</label>
-                                    <input name="ssn" type="text" className="form-control" placeholder="enter book ssn" value={ssn} onChange={handleChange} required/>
+                                    <input name="ssn" type="text" className="form-control" placeholder="enter book ssn" value={ssn} onChange={handleChange} />
                                 </div>
                                 <div className="col-md-12">
                                     <label htmlFor="bookname" className="labels">Name</label>
-                                    <input name="bookname" type="text" className="form-control" placeholder="enter book name" value={bookname} onChange={handleChange} required/>
+                                    <input name="bookname" type="text" className="form-control" placeholder="enter book name" value={bookname} onChange={handleChange} />
                                 </div>
                                 <div className="col-md-12">
                                     <label htmlFor="bookauthor" className="labels">Author</label>
-                                    <input name="bookauthor" type="text" className="form-control" placeholder="enter book author" value={bookauthor} onChange={handleChange} required/>
+                                    <input name="bookauthor" type="text" className="form-control" placeholder="enter book author" value={bookauthor} onChange={handleChange} />
                                 </div>
                                 <div className="col-md-12">
                                     <label htmlFor="bookgender" className="labels">Gender</label>
-                                    <input name="bookgender" type="text" className="form-control" placeholder="enter book gender" value={bookgender} onChange={handleChange} required/>
+                                    <input name="bookgender" type="text" className="form-control" placeholder="enter book gender" value={bookgender} onChange={handleChange} />
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="exampleFormControlTextarea1" className="form-label">Description</label>
@@ -137,12 +112,12 @@ export default function AddNewBook() {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="formFile" className="form-label">Select an image</label>
-                                    <input className="form-control" name="imageFile" type="file" id="formFile" onChange={handleChange} required/>
+                                    <input className="form-control" name="imageFile" type="file" id="formFile" onChange={handleChange} />
                                 </div>
                                 <div className="mt-5 text-center">
                                     <button className="btn btn-primary profile-button" type="submit">Add Book</button>
-                                </div>
-                            </form>
+                                </div>          
+                            </form>         
                         </div>
                     </div>
                 </div>
