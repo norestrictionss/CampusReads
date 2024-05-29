@@ -6,10 +6,12 @@ import { updatePassword } from "firebase/auth";
 
 export default function EditProfile() {
     // State variables to store user profile data
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [gender, setGender] = useState("");
     const [department, setDepartment] = useState("");
+    
 
     useEffect(() => {
         // Fetch current user information
@@ -19,6 +21,7 @@ export default function EditProfile() {
             get(userRef).then((snapshot) => {
                 if (snapshot.exists()) {
                     const userData = snapshot.val();
+                    setUsername(userData.username ||"");
                     setPhoneNumber(userData.phoneNumber || "");
                     setGender(userData.gender || "");
                     setDepartment(userData.department || "");
@@ -37,6 +40,7 @@ export default function EditProfile() {
             // Update user profile information in the database
             const userRef = ref(db, 'users/' + user.uid);
             const updates = {
+                username: username,
                 phoneNumber: phoneNumber,
                 gender: gender,
                 department: department
@@ -72,7 +76,16 @@ export default function EditProfile() {
                                 <label htmlFor="formFile" className="form-label">Profile Image</label>
                                 <input className="form-control" name="imageUrl" type="file" id="formFile" />
                             </div>
-                            
+                            <div className="col-md-12">
+                                <label htmlFor="text" className="labels">Username</label>
+                                <input
+                                    name="username"
+                                    type="text"
+                                    id="text"
+                                    className="form-control"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)} />
+                            </div>
                             <div className="col-md-12">
                                 <label htmlFor="password" className="labels">Password</label>
                                 <input

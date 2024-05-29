@@ -1,41 +1,41 @@
-.column{
+.column {
   width: 50%;
 }
 
 .long-text {
-  overflow-wrap: break-word; /* Metni sınırlar içinde kırmak için */
+  overflow-wrap: break-word;
 }
-.bookDetailImage{
+
+.bookDetailImage {
   max-width: 100%;
   height: auto;
 }
 
-
 .contact-box {
   margin: 30px;
-  width: 100%; /* Expand the login box to fill the entire width */
-  max-width: 400px; /* Limit the maximum width of the login box */
-  padding: 40px; /* Increase padding for better spacing */
-  border-radius: 10px; /* Adjust border radius for rounded corners */
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 10px;
   background-color: #f9f9f9;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   border: 1px solid #b6bee7;
 }
 
 .book-box {
   margin: 30px;
-  width: 100%; /* Expand the login box to fill the entire width */
-  max-width: 900px; /* Limit the maximum width of the login box */
-  padding: 40px; /* Increase padding for better spacing */
-  border-radius: 10px; /* Adjust border radius for rounded corners */
+  width: 100%;
+  max-width: 900px;
+  padding: 40px;
+  border-radius: 10px;
   background-color: #f9f9f9;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   border: 1px solid #b6bee7;
 }
 
 h2 {
   margin-top: 0;
-  margin-bottom: 30px; /* Add space below the heading */
+  margin-bottom: 30px;
 }
 
 .contact-form {
@@ -57,7 +57,7 @@ select {
   border: 1px solid #ccc;
   border-radius: 6px;
   width: 100%;
-  font-size: 16px; /* Increase font size for better readability */
+  font-size: 16px;
 }
 
 button {
@@ -67,13 +67,30 @@ button {
   background-color: #5D6DC0;
   color: white;
   cursor: pointer;
-  font-size: 18px; /* Increase font size for better visibility */
+  font-size: 18px;
 }
 
 button:hover {
   background-color: #4451a0;
 }
 
+.comment-options {
+  position: absolute;
+  margin-top: -10px;
+  right: 35%;
+  transform: translateX(100%);
+}
 
+.commentMessage {
+  width: 100%;
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.media-body {
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
 
 
