@@ -27,7 +27,7 @@ const SendedRequestCard = ({ title, bookOwnerEmail, bookimage, ownerIcon, reques
                     <div className="col-md-4" style={{ width: "100px", display: "flex", alignItems: "center" }}>
                         <img src={bookimage} className="img-fluid rounded-start" alt="Book Cover" style={{ width: "100%", borderRadius: "10px" }} />
                     </div>
-                    <div className="col-md-8">
+                    <div className="col-md-9">
                         <div className="card-body">
                             <br />
                             <div className="image mr-3">

@@ -79,7 +79,7 @@ export default function SendedRequests() {
                 <p>Loading profile...</p>
             )}
             <div className="sendedRequest-container" style={{ marginTop: "30px", borderRadius: "10px", padding: "20px" }}>
-                <div className="row row-cols-1 row-cols-md-2 g-4">
+                <div className="row row-cols-1 row-cols-md-2 g-4" >
                     {requests.length > 0 ?
                         requests
                             .filter(([key, attributes]) => attributes.senderId === user.uid) // It filters the all requests according to user
