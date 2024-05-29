@@ -1,4 +1,4 @@
-import { ref, push, update, remove, get } from 'firebase/database';
+import { ref, push, update, remove, get, set } from 'firebase/database';
 import { db } from "../config/firebase"; // Import your Firebase configuration file
 
 
@@ -50,32 +50,38 @@ export const removeBookFromBooklist = async (userId, bookId) => {
 };
 
 
-export const exchangeBooks = async(offererId, offeredPersonId, offererBookId, offeredBookId) =>{
+export const exchangeBooks = async(senderId, ownerID, book2ID, book1ID, requestID) =>{
   try {
-      // Retrieve the books of the offerer and the offered person
-      const offererBooksSnapshot = await db.ref(`users/${offererId}/books`).once('value');
-      const offeredPersonBooksSnapshot = await db.ref(`users/${offeredPersonId}/books`).once('value');
+      console.log("Request ID for exchange:", requestID)
+      const requestRef = ref(db, "requests/"+requestID);
+      const ownerRef = ref(db, "users/"+ownerID+"/booklist/"+book1ID);
+      const ownerSnapshot = await get(ownerRef);
+      if (ownerSnapshot.exists()) {
+        const senderRef = ref(db, "users/"+senderId+"/booklist/"+book2ID);
+        const senderSnapshot = await get(senderRef);
 
-      // Get the book details
-      const offererBooks = offererBooksSnapshot.val();
-      const offeredPersonBooks = offeredPersonBooksSnapshot.val();
+        if(senderSnapshot.exists()){
+              const senderData = senderSnapshot.val();
+              const ownerData = ownerSnapshot.val();
 
-      // Retrieve the books to be exchanged
-      const offererBook = offererBooks[offererBookId];
-      const offeredBook = offeredPersonBooks[offeredBookId];
+              await set(ownerRef, senderData);
+              await set(senderRef, ownerData);
 
-      // Swap books between users
-      delete offererBooks[offererBookId];
-      delete offeredPersonBooks[offeredBookId];
+              const userRef = ref(db, `Requests/${requestID}`);
+              const updates = {
+                requestStatus: "Accepted"
+              };
+                        
+              await update(userRef, updates);
+              console.log(requestRef);
+              await remove(requestRef);
+        }
 
-      offererBooks[offeredBookId] = offeredBook;
-      offeredPersonBooks[offererBookId] = offererBook;
+      } else {
+        console.log("No requests found");
 
-      // Update the books for each user in the database
-      await db.ref(`users/${offererId}/books`).set(offererBooks);
-      await db.ref(`users/${offeredPersonId}/books`).set(offeredPersonBooks);
+      }
 
-      console.log("Books exchanged successfully!");
   } catch (error) {
       console.error("Error exchanging books:", error.message);
   }

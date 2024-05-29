@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 
 const NotificationsCard = ({ id, senderId, book1Id, title, name, lastName, email, phoneNumber, bookimage, message, ownerIcon, requestStatus, acceptRequest, rejectRequest, selectedBookName }) => {
-    
+
     const textColor = selectedBookName === "There is no selected book!" ? "red" : "green";
 
     return (
@@ -27,7 +27,7 @@ const NotificationsCard = ({ id, senderId, book1Id, title, name, lastName, email
                             <br />
                             <div className="image mr-3">
                                 <div style={{ display: "flex", alignItems: "center" }}>
-                                <Link to={`/OffererProfile/${senderId}`}><img className="square" style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }} src={ownerIcon} alt="Owner Profile" /></Link>
+                                <Link to={`/OffererProfile/${senderId}/${book1Id}`}><img className="square" style={{ width: "50px", height: "50px", borderRadius: "50%", marginRight: "10px" }} src={ownerIcon} alt="Owner Profile" /></Link>
                                     <h6 className="card-text" style={{ marginBottom: "0" }}><strong>Request Owner :</strong>{name} {lastName}</h6>
                                 </div>
                             </div>

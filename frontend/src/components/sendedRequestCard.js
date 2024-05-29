@@ -2,7 +2,7 @@ import React from 'react';
 
 const SendedRequestCard = ({ title, bookOwnerEmail, bookimage, ownerIcon, requestStatus }) => {
     const getStatusLabel = () => {
-        if (requestStatus === 'accepted') {
+        if (requestStatus === 'Accepted') {
             return <span style={{ color: 'green' }}>Accepted</span>;
         } else if (requestStatus === 'rejected') {
             return <span style={{ color: 'red' }}>Rejected</span>;

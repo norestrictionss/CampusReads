@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import "../style.css"; // Import your CSS file for styling
 import { auth, db } from "../config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { ref, set } from "firebase/database";
-
 
 export default function Register() {
   // State variables for registration fields
@@ -14,49 +13,67 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState("");
   const [username, setUsername] = useState("");
+  const [error, setError] = useState(""); // State for managing error messages
   const navigate = useNavigate();
+
   // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-       
-        const uid = userCredential.user.uid;
-        set(ref(db, 'users/' + uid), {
-          department: department,
-          email: email,
-          gender: gender,
-          phoneNumber: phoneNumber,
-          username: username
-        });
-        setUsername("");
-        setPassword("");
-        setPhoneNumber("");
-        setGender("");
-        setEmail("");
-        setDepartment("");
-        setUsername("");
+    // Validation checks
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
 
-        console.log("Registration successful!");
-        navigate("/books");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
+    const phoneNumberPattern = /^\d{11}$/; 
+    if (!phoneNumberPattern.test(phoneNumber)) {
+      setError("Phone number must be a valid 11-digit number.");
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const uid = userCredential.user.uid;
+
+      await set(ref(db, 'users/' + uid), {
+        department: department,
+        email: email,
+        gender: gender,
+        phoneNumber: phoneNumber,
+        username: username
       });
-    
+
+      // Clear form fields
+      setUsername("");
+      setPassword("");
+      setPhoneNumber("");
+      setGender("");
+      setEmail("");
+      setDepartment("");
+
+      console.log("Registration successful!");
+      navigate("/books");
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error("Error during registration: ", errorCode, errorMessage);
+
+      if (errorCode === 'auth/email-already-in-use') {
+        setError("This email is already in use. Please use a different email.");
+      } else {
+        setError(errorMessage);
+      }
+    }
   };
 
   return (
     <div className="login-container">
       <div className="login-box">
         <h2>Registration</h2>
+        {error && <div className="error-message">{error}</div>} {/* Display error message */}
         <form className="login-form" onSubmit={handleSubmit}>
-
-        <div className="form-group">
+          <div className="form-group">
             <label htmlFor="username">Username:</label>
             <input
               type="text"
@@ -119,7 +136,7 @@ export default function Register() {
               onChange={(e) => setDepartment(e.target.value)}
               required
             >
-              <option selected>Select Department</option>
+              <option value="">Select Department</option>
               <option value="Computer Engineering">Computer Engineering</option>
               <option value="Bioengineering">Bioengineering</option>
               <option value="Environmental Engineering">Environmental Engineering</option>

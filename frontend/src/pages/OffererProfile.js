@@ -19,10 +19,11 @@ export default function OffererUserPage() {
 
     const [profileData, setProfileData] = useState(null);
     const { user } = useContext(Context);
-    const { senderId } = useParams();
+    const { senderId, book1Id } = useParams();
+    console.log("Book 1 ID:",book1Id);
     const [fetchedBooks, setFetchedBooks] = useState([]);
     const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
-
+    const [requestID, setRequestID] = useState("");
     useEffect(() => {
         const fetchBookList = async () => {
             try {
@@ -80,18 +81,30 @@ export default function OffererUserPage() {
         const updateSelectedBookID = async () => {
             let found = false;
             for (const [key, attributes] of requests) {
-                console.log("selectedId ", selectedBookId);
                 if (attributes.senderId === senderId) {
                     console.log("atributes ", attributes.senderId);
                     const book = await findBookByID(attributes.senderId, selectedBookId);
                     if (book) {
+                       
                         const userRef = ref(db, `Requests/${key}`);
                         const updates = {
                             book2ID: selectedBookId
                         };
+                        
+                        setRequestID(key);
                         await update(userRef, updates);
                         found = true;
                     }
+                    else if(book==null){
+                        const userRef = ref(db, `Requests/${key}`);
+                        const updates = {
+                            book2ID: ""
+                        };
+                        await update(userRef, updates);
+                        found = true;
+                    }
+
+                    
                 }
             }
             // İşlem tamamlandıktan sonra yapılacak kontroller
@@ -100,13 +113,25 @@ export default function OffererUserPage() {
             }
         };
 
-        // requests dizisi değişmediği sürece işlemi gerçekleştir
+        
         if (requests.length > 0) {
             updateSelectedBookID();
         } else {
             console.log("Requestler alınamıyor");
         }
-    }, [selectedBookId, requests]); // selectedBookId ve requests değiştiğinde çalış
+    }, [selectedBookId, requests]); // selectedBookId ve requests değiştiğinde çalışacak.
+
+
+
+    const getProfileImage = (gender) => {
+        if (gender === 'male') {
+            return "https://bootdey.com/img/Content/avatar/avatar1.png"; 
+        } else if (gender === 'female') {
+            return "https://bootdey.com/img/Content/avatar/avatar3.png"; 
+        } else {
+            return "https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"; // Default icon URL
+        }
+    };
 
     return (
         <div className="container" style={{ marginTop: "30px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
@@ -115,7 +140,7 @@ export default function OffererUserPage() {
                     <div id="content" className="content content-full-width">
                         {profileData ? (
                             <div className="profile">
-                                <OffererProfileHeader userName={profileData.username} userDepartment={profileData.department} userIcon="https://www.shareicon.net/download/2016/05/24/770080_people_512x512.png" />
+                                <OffererProfileHeader userName={profileData.username} userDepartment={profileData.department} userIcon={getProfileImage(profileData.gender)} />
                             </div>
                         ) : (
                             <p>Loading profile...</p>
@@ -132,9 +157,13 @@ export default function OffererUserPage() {
                                                     author={attributes.author}
                                                     image={attributes.imageURL}
                                                     isChecked={key === selectedBookId}
-                                                    bookID={key}
-                                                    userID={senderId}
                                                     onCheckboxChange={handleCheckboxChange}
+                                                    book1ID={book1Id}
+                                                    book2ID={key}
+                                                    senderID={senderId}
+                                                    ownerID = {user.uid}
+                                                    selectedBookId = {selectedBookId}
+                                                    requestID = {requestID}
                                                 />
                                             </div>
                                             )

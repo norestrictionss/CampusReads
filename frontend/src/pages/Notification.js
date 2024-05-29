@@ -105,11 +105,21 @@ export default function Notification() {
         }
       }, [requests,user.uid]);
 
+      const getProfileImage = (gender) => {
+        if (gender === 'male') {
+            return "https://bootdey.com/img/Content/avatar/avatar1.png"; // Replace with actual male icon URL
+        } else if (gender === 'female') {
+            return "https://bootdey.com/img/Content/avatar/avatar3.png"; // Replace with actual female icon URL
+        } else {
+            return "https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"; // Default icon URL
+        }
+    };
+
     return (
         <div className="container" style={{ marginTop: "30px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
             {profileData ? (
                 <div className="profile">
-                    <ProfileHeader userName={profileData.username} userDepartment={profileData.department} userIcon="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN6marVqh3eZx1rmily_92k6hw4hp7sZCSL0NRJYdvMA&s" />
+                    <ProfileHeader userName={profileData.username} userDepartment={profileData.department} userIcon={getProfileImage(profileData.gender)}/>
                 </div>
             ) : (
                 <p>Loading profile...</p>
@@ -118,7 +128,7 @@ export default function Notification() {
                 <div className="row row-cols-1 row-cols-md-2 g-4">
                     {requests.length > 0 ?
                         requests
-                            .filter(([key, attributes]) => attributes.ownerID === user.uid) // It filters the all requests according to user
+                            .filter(([key, attributes]) => attributes.ownerID === user.uid && attributes.requestStatus=="pending") // It filters the all requests according to user
                             .map(([key, attributes]) =>   (
                                 <div key={key} >
                                     <NotificationsCard
