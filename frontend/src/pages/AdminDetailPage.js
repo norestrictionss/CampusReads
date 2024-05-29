@@ -124,9 +124,9 @@ export default function ContactForm() {
                   <h3>Comments</h3>
                   {comments.map((comment) => (
                     <div key={comment.id} className="media">
-                      <a className="pull-left" href="#">
+                      <div className="pull-left" href="#">
                         <img className="media-object" src={getAvatar(comment.gender)} alt="" />
-                      </a>
+                      </div>
                       <div className="media-body">
                         <div className="comment-content">
                           <h4 className="media-heading">{comment.author || "Anonymous"}</h4>
