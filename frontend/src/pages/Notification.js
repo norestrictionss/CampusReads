@@ -43,6 +43,7 @@ export default function Notification() {
                 const bookList = await showBookList(user.uid);
                 const books = Object.entries(bookList);
                 if (bookList) {
+                    console.log("Bookies:", bookList);
                     console.log("Book List:", bookList);
                     // It merges the book lists with image URL's.
                     setFetchedBooks(books);
@@ -88,12 +89,12 @@ export default function Notification() {
       useEffect(() => {
         const updateSelectedBookName = async () => {
           for (const [key, attributes] of requests) {
-            if (attributes.book2ID !== "") {
+            if (attributes.book2ID !== "" && attributes.ownerID === user.uid) {
               const book = await findBookByID(attributes.senderId, attributes.book2ID);
               if (book) {
                 setSelectedBookName(book.bookName);
                 setsenderRequestId(attributes.senderId);
-                break; 
+                break;
               }
             }
           }
@@ -102,7 +103,7 @@ export default function Notification() {
         if (requests.length > 0) {
           updateSelectedBookName();
         }
-      }, [requests, user.uid]);
+      }, [requests,user.uid]);
 
     return (
         <div className="container" style={{ marginTop: "30px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>

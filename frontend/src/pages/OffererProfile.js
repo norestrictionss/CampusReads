@@ -91,7 +91,6 @@ export default function OffererUserPage() {
                         };
                         await update(userRef, updates);
                         found = true;
-                        break;
                     }
                 }
             }
