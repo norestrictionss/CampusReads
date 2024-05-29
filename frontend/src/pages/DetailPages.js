@@ -32,6 +32,7 @@ export default function ContactForm() {
   const handlePhoneNumberChange = (event) => setPhoneNumber(event.target.value);
   const handleMessageChange = (event) => setMessage(event.target.value);
   const handleCommentMessageChange = (event) => setCommentMessage(event.target.value);
+  const [imgURL, setimgURL] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -77,6 +78,7 @@ export default function ContactForm() {
             if (snapshot.exists()) {
               console.log('Book data:', snapshot.val());
               setBook(snapshot.val());
+              setimgURL(snapshot.val().imageURL);
               setLoading(false);
             } else {
               console.error('No such document!');
@@ -89,7 +91,7 @@ export default function ContactForm() {
       }
     };
 
-    
+    // The method that fetches the comments.
     const fetchComments = () => {
       const commentRef = ref(db, `users/${userId}/booklist/${id}/comments`);
       onValue(commentRef, (snapshot) => {
@@ -118,10 +120,11 @@ export default function ContactForm() {
     return <div>Book not found</div>;
   }
 
+  // It sends the request to the database server. 
   const send = async(event)=>{
       event.preventDefault();
       
-      const requestId = await sendRequest(id, "", userId,user.uid,firstName,lastName,email,phoneNumber,message, "pending");
+      const requestId = await sendRequest(id, "", userId,user.uid,firstName,lastName,email,phoneNumber,message, "pending",imgURL,ownerEmail, book.bookName);
       console.log(requestId);
       if(requestId){
          console.log("Request sent successfully.");

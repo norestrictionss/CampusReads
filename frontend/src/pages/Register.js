@@ -58,7 +58,7 @@ export default function Register() {
         <div className="form-group">
             <label htmlFor="username">Username:</label>
             <input
-              type="text"
+              type="username"
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}

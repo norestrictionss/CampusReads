@@ -179,7 +179,7 @@ export const getUserDetails = async (userId) => {
   }
 };
 
-export const sendRequest = async(book1Id, book2ID, ownerId, senderId, senderName, senderSurname, senderEmail, senderPhoneNumber, senderMessage, requestStatus)=>{
+export const sendRequest = async(book1Id, book2ID, ownerId, senderId, senderName, senderSurname, senderEmail, senderPhoneNumber, senderMessage, requestStatus,imgURL,ownerEmail, bookName)=>{
   
   const userRequestRef = ref(db, `Requests/`);
   try {
@@ -197,7 +197,10 @@ export const sendRequest = async(book1Id, book2ID, ownerId, senderId, senderName
       senderEmail: senderEmail,
       senderPhoneNumber: senderPhoneNumber,
       senderMessage: senderMessage,
-      requestStatus: requestStatus
+      requestStatus: requestStatus,
+      imageURL: imgURL,
+      ownerEmail: ownerEmail,
+      bookName: bookName
     };
 
     // Update the user's booklist with the new book entry
@@ -211,31 +214,14 @@ export const sendRequest = async(book1Id, book2ID, ownerId, senderId, senderName
   return -1;
   
 }
+
 export const getRequests = async (userId) => {
   const userRequestsRef = ref(db, `Requests/`);
   try {
     const snapshot = await get(userRequestsRef);
     if (snapshot.exists()) {
-      const requests = [];
-      snapshot.forEach((childSnapshot) => {
-        const requestId = childSnapshot.key;
-        const requestData = childSnapshot.val();
-        if (requestData.senderId === userId || requestData.ownerID === userId) {
-          requests.push({
-            requestId: requestId,
-            ownerID: requestData.ownerID,
-            book1ID: requestData.book1ID,
-            book2ID: requestData.book2ID,
-            senderId: requestData.senderId,
-            senderName: requestData.senderName,
-            senderSurname: requestData.senderSurname,
-            senderEmail: requestData.senderEmail,
-            senderPhoneNumber: requestData.senderPhoneNumber,
-            senderMessage: requestData.senderMessage,
-            requestStatus: requestData.requestStatus
-          });
-        }
-      });
+      const requests = snapshot.val();
+
       return requests;
     } else {
       console.log("No requests found");
@@ -246,3 +232,22 @@ export const getRequests = async (userId) => {
     return [];
   }
 };
+
+export const findBookByID = async (userID, bookID) => {
+  const bookRef = ref(db, "users/"+userID+"/booklist"+bookID);
+  try {
+    const snapshot = await get(bookRef);
+    if (snapshot.exists()) {
+      const book = snapshot.val();
+
+      return book;
+    } else {
+      console.log("No requests found");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error getting requests:", error);
+    return null;
+  }
+};
+

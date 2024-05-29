@@ -7,10 +7,6 @@ import { Context } from "../contexts/AuthContext";
 import { getStorage } from 'firebase/storage';
 import { getUserDetails } from "./Operations";
 
-import { auth } from "../../src/config/firebase";
-import { db } from "../../src/config/firebase";
-import { ref, get } from 'firebase/database';
-import { onAuthStateChanged } from 'firebase/auth';
 
 export default function UserPage() {
 
