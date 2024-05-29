@@ -36,6 +36,7 @@ export default function Register() {
         setGender("");
         setEmail("");
         setDepartment("");
+        setUsername("");
 
         console.log("Registration successful!");
         navigate("/books");
@@ -58,7 +59,7 @@ export default function Register() {
         <div className="form-group">
             <label htmlFor="username">Username:</label>
             <input
-              type="username"
+              type="text"
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
