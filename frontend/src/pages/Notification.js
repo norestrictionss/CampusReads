@@ -60,18 +60,23 @@ export default function Notification() {
 
 
  const [books, setBooks] = useState([]);
-    useEffect(() => {
-        const notificationCardProcess = async () => {
-          try {
-            const allRequests = await getRequests(user.uid);
-            const userRequests = allRequests.filter(request => request.ownerID === user.uid);
-            setRequests(userRequests);
-          } catch (error) {
-            console.error("Error with getting requests", error);
-          }
-        };
-        notificationCardProcess();
-      }, [user.uid]);
+ useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // İstekleri al
+        const allRequests = await getRequests(user.uid); 
+        const userRequests = allRequests.filter(request => request.ownerID === user.uid);
+        setRequests(userRequests);
+        
+        // Kullanıcının kitaplarını detaylarıyla birlikte al
+        const userBooks = await showBookList(user.uid);
+        setBooks(userBooks);
+      } catch (error) {
+        console.error("Hata oluştu:", error);
+      }
+    };
+    fetchData();
+  }, [user.uid]);
 
     const [requestStatus, setRequestStatus] = useState("pending");
 
@@ -98,25 +103,30 @@ export default function Notification() {
             )}
             <div className="sendedRequest-container" style={{ marginTop: "30px", borderRadius: "10px", padding: "20px" }}>
                 <div className="row row-cols-1 row-cols-md-2 g-4">
-                {requests.map((request) => (
-                <NotificationsCard
-                    id={request.requestId}
-                    senderId={request.senderId}
-                    book1Id={request.book1ID}
-                    title=""
-                    name={request.senderName}
-                    lastName={request.senderSurname}
-                    email={request.senderEmail}
-                    phoneNumber={request.senderPhoneNumber}
-                    bookimage=""
-                    message={request.senderMessage}
-                    ownerIcon="https://cdn-icons-png.freepik.com/256/552/552721.png?semt=ais_hybrid"
-                    requestStatus={request.requestStatus}
-                    acceptRequest={() => acceptRequest(request.id)}
-                    rejectRequest={() => rejectRequest(request.id)}
-                    selectedBookName={request.selectedBookName}
-                />
-            ))}
+                {requests.map(request => {
+        // İstek ile ilgili kitabı bul
+        const selectedBook = books[request.book1Id];
+        
+        return (
+          <NotificationsCard
+            id={request.requestId}
+            senderId={request.senderId}
+            book1Id={request.book1Id}
+            title={selectedBook ? selectedBook.bookName : ""}
+            name={request.senderName}
+            lastName={request.senderSurname}
+            email={request.senderEmail}
+            phoneNumber={request.senderPhoneNumber}
+            bookimage={selectedBook ? selectedBook.imageURL : ""}
+            message={request.senderMessage}
+            ownerIcon="https://cdn-icons-png.freepik.com/256/552/552721.png?semt=ais_hybrid"
+            requestStatus={request.requestStatus}
+            acceptRequest={() => acceptRequest(request.requestId)}
+            rejectRequest={() => rejectRequest(request.requestId)}
+            selectedBookName={request.selectedBookName}
+          />
+        );
+      })}
                 </div>
             </div>
         </div>

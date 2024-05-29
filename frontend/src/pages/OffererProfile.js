@@ -35,6 +35,7 @@ export default function OffererUserPage() {
         const fetchBookList = async () => {
             try {
                 const bookList = await showBookList(senderId);
+                console.log("sender id : ",senderId);
                 const books = Object.entries(bookList);
                 if(bookList) {
                     console.log("Bookies:", bookList);
@@ -49,10 +50,9 @@ export default function OffererUserPage() {
                 setLoadingBooks(false); // Loading durumunu buraya taşıdık.
             }
         };
-    
         // Eğer senderId doluysa fetchBookList'i çağır
         if (senderId) {
-            setLoadingBooks(true); // Loading durumunu buraya taşıdık.
+            setLoadingBooks(true); 
             fetchBookList();
         }
     }, [senderId]);
