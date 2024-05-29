@@ -66,6 +66,13 @@ export const exchangeBooks = async(senderId, ownerID, book2ID, book1ID, requestI
 
               await set(ownerRef, senderData);
               await set(senderRef, ownerData);
+
+              const userRef = ref(db, `Requests/${requestID}`);
+              const updates = {
+                requestStatus: "Accepted"
+              };
+                        
+              await update(userRef, updates);
               console.log(requestRef);
               await remove(requestRef);
         }

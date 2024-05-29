@@ -128,7 +128,7 @@ export default function Notification() {
                 <div className="row row-cols-1 row-cols-md-2 g-4">
                     {requests.length > 0 ?
                         requests
-                            .filter(([key, attributes]) => attributes.ownerID === user.uid) // It filters the all requests according to user
+                            .filter(([key, attributes]) => attributes.ownerID === user.uid && attributes.requestStatus=="Pending...") // It filters the all requests according to user
                             .map(([key, attributes]) =>   (
                                 <div key={key} >
                                     <NotificationsCard

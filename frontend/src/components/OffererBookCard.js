@@ -1,19 +1,19 @@
-import React, {useState }from 'react';
+import React, {useState}from 'react';
+import { useNavigate } from "react-router-dom";
 import { exchangeBooks } from '../pages/Operations';
 const OffererBookCards = ({ssn, title, author, image, isChecked, onCheckboxChange,book1ID, book2ID ,senderID, ownerID,selectedBookId, requestID}) => {
 
+    const navigate = useNavigate();
 
-    console.log("Infoo:", senderID, " ",ownerID, " ", book2ID, " ", book1ID, " ",requestID);
     const handleCheckboxChange = () => {
         onCheckboxChange(book2ID);
     };
 
     const handleSubmit = async(event)=>{
         event.preventDefault();
-        console.log("ASFOMASPĞFMASĞGPASĞHPASHMĞS");
         if(selectedBookId != null){
-            
             await exchangeBooks(senderID, ownerID, book2ID, book1ID, requestID);
+            navigate("/Profile");
         }
             
             
