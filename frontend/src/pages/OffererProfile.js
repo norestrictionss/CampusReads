@@ -122,6 +122,17 @@ export default function OffererUserPage() {
     }, [selectedBookId, requests]); // selectedBookId ve requests değiştiğinde çalışacak.
 
 
+
+    const getProfileImage = (gender) => {
+        if (gender === 'male') {
+            return "https://bootdey.com/img/Content/avatar/avatar1.png"; 
+        } else if (gender === 'female') {
+            return "https://bootdey.com/img/Content/avatar/avatar3.png"; 
+        } else {
+            return "https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"; // Default icon URL
+        }
+    };
+
     return (
         <div className="container" style={{ marginTop: "30px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
             <div className="row">
@@ -129,7 +140,7 @@ export default function OffererUserPage() {
                     <div id="content" className="content content-full-width">
                         {profileData ? (
                             <div className="profile">
-                                <OffererProfileHeader userName={profileData.username} userDepartment={profileData.department} userIcon="https://www.shareicon.net/download/2016/05/24/770080_people_512x512.png" />
+                                <OffererProfileHeader userName={profileData.username} userDepartment={profileData.department} userIcon={getProfileImage(profileData.gender)} />
                             </div>
                         ) : (
                             <p>Loading profile...</p>

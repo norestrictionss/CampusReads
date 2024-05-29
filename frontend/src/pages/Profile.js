@@ -58,7 +58,7 @@ export default function UserPage() {
         if (gender === 'male') {
             return "https://bootdey.com/img/Content/avatar/avatar1.png"; 
         } else if (gender === 'female') {
-            return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN6marVqh3eZx1rmily_92k6hw4hp7sZCSL0NRJYdvMA&s"; 
+            return "https://bootdey.com/img/Content/avatar/avatar3.png"; 
         } else {
             return "https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"; // Default icon URL
         }

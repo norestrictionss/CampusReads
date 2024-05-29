@@ -109,7 +109,7 @@ export default function Notification() {
         if (gender === 'male') {
             return "https://bootdey.com/img/Content/avatar/avatar1.png"; // Replace with actual male icon URL
         } else if (gender === 'female') {
-            return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN6marVqh3eZx1rmily_92k6hw4hp7sZCSL0NRJYdvMA&s"; // Replace with actual female icon URL
+            return "https://bootdey.com/img/Content/avatar/avatar3.png"; // Replace with actual female icon URL
         } else {
             return "https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"; // Default icon URL
         }
@@ -128,7 +128,7 @@ export default function Notification() {
                 <div className="row row-cols-1 row-cols-md-2 g-4">
                     {requests.length > 0 ?
                         requests
-                            .filter(([key, attributes]) => attributes.ownerID === user.uid && attributes.requestStatus=="Pending...") // It filters the all requests according to user
+                            .filter(([key, attributes]) => attributes.ownerID === user.uid && attributes.requestStatus=="pending") // It filters the all requests according to user
                             .map(([key, attributes]) =>   (
                                 <div key={key} >
                                     <NotificationsCard
