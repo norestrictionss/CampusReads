@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../Details.css"; // Stil dosyanızı içe aktarın
-
+import "../Details.css"; 
 import { useParams } from 'react-router-dom';
 import { db } from '../../src/config/firebase';
 import { get, ref, onValue, remove } from 'firebase/database';
@@ -12,6 +11,7 @@ export default function ContactForm() {
   const [loading, setLoading] = useState(true);
   const [owner, setOwner] = useState("");
   const [comments, setComments] = useState([]);
+  const [profileData, setProfileData] = useState(null);
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -54,8 +54,18 @@ export default function ContactForm() {
       });
     };
 
+    const fetchProfileData = async () => {
+      try {
+        const profileInfo = await getUserDetails(userId);
+        setProfileData(profileInfo);
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+      }
+    };
+
     fetchBook();
     fetchComments();
+    fetchProfileData();
   }, [userId, id]);
 
   const deleteComment = async (commentId) => {
@@ -75,6 +85,16 @@ export default function ContactForm() {
   if (!book) {
     return <div>Book not found</div>;
   }
+
+  const getAvatar = (gender) => {
+    if (gender === 'male') {
+      return "https://bootdey.com/img/Content/avatar/avatar1.png";
+    } else if (gender === 'female') {
+      return "https://bootdey.com/img/Content/avatar/avatar3.png";
+    } else {
+      return "https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
+    }
+  };
 
   return (
     <div className="contact-container" style={{ margin: "30px" }}>
@@ -104,7 +124,9 @@ export default function ContactForm() {
                   <h3>Comments</h3>
                   {comments.map((comment) => (
                     <div key={comment.id} className="media">
-                      <a className="pull-left" href="#"><img className="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" /></a>
+                      <a className="pull-left" href="#">
+                        <img className="media-object" src={getAvatar(comment.gender)} alt="" />
+                      </a>
                       <div className="media-body">
                         <div className="comment-content">
                           <h4 className="media-heading">{comment.author || "Anonymous"}</h4>
@@ -112,17 +134,13 @@ export default function ContactForm() {
                           <ul className="list-unstyled list-inline media-detail pull-left">
                             <li><i className="fa fa-calendar"></i>{new Date(comment.timestamp).toLocaleDateString()}</li>
                           </ul>
-                          <div className="comment-options" >
-                          <button onClick={() => deleteComment(comment.id)} className="btn btn-danger">Delete</button>
+                          <div className="comment-options">
+                            <button onClick={() => deleteComment(comment.id)} className="btn btn-danger">Delete</button>
+                          </div>
                         </div>
-                        </div>
-                        
                       </div>
-                      
                     </div>
-                    
                   ))}
-
                 </div>
               </div>
             </div>

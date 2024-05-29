@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../comment.css";
-import { useNavigate } from "react-router-dom"
-import { useParams } from 'react-router-dom';
-import { db,auth } from '../../src/config/firebase';
+import { useNavigate, useParams } from "react-router-dom";
+import { db } from '../../src/config/firebase';
 import { get, ref, push, onValue } from 'firebase/database';
 import { getUserDetails } from "./Operations";
 import { sendRequest } from "./Operations";
@@ -10,34 +9,30 @@ import { useContext } from "react";
 import { Context } from "../contexts/AuthContext";
 
 export default function ContactForm() {
-
   const { user } = useContext(Context);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
-  const [owner, setOwner] = useState("");
   const [ownerEmail, setOwnerEmail] = useState("");
   const [commentMessage, setCommentMessage] = useState("");
   const [comments, setComments] = useState([]);
   const { userId, id } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState(null); // Yeni state
+  const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
   const [profileData, setProfileData] = useState(null);
-  
+  const [imgURL, setimgURL] = useState("");
+
   const handleFirstNameChange = (event) => setFirstName(event.target.value);
   const handleLastNameChange = (event) => setLastName(event.target.value);
   const handleEmailChange = (event) => setEmail(event.target.value);
   const handlePhoneNumberChange = (event) => setPhoneNumber(event.target.value);
   const handleMessageChange = (event) => setMessage(event.target.value);
   const handleCommentMessageChange = (event) => setCommentMessage(event.target.value);
-  const [imgURL, setimgURL] = useState("");
 
-
-  
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Ad:", firstName);
@@ -52,37 +47,37 @@ export default function ContactForm() {
     setMessage("");
   };
 
-
-  useEffect(()=>{
-    const userDetailsProcess = async()=>{
-        try{
-            console.log("user infoooo:",user.uid);
-            const profileInfo = await getUserDetails(user.uid);
-            console.log("Hii:",profileInfo);
-            setProfileData(profileInfo);
-        }
-        catch(error){
-            console.log("Error fetching user data.");
-            console.log(error.message);
-        }
+  useEffect(() => {
+    const userDetailsProcess = async () => {
+      try {
+        console.log("user infoooo:", user.uid);
+        const profileInfo = await getUserDetails(user.uid);
+        console.log("Hii:", profileInfo);
+        setProfileData(profileInfo);
+      } catch (error) {
+        console.log("Error fetching user data.");
+        console.log(error.message);
+      }
     }
     userDetailsProcess();
-}, [user]);
-  
+  }, [user]);
+
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
     if (commentMessage.trim() === "") return;
+    
     const newComment = {
       message: commentMessage,
       timestamp: new Date().toISOString(),
-      author: currentUser ? `${profileData.username}` : "Anonymous",
+      author: profileData ? profileData.username : "Anonymous",
+      gender: profileData ? profileData.gender : "unspecified", // Store gender
     };
+
     const commentRef = ref(db, `users/${userId}/booklist/${id}/comments`);
     await push(commentRef, newComment);
     setCommentMessage("");
   };
 
-  
   useEffect(() => {
     const fetchBook = async () => {
       try {
@@ -91,7 +86,7 @@ export default function ContactForm() {
         const userInfo = await getUserDetails(userId);
         console.log("Infooo2:", userInfo, userId);
         setOwnerEmail(userInfo.email);
-        setCurrentUser(userInfo); // Kullanıcı bilgilerini state'e kaydet
+        setCurrentUser(userInfo);
         setOwnerEmail(userInfo.email);
         get(bookRef)
           .then((snapshot) => {
@@ -111,7 +106,6 @@ export default function ContactForm() {
       }
     };
 
-    // The method that fetches the comments.
     const fetchComments = () => {
       const commentRef = ref(db, `users/${userId}/booklist/${id}/comments`);
       onValue(commentRef, (snapshot) => {
@@ -140,18 +134,25 @@ export default function ContactForm() {
     return <div>Book not found</div>;
   }
 
-  // It sends the request to the database server. 
-  const send = async(event)=>{
-      event.preventDefault();
-      
-      const requestId = await sendRequest(id, "", userId,user.uid,firstName,lastName,email,phoneNumber,message, "pending",imgURL,ownerEmail, book.bookName);
-      console.log(requestId);
-      if(requestId){
-         console.log("Request sent successfully.");
-         navigate('/books');
-      }
+  const send = async (event) => {
+    event.preventDefault();
+    const requestId = await sendRequest(id, "", userId, user.uid, firstName, lastName, email, phoneNumber, message, "pending", imgURL, ownerEmail, book.bookName);
+    console.log(requestId);
+    if (requestId) {
+      console.log("Request sent successfully.");
+      navigate('/books');
+    }
   };
- 
+
+  const getAvatar = (gender) => {
+    if (gender === 'male') {
+      return "https://bootdey.com/img/Content/avatar/avatar1.png";
+    } else if (gender === 'female') {
+      return "https://bootdey.com/img/Content/avatar/avatar3.png";
+    } else {
+      return "https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
+    }
+  };
 
   return (
     <div className="contact-container" style={{ margin: "30px" }}>
@@ -240,7 +241,7 @@ export default function ContactForm() {
                 <div className="form-group">
                   <div className="row">
                     <div className="col-sm-3 col-lg-2 hidden-xs">
-                      <img className="img-responsive comment-avatar" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" />
+                      <img className="img-responsive comment-avatar" src={profileData ? getAvatar(profileData.gender) : "https://bootdey.com/img/Content/avatar/avatar1.png"} alt="" />
                     </div>
                     <div className="col-xs-12 col-sm-9 col-lg-10">
                       <textarea
@@ -261,9 +262,9 @@ export default function ContactForm() {
               <h3>Comments</h3>
               {comments.map((comment) => (
                 <div key={comment.id} className="media">
-                  <a className="pull-left" href="#"><img className="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" /></a>
-                  <div className="media-body hidden-xs" >
-                    <h4 className="media-heading" >{comment.author}</h4>
+                  <a className="pull-left" href="#"><img className="media-object" src={getAvatar(comment.gender)} alt="" /></a>
+                  <div className="media-body hidden-xs">
+                    <h4 className="media-heading">{comment.author}</h4>
                     <p className="message_comment">{comment.message}</p>
                     <ul className="list-unstyled list-inline media-detail pull-left">
                       <li><i className="fa fa-calendar"></i>{new Date(comment.timestamp).toLocaleDateString()}</li>
