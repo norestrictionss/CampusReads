@@ -53,11 +53,12 @@ export default function UserPage() {
         userDetailsProcess();
     }, [user]);
 
+    // It defaults the profile image according to gender attribute.
     const getProfileImage = (gender) => {
         if (gender === 'male') {
-            return "https://bootdey.com/img/Content/avatar/avatar1.png"; // Replace with actual male icon URL
+            return "https://bootdey.com/img/Content/avatar/avatar1.png"; 
         } else if (gender === 'female') {
-            return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN6marVqh3eZx1rmily_92k6hw4hp7sZCSL0NRJYdvMA&s"; // Replace with actual female icon URL
+            return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN6marVqh3eZx1rmily_92k6hw4hp7sZCSL0NRJYdvMA&s"; 
         } else {
             return "https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"; // Default icon URL
         }

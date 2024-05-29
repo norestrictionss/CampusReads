@@ -1,12 +1,23 @@
 import React, {useState }from 'react';
+import { exchangeBooks } from '../pages/Operations';
+const OffererBookCards = ({ssn, title, author, image, isChecked, onCheckboxChange,book1ID, book2ID ,senderID, ownerID,selectedBookId, requestID}) => {
 
-const OffererBookCards = ({ bookID, userID, ssn, title, author, image, isChecked, onCheckboxChange }) => {
 
-
+    console.log("Infoo:", senderID, " ",ownerID, " ", book2ID, " ", book1ID, " ",requestID);
     const handleCheckboxChange = () => {
-        onCheckboxChange(bookID);
+        onCheckboxChange(book2ID);
     };
 
+    const handleSubmit = async(event)=>{
+        event.preventDefault();
+        console.log("ASFOMASPĞFMASĞGPASĞHPASHMĞS");
+        if(selectedBookId != null){
+            
+            await exchangeBooks(senderID, ownerID, book2ID, book1ID, requestID);
+        }
+            
+            
+    }
     return (
 
         <div class="col">
@@ -26,7 +37,7 @@ const OffererBookCards = ({ bookID, userID, ssn, title, author, image, isChecked
                                     className="form-check-input"
                                     type="checkbox"
                                     value=""
-                                    id={`flexCheckChecked_${bookID}`}
+                                    id={`flexCheckChecked_${book2ID}`}
                                     checked={isChecked}
                                     onChange={handleCheckboxChange}
                                 />
@@ -35,7 +46,7 @@ const OffererBookCards = ({ bookID, userID, ssn, title, author, image, isChecked
                                 </label>
                             </div>
                             <div className="card-fouter" >
-                                <a href="/notifications" type="submit" className="btn btn-sm btn-danger mb-2">Submit</a>
+                                <a href="/notifications" type="submit" className="btn btn-sm btn-danger mb-2" onClick = {handleSubmit}>Submit</a>
                             </div>
                         </div>
                     </div>

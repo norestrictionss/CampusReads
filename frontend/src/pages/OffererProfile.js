@@ -19,10 +19,11 @@ export default function OffererUserPage() {
 
     const [profileData, setProfileData] = useState(null);
     const { user } = useContext(Context);
-    const { senderId } = useParams();
+    const { senderId, book1Id } = useParams();
+    console.log("Book 1 ID:",book1Id);
     const [fetchedBooks, setFetchedBooks] = useState([]);
     const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
-
+    const [requestID, setRequestID] = useState("");
     useEffect(() => {
         const fetchBookList = async () => {
             try {
@@ -80,18 +81,30 @@ export default function OffererUserPage() {
         const updateSelectedBookID = async () => {
             let found = false;
             for (const [key, attributes] of requests) {
-                console.log("selectedId ", selectedBookId);
                 if (attributes.senderId === senderId) {
                     console.log("atributes ", attributes.senderId);
                     const book = await findBookByID(attributes.senderId, selectedBookId);
                     if (book) {
+                       
                         const userRef = ref(db, `Requests/${key}`);
                         const updates = {
                             book2ID: selectedBookId
                         };
+                        
+                        setRequestID(key);
                         await update(userRef, updates);
                         found = true;
                     }
+                    else if(book==null){
+                        const userRef = ref(db, `Requests/${key}`);
+                        const updates = {
+                            book2ID: ""
+                        };
+                        await update(userRef, updates);
+                        found = true;
+                    }
+
+                    
                 }
             }
             // İşlem tamamlandıktan sonra yapılacak kontroller
@@ -100,13 +113,14 @@ export default function OffererUserPage() {
             }
         };
 
-        // requests dizisi değişmediği sürece işlemi gerçekleştir
+        
         if (requests.length > 0) {
             updateSelectedBookID();
         } else {
             console.log("Requestler alınamıyor");
         }
-    }, [selectedBookId, requests]); // selectedBookId ve requests değiştiğinde çalış
+    }, [selectedBookId, requests]); // selectedBookId ve requests değiştiğinde çalışacak.
+
 
     return (
         <div className="container" style={{ marginTop: "30px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
@@ -132,9 +146,13 @@ export default function OffererUserPage() {
                                                     author={attributes.author}
                                                     image={attributes.imageURL}
                                                     isChecked={key === selectedBookId}
-                                                    bookID={key}
-                                                    userID={senderId}
                                                     onCheckboxChange={handleCheckboxChange}
+                                                    book1ID={book1Id}
+                                                    book2ID={key}
+                                                    senderID={senderId}
+                                                    ownerID = {user.uid}
+                                                    selectedBookId = {selectedBookId}
+                                                    requestID = {requestID}
                                                 />
                                             </div>
                                             )
