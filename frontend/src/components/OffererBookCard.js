@@ -1,6 +1,11 @@
-import React from 'react';
+import React, {useState }from 'react';
 
-const OffererBookCards = ({ bookID, userID, ssn, title, author, image ,isChecked, onCheckboxChange }) => {
+const OffererBookCards = ({ bookID, userID, ssn, title, author, image, isChecked, onCheckboxChange }) => {
+
+
+    const handleCheckboxChange = () => {
+        onCheckboxChange(bookID);
+    };
 
     return (
 
@@ -17,11 +22,20 @@ const OffererBookCards = ({ bookID, userID, ssn, title, author, image ,isChecked
                             <h5 className="card-title">{title}</h5>
                             <p className="card-text">Author : {author}</p>
                             <div className="form-check" style={{ float: "left", transform: "scale(0.9)" }}>
-                                <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked={isChecked}
-                                    onChange={() => onCheckboxChange(ssn)}/>
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    value=""
+                                    id={`flexCheckChecked_${bookID}`}
+                                    checked={isChecked}
+                                    onChange={handleCheckboxChange}
+                                />
                                 <label className="form-check-label" htmlFor="flexCheckChecked" style={{ paddingLeft: "5px" }}>
                                     Select for swap
                                 </label>
+                            </div>
+                            <div className="card-fouter" >
+                                <a href="/notifications" type="submit" className="btn btn-sm btn-danger mb-2">Submit</a>
                             </div>
                         </div>
                     </div>

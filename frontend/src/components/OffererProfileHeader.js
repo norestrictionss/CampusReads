@@ -1,7 +1,8 @@
 import React from 'react';
 import "../Profile.css"; // Import your CSS file for styling
 
-const OffererProfileHeader = ({ userName, userDepartment , userIcon}) => {
+const OffererProfileHeader = ({userName, userDepartment , userIcon}) => {
+
     return (
         <div className="profile-header">
             <div className="profile-header-cover"></div>
@@ -15,17 +16,14 @@ const OffererProfileHeader = ({ userName, userDepartment , userIcon}) => {
                 <div className="profile-header-info">
                     <h4 className="m-t-10 m-b-5">{userName}</h4>
                     <p className="m-b-10">{userDepartment}</p>
-
-                    <div className="d-flex justify-content-end" >
-                    <a href="/notifications" className="btn btn-sm btn-danger mb-2">Submit</a>
-                    </div>
                 </div>
+               
             </div>
-
+            <br/><br/>
             <ul class="profile-header-tab nav nav-tabs">
                 <li class="nav-item"><a href="/OffererProfile" target="__blank" class="nav-link_ active show">USER'S ADS</a></li>
             </ul>
-
+            
         </div>
 
     );

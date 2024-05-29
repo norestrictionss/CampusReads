@@ -2,8 +2,6 @@ import { ref, push, update, remove, get } from 'firebase/database';
 import { db } from "../config/firebase"; // Import your Firebase configuration file
 
 
-
-
 // Function to add a book to a user's booklist
 export async function addBookToBooklist(userId, bookData) {
   const userBooklistRef = ref(db, `users/${userId}/booklist`);
@@ -221,7 +219,6 @@ export const getRequests = async (userId) => {
     const snapshot = await get(userRequestsRef);
     if (snapshot.exists()) {
       const requests = snapshot.val();
-
       return requests;
     } else {
       console.log("No requests found");
@@ -234,12 +231,11 @@ export const getRequests = async (userId) => {
 };
 
 export const findBookByID = async (userID, bookID) => {
-  const bookRef = ref(db, "users/"+userID+"/booklist"+bookID);
+  const bookRef = ref(db, `users/${userID}/booklist/${bookID}`);
   try {
     const snapshot = await get(bookRef);
     if (snapshot.exists()) {
       const book = snapshot.val();
-
       return book;
     } else {
       console.log("No requests found");

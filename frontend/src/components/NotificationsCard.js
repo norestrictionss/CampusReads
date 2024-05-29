@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 
 
 const NotificationsCard = ({ id, senderId, book1Id, title, name, lastName, email, phoneNumber, bookimage, message, ownerIcon, requestStatus, acceptRequest, rejectRequest, selectedBookName }) => {
+    
+    const textColor = selectedBookName === "There is no selected book!" ? "red" : "green";
+
     return (
         <div className="sendedRequest-col">
             <div className="card text-bg-light mb-3">
@@ -20,7 +23,7 @@ const NotificationsCard = ({ id, senderId, book1Id, title, name, lastName, email
                     </div>
                     <div className="col-md-10">
                         <div className="card-body">
-                            <h6>Selected Book From User : <span style={{ color: "red" }}>{selectedBookName}</span></h6>
+                            <h6>Selected Book From User : <span style={{ color: textColor }}>{selectedBookName}</span></h6>
                             <br />
                             <div className="image mr-3">
                                 <div style={{ display: "flex", alignItems: "center" }}>
