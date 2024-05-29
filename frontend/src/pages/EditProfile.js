@@ -3,6 +3,7 @@ import "../Profile.css";
 import { db, auth } from "../config/firebase";
 import { ref, get, update } from "firebase/database";
 import { updatePassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function EditProfile() {
     // State variables to store user profile data
@@ -11,6 +12,8 @@ export default function EditProfile() {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [gender, setGender] = useState("");
     const [department, setDepartment] = useState("");
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
     
 
     useEffect(() => {
@@ -35,8 +38,20 @@ export default function EditProfile() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const user = auth.currentUser;
-
+    
         try {
+            // Check if the password is provided and its length
+            if (password && password.length < 6) {
+                setError("Password must be at least 6 characters.");
+                return;
+            }
+    
+            // Check if phone number is provided and its length
+            if (phoneNumber && phoneNumber.length !== 11) {
+                setError("Phone number must be 11 characters.");
+                return;
+            }
+    
             // Update user profile information in the database
             const userRef = ref(db, 'users/' + user.uid);
             const updates = {
@@ -46,22 +61,22 @@ export default function EditProfile() {
                 department: department
             };
             await update(userRef, updates);
-
+    
             // Update user's password if provided
             if (password) {
                 await updatePassword(user, password);
             }
-
+    
             alert("Profile updated successfully!");
-
+            navigate("/profile");
         } catch (error) {
             console.error("Error updating profile: ", error);
-            alert("Error updating profile: " + error.message);
         }
-
+    
         // Reset password field, but keep other fields
         setPassword("");
     };
+    
 
     return (
         <div className="addForm-container rounded mt-5 mb-5">
@@ -71,6 +86,7 @@ export default function EditProfile() {
                         <div className="d-flex justify-content-between align-items-center mb-3">
                             <h4 className="text-right"><strong>Edit Your Profile</strong></h4>
                         </div>
+                        <div>{error && <div className="error-message">{error}</div>}</div>
                         <form className="row mt-3" onSubmit={handleSubmit}>
                             <div className="mb-3">
                                 <label htmlFor="formFile" className="form-label">Profile Image</label>
@@ -140,11 +156,9 @@ export default function EditProfile() {
                                     <option value="Mechanical Engineering">Mechanical Engineering</option>
                                 </select>
                             </div>
-
                             <div className="mt-5 text-center">
                                 <button className="btn btn-sm btn-primary profile-button mb-5" type="submit">Submit Changes</button>
                             </div>
-                            <a href="/Profile" className="btn btn-sm btn-dark mb-2">Back to Your Profile</a>
                         </form>
                     </div>
                 </div>

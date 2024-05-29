@@ -26,9 +26,9 @@ export default function Register() {
       return;
     }
 
-    const phoneNumberPattern = /^\d{10}$/; 
+    const phoneNumberPattern = /^\d{11}$/; 
     if (!phoneNumberPattern.test(phoneNumber)) {
-      setError("Phone number must be a valid 10-digit number.");
+      setError("Phone number must be a valid 11-digit number.");
       return;
     }
 
