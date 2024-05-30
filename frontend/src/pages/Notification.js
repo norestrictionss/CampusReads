@@ -1,25 +1,26 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext} from "react";
+import { useNavigate } from "react-router-dom";
 import "../Profile.css"; // Stil dosyanızı içe aktarın
 import ProfileHeader from '../components/ProfileHeader';
 import "../sendedRequest.css"; // Stil dosyanızı içe aktarın
 import NotificationsCard from '../components/NotificationsCard';
-
+import { ref,  update } from 'firebase/database';
 import { useParams } from 'react-router-dom';
 import { getUserDetails, getRequests ,findBookByID} from "./Operations";
 import { auth } from "../../src/config/firebase";
 import { db } from "../../src/config/firebase";
-import { ref, get } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
 import { showBookList } from "./Operations";
 import { Context } from "../contexts/AuthContext";
 
 export default function Notification() {
 
+    const navigate = useNavigate();
     const [profileData, setProfileData] = useState(null);
     const [requests, setRequests] = useState([]);
     const { user } = useContext(Context);
     const [fetchedBooks, setFetchedBooks] = useState([]);
-    const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
+    const [loadingBooks, setLoadingBooks] = useState(true); 
     const [notifications, setNotifications] = useState([]);
     console.log(user.uid);
 
@@ -65,8 +66,14 @@ export default function Notification() {
         setRequestStatus("accept");
     };
 
-    const rejectRequest = () => {
+    const rejectRequest = async (requestID) => {
         setRequestStatus("reject");
+        const requestReference = ref(db, `Requests/${requestID}`);
+        const updated = {
+            requestStatus: "reject"
+        };
+        await update(requestReference, updated);
+        navigate("/Profile");
     };
 
     const[selectedBookName, setSelectedBookName] = useState("There is no selected book!");
@@ -107,9 +114,9 @@ export default function Notification() {
 
       const getProfileImage = (gender) => {
         if (gender === 'male') {
-            return "https://bootdey.com/img/Content/avatar/avatar1.png"; // Replace with actual male icon URL
+            return "https://bootdey.com/img/Content/avatar/avatar1.png"; 
         } else if (gender === 'female') {
-            return "https://bootdey.com/img/Content/avatar/avatar3.png"; // Replace with actual female icon URL
+            return "https://bootdey.com/img/Content/avatar/avatar3.png"; 
         } else {
             return "https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"; // Default icon URL
         }
@@ -144,8 +151,8 @@ export default function Notification() {
                                         message={attributes.senderMessage}
                                         ownerIcon="https://cdn-icons-png.freepik.com/256/552/552721.png?semt=ais_hybrid"
                                         requestStatus={attributes.requestStatus}
-                                        acceptRequest={() => acceptRequest(attributes.id)}
-                                        rejectRequest={() => rejectRequest(attributes.id)}
+                                        acceptRequest={() => acceptRequest(attributes.key)}
+                                        rejectRequest={() => rejectRequest(attributes.key)}
                                         selectedBookName={attributes.senderId === senderRequestId ? selectedBookName : "There is no selected book!"}/>
                                 </div>
                             ))

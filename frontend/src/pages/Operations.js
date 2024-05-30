@@ -7,10 +7,8 @@ export async function addBookToBooklist(userId, bookData) {
   const userBooklistRef = ref(db, `users/${userId}/booklist`);
 
   try {
-    // Generate a unique key for the new book entry
+    
     const newBookRef = push(userBooklistRef);
-
-    // Set the book data
     const bookEntry = {
       bookSSN: bookData.ssn,
       bookName: bookData.bookname,
@@ -18,10 +16,10 @@ export async function addBookToBooklist(userId, bookData) {
       bookType: bookData.bookgender,
       bookDescription: bookData.description,
       imageURL: bookData.imageURL,
-      comments: [] // Initialize comments list as empty
+      comments: [] 
     };
 
-    // Update the user's booklist with the new book entry
+    
     await update(newBookRef, bookEntry);
     const bookId = newBookRef.key; 
     console.log("Book added to user's booklist successfully");
@@ -91,25 +89,18 @@ export const offerBook = async(offererId, offeredPersonId, offererBookId, offere
 
   const userOfferlistRef = ref(db, `users/${offeredPersonId}/offerlist`);
   try {
-      
       try {
-     
         const newOfferRef = push(userOfferlistRef);
-    
         // Set the book data
         const offerEntry = {
           offerrerId: offererBookId,
           offeredBookId: offeredBookId,
         };
-    
-      
         await update(newOfferRef, offerEntry);
-    
         console.log("Offer added to user's offerlist successfully");
       } catch (error) {
         console.error("Error adding book to user's offerlist:", error);
       }
-
       console.log("Offer process successfully completed!");
   } catch (error) {
       console.error("Error to sending offer:", error.message);
@@ -162,7 +153,7 @@ export const getUserDetails = async (userId) => {
     console.log("User data:", userId);
     
     try {
-       // Ensure db is initialized here or passed in as an argument
+      
       const userRef = ref(db, 'users/' + userId);
       const snapshot = await get(userRef);
       
@@ -171,11 +162,11 @@ export const getUserDetails = async (userId) => {
         return userData;
       } else {
         console.log("No data available");
-        return null; // Return null if no data is available
+        return null; 
       }
     } catch (error) {
       console.error(error);
-      throw error; // Optionally re-throw the error if you want to handle it upstream
+      throw error; 
     }
   } else {
     console.log("User object is undefined or null");
@@ -187,10 +178,11 @@ export const sendRequest = async(book1Id, book2ID, ownerId, senderId, senderName
   
   const userRequestRef = ref(db, `Requests/`);
   try {
-    // Generate a unique key for the new book entry
+   
+    // First reference must be created to successfully retrive the data.
     const newRequestRef = push(userRequestRef);
 
-    // Set the book data
+    
     const requestEntry = {
       ownerID: ownerId,
       book1ID: book1Id,
@@ -207,7 +199,7 @@ export const sendRequest = async(book1Id, book2ID, ownerId, senderId, senderName
       bookName: bookName
     };
 
-    // Update the user's booklist with the new book entry
+    
     await update(newRequestRef, requestEntry);
     const requestId = newRequestRef.key; 
     console.log("Book added to user's booklist successfully");
@@ -219,7 +211,10 @@ export const sendRequest = async(book1Id, book2ID, ownerId, senderId, senderName
   
 }
 
-export const getRequests = async (userId) => {
+
+// It returns the requests that belongs to the specific user.
+export const getRequests = async () => {
+
   const userRequestsRef = ref(db, `Requests/`);
   try {
     const snapshot = await get(userRequestsRef);
@@ -236,6 +231,7 @@ export const getRequests = async (userId) => {
   }
 };
 
+// It finds the book accordingly with ID.
 export const findBookByID = async (userID, bookID) => {
   const bookRef = ref(db, `users/${userID}/booklist/${bookID}`);
   try {
