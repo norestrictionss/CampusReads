@@ -61,8 +61,8 @@ export default function Notification() {
 
     const [requestStatus, setRequestStatus] = useState("pending");
 
-    const acceptRequest = () => {
-        setRequestStatus("accept");
+    const acceptRequest = (requestID) => {
+        alert("! First select a book for swap from sender profile !");
     };
 
     const [selectedBookName, setSelectedBookName] = useState("There is no selected book!");
@@ -99,7 +99,7 @@ export default function Notification() {
     useEffect(() => {
         const updateSelectedBookName = async () => {
             for (const [key, attributes] of requests) {
-                if (attributes.book2ID !== "" && attributes.ownerID === user.uid) {
+                if (attributes.book2ID !== "" && attributes.ownerID === user.uid && key===attributes.requestId) {
                     const book = await findBookByID(attributes.senderId, attributes.book2ID);
                     if (book) {
                         setSelectedBookName(book.bookName);
@@ -109,7 +109,6 @@ export default function Notification() {
                 }
             }
         };
-
         if (requests.length > 0) {
             updateSelectedBookName();
         }
