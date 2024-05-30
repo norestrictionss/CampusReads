@@ -88,10 +88,6 @@ export default function EditProfile() {
                         </div>
                         <div>{error && <div className="error-message">{error}</div>}</div>
                         <form className="row mt-3" onSubmit={handleSubmit}>
-                            <div className="mb-3">
-                                <label htmlFor="formFile" className="form-label">Profile Image</label>
-                                <input className="form-control" name="imageUrl" type="file" id="formFile" />
-                            </div>
                             <div className="col-md-12">
                                 <label htmlFor="text" className="labels">Username</label>
                                 <input
