@@ -14,9 +14,7 @@ const OffererBookCards = ({ssn, title, author, image, isChecked, onCheckboxChang
         if(selectedBookId != null){
             await exchangeBooks(senderID, ownerID, book2ID, book1ID, requestID);
             navigate("/Profile");
-        }
-            
-            
+        }        
     }
     return (
 

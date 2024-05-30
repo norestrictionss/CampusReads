@@ -5,7 +5,7 @@ import { db } from '../../src/config/firebase';
 import { get, ref, push, onValue } from 'firebase/database';
 import { getUserDetails } from "./Operations";
 import { sendRequest } from "./Operations";
-import { useContext } from "react"; 
+import { useContext } from "react";
 import { Context } from "../contexts/AuthContext";
 
 export default function ContactForm() {
@@ -63,7 +63,7 @@ export default function ContactForm() {
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
     if (commentMessage.trim() === "") return;
-    
+
     const newComment = {
       message: commentMessage,
       timestamp: new Date().toISOString(),
@@ -75,6 +75,7 @@ export default function ContactForm() {
     await push(commentRef, newComment);
     setCommentMessage("");
   };
+
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -133,11 +134,19 @@ export default function ContactForm() {
 
   const send = async (event) => {
     event.preventDefault();
+    if (!user) {
+      alert('! PLEASE LOGIN OR REGISTER !');
+      return;
+    }
+    const userConfirmed = window.confirm('You are sending this request, are you sure?');
+    if (!userConfirmed) {
+      return;
+    }
     const requestId = await sendRequest(id, "", userId, user.uid, firstName, lastName, email, phoneNumber, message, "pending", imgURL, ownerEmail, book.bookName);
     console.log(requestId);
     if (requestId) {
       console.log("Request sent successfully.");
-      navigate('/books');
+      navigate('/sendedRequests');
     }
   };
 
@@ -221,7 +230,6 @@ export default function ContactForm() {
                   value={message}
                   onChange={handleMessageChange}
                   placeholder="Enter your message"
-                  required
                 />
               </div>
               <button type="submit" className="btn btn-primary btn-small">Send</button>

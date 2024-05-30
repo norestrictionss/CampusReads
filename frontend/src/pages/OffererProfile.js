@@ -89,7 +89,6 @@ export default function OffererUserPage() {
                         const updates = {
                             book2ID: selectedBookId
                         };
-                        
                         setRequestID(key);
                         await update(userRef, updates);
                         found = true;
@@ -111,16 +110,12 @@ export default function OffererUserPage() {
                 console.log("Requests not found");
             }
         };
-
-        
-        if (requests.length > 0) {
+     if (requests.length > 0) {
             updateSelectedBookID();
         } else {
             console.log("Requests not found");
         }
-    }, [selectedBookId, requests]); // selectedBookId ve requests değiştiğinde çalışacak.
-
-
+    }, [selectedBookId, requests]); 
 
     const getProfileImage = (gender) => {
         if (gender === 'male') {

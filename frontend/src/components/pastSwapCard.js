@@ -24,7 +24,7 @@ const PastSwapCard = ({ swapDate, firstBookTitle, firstBookImg, secondBookTitle,
                     </div>
                     <div class="col-md-4">
                         <div class="card-body">
-                            <h6 class="card-text" >{secondBookTitle}</h6>
+                            <h6 class="card-text" ><strong>{secondBookTitle}</strong></h6>
                             <h6 class="card-text" style={{ marginBottom: "0" }}><strong>Book Owner : </strong>{offererUserName}</h6>
                         </div>
                     </div>
