@@ -30,7 +30,13 @@ export default function Login() {
       const user = await signInWithEmailAndPassword(auth, email, password);
       console.log(user);
       console.log("User signed in successfully!");
-      navigate('/books');
+      if(email === "admin@campusreads.com"){
+        navigate('/adminBooks');
+      }
+      else{
+        navigate('/books');
+      }
+      
     } catch (error) {
       console.log("Error signing in: ", error.message);
       setError("Invalid email or password. Please try again.");

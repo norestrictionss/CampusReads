@@ -45,7 +45,7 @@ export default function Header() {
               <a className="nav-link" href="/login" onClick = {handleSignOut}>Logout</a>
             </li>}
 
-            {user &&<li className="nav-item">
+            {user &&  <li className="nav-item">
               <a className="nav-link toggle" role="button" aria-expanded="false" href="/Profile">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
                   <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
