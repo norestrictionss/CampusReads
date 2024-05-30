@@ -82,7 +82,7 @@ export default function Notification() {
         notificationCardProcess();
     }, []);
 
-
+    // Rejecting the request process is handled here.
     const rejectRequest = async (requestID) => {
         const isConfirmed = window.confirm("You are rejecting this request, are you sure?");
         if (isConfirmed) {
@@ -95,7 +95,7 @@ export default function Notification() {
             navigate("/books");
         }
     };
-
+    // It udpates the selected book 
     useEffect(() => {
         const updateSelectedBookName = async () => {
             for (const [key, attributes] of requests) {
