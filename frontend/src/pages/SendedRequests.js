@@ -45,9 +45,7 @@ export default function SendedRequests() {
     useEffect(() => {
         const userDetailsProcess = async () => {
             try {
-                console.log("user infoooo:", user.uid);
                 const profileInfo = await getUserDetails(user.uid);
-                console.log("Hii:", profileInfo);
                 setProfileData(profileInfo);
             }
             catch (error) {

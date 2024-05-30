@@ -1,110 +1,106 @@
-  .bookList {
-    color:rgb(2, 0, 0)
-  }
-  
-  .footer {
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #f8f9fa; /* Footer arka plan rengi */
-    padding: 20px;
-    text-align: center;
-  }
+.bookList {
+  color: rgb(2, 0, 0);
+}
 
-  #bookcard {
-    margin: 30px;
-    width: 100%;/* Kart genişliği, sayfa genişliğine uyum sağlar */
-    width: 200px; /* Maksimum kart genişliği */
-    height: 300px;
-    background-color: #f3f3f3;
-    border: 1px solid #ccc; /* Kenarlık */
-    border-radius: 4px; /* Köşe yuvarlaklığı */
-    padding: 16px; /* İç boşluk */
-    margin-bottom: 16px; /* Kartlar arası boşluk */
-    box-sizing: border-box; /* Kenarlık ve dolgu dahil olacak şekilde genişlik hesaplaması yapar */
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-  }
+.footer {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f9fa;
+  padding: 20px;
+  text-align: center;
+}
 
-  
-  #bookcard img {
-    width: 100%; /* Resmin genişliği */
-    height: 150px; /* Resmin yüksekliği */
-    object-fit: cover; /* Resmin kart boyutuna oturması */
-  }
-  
-  .card>img:hover {
-    opacity: 0.5;
-  }
+#bookcard {
+  margin: 30px;
+  width: 100%;
+  width: 200px;
+  height: 300px;
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
 
+#bookcard img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
 
-  .card_container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Kartların dikeyde ortalanması */
-    align-items: center; /* Kartların yatayda ortalanması */
-    width: 100%;
-    max-width: 1200px; /* Adjust max width as needed */
-    margin: 20px auto;
-  
-  }
-  
-  #bookPageRow {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -15px; /* Adjust margin as needed */
-  }
-  
-  #bookPageCol {
-    flex: 0 0 auto;
-    padding: 0 15px; /* Adjust padding as needed */
-    margin-bottom: 30px; /* Adjust margin bottom as needed */
-  }
-  
-  .banner {
-    max-width: 1500px; /* Maksimum genişlik belirlenecek */
-    margin: 20px auto 0; /* Banner'ı sayfanın ortasına hizalar ve üstünde 20px boşluk bırakır */
-    border: 2px solid #ddd; /* Kenarlara 2 piksel kalınlığında solgun bir border ekler */
-    border-radius: 8px; /* Köşeleri yuvarlar */
-    overflow: hidden; /* İçeriği sınırlı alanın içinde tutar */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Kenarlara hafif bir gölge ekler */
-  }
-  
-  .banner img {
-    width: 100%; /* Resim banner genişliğine sığacak şekilde ayarlanır */
-    height: auto; /* Orantılı bir şekilde boyutlandırma sağlar */
-    display: block; /* Resmi blok eleman olarak ayarlar */
-  }
-  
-  .search {
-    width: 100%;
-    max-width: 400px;
-    height: 40px;
-    padding: 10px;
-    background-color: #bfbfbf; /* Arkaplan rengini gri yapar */
-    padding-right: 30px; /* Arama simgesi için sağ boşluk bırak */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    outline-color: #080707;
-    margin-bottom: 20px;
-  }
-  
-  .search:hover {
-    background-color: #8c8c8c; /* Mouse üzerine gelindiğinde arkaplan rengini biraz daha açık gri yapar */
-  }
+.card>img:hover {
+  opacity: 0.5;
+}
 
-  .search::placeholder {
-    color: rgb(12, 10, 10); /* Placeholder'ın rengini beyaz yapar */
-  }
+.card_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+}
 
-  .bookList {
-    margin-top: 50px;
-    font-family:Georgia, 'Times New Roman', Times, serif; /* Daha güzel bir font kullanımı */
-    font-size: 50px; /* Metni büyütme */
-    color: rgb(3, 17, 168); /* Metnin rengini mor yapma */
-  }
+#bookPageRow {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
 
-  #bookContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Dikey eksende ortalamak için */
-  }
-  
+#bookPageCol {
+  flex: 0 0 auto;
+  padding: 0 15px;
+  margin-bottom: 30px;
+}
+
+.banner {
+  max-width: 1500px;
+  margin: 20px auto 0;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.search {
+  width: 100%;
+  max-width: 400px;
+  height: 40px;
+  padding: 10px;
+  background-color: #bfbfbf;
+  padding-right: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  outline-color: #080707;
+  margin-bottom: 20px;
+}
+
+.search:hover {
+  background-color: #8c8c8c;
+}
+
+.search::placeholder {
+  color: rgb(12, 10, 10);
+}
+
+.bookList {
+  margin-top: 50px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 50px;
+  color: rgb(3, 17, 168);
+}
+
+#bookContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

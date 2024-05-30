@@ -19,7 +19,6 @@ export default function ContactForm() {
         console.log(`Fetching book for userId: ${userId} and bookId: ${id}`);
         const bookRef = ref(db, `users/${userId}/booklist/${id}`);
         const userInfo = await getUserDetails(userId);
-        console.log("Infooo2:", userInfo, userId);
         setOwner(userInfo.email);
         get(bookRef)
           .then((snapshot) => {

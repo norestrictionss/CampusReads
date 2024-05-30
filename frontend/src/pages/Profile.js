@@ -23,7 +23,6 @@ export default function UserPage() {
                 const bookList = await showBookList(user.uid);
                 const books = Object.entries(bookList);
                 if (bookList) {
-                    console.log("Bookies:", bookList);
                     console.log("Book List:", bookList);
                     // It merges the book lists with image URL's.
                     setFetchedBooks(books);
@@ -41,9 +40,7 @@ export default function UserPage() {
     useEffect(() => {
         const userDetailsProcess = async () => {
             try {
-                console.log("user infoooo:", user.uid);
                 const profileInfo = await getUserDetails(user.uid);
-                console.log("Hii:", profileInfo);
                 setProfileData(profileInfo);
             } catch (error) {
                 console.log("Error fetching user data.");

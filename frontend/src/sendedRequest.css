@@ -1,6 +1,6 @@
 .circle-icon {
-    display: flex; /* İçerikleri yan yana hizalamak için */
-    align-items: center; /* Dikey hizalamayı ortala */
+    display: flex; 
+    align-items: center; 
 }
 
 .circle-icon img {

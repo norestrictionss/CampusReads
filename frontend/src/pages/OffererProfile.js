@@ -20,7 +20,6 @@ export default function OffererUserPage() {
     const [profileData, setProfileData] = useState(null);
     const { user } = useContext(Context);
     const { senderId, book1Id } = useParams();
-    console.log("Book 1 ID:",book1Id);
     const [fetchedBooks, setFetchedBooks] = useState([]);
     const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
     const [requestID, setRequestID] = useState("");
@@ -109,7 +108,7 @@ export default function OffererUserPage() {
             }
             // İşlem tamamlandıktan sonra yapılacak kontroller
             if (!found) {
-                console.log("Requestler bulunamadı");
+                console.log("Requests not found");
             }
         };
 
@@ -117,7 +116,7 @@ export default function OffererUserPage() {
         if (requests.length > 0) {
             updateSelectedBookID();
         } else {
-            console.log("Requestler alınamıyor");
+            console.log("Requests not found");
         }
     }, [selectedBookId, requests]); // selectedBookId ve requests değiştiğinde çalışacak.
 

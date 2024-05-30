@@ -22,8 +22,6 @@ const Books = () => {
                 // It merges the book lists with image URL's.
                 setUsers(userList);
                 setLoadingBooks(false); // It keeps the loading.
-                //console.log("hi");
-                //console.log("Hello", users[1][1]["phoneNumber"]);
             }
         } catch (error) {
             console.error("Error fetching user list:", error);

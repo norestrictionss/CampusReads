@@ -44,7 +44,6 @@ export default function Notification() {
                 const bookList = await showBookList(user.uid);
                 const books = Object.entries(bookList);
                 if (bookList) {
-                    console.log("Bookies:", bookList);
                     console.log("Book List:", bookList);
                     // It merges the book lists with image URL's.
                     setFetchedBooks(books);

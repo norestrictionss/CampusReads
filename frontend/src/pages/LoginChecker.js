@@ -11,7 +11,6 @@ export default function LoginChecker({children, toBooks}){
 
     useEffect(()=>{
         if(user){
-            console.log('hi');
             navigate("/books");
         }
     }, []);

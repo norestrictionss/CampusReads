@@ -50,9 +50,7 @@ export default function ContactForm() {
   useEffect(() => {
     const userDetailsProcess = async () => {
       try {
-        console.log("user infoooo:", user.uid);
         const profileInfo = await getUserDetails(user.uid);
-        console.log("Hii:", profileInfo);
         setProfileData(profileInfo);
       } catch (error) {
         console.log("Error fetching user data.");
@@ -84,7 +82,6 @@ export default function ContactForm() {
         console.log(`Fetching book for userId: ${userId} and bookId: ${id}`);
         const bookRef = ref(db, `users/${userId}/booklist/${id}`);
         const userInfo = await getUserDetails(userId);
-        console.log("Infooo2:", userInfo, userId);
         setOwnerEmail(userInfo.email);
         setCurrentUser(userInfo);
         setOwnerEmail(userInfo.email);
