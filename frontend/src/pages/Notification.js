@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import "../Profile.css"; // Stil dosyanızı içe aktarın
+import "../Profile.css"; 
 import ProfileHeader from '../components/ProfileHeader';
-import "../sendedRequest.css"; // Stil dosyanızı içe aktarın
+import "../sendedRequest.css";
 import NotificationsCard from '../components/NotificationsCard';
 import { ref, update } from 'firebase/database';
 import { useParams } from 'react-router-dom';

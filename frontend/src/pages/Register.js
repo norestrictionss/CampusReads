@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../style.css"; // Import your CSS file for styling
+import "../style.css"; 
 import { auth, db } from "../config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -44,7 +44,7 @@ export default function Register() {
         username: username
       });
 
-      // Clear form fields
+     
       setUsername("");
       setPassword("");
       setPhoneNumber("");

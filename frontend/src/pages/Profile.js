@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import "../Profile.css"; // Import your CSS file for styling
+import "../Profile.css"; 
 import UserBookCards from '../../src/components/UserBookCards';
 import ProfileHeader from '../../src/components/ProfileHeader';
 import { showBookList } from "./Operations";
@@ -14,7 +14,7 @@ export default function UserPage() {
     const [profileData, setProfileData] = useState(null);
     const { user } = useContext(Context);
     const [fetchedBooks, setFetchedBooks] = useState([]);
-    const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
+    const [loadingBooks, setLoadingBooks] = useState(true); 
 
     // This part fetches books with images.
     useEffect(() => {

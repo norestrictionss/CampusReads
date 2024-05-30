@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import "../Profile.css"; // Import your CSS file for styling
+import "../Profile.css"; 
 import OffererBookCards from '../../src/components/OffererBookCard';
 import OffererProfileHeader from '../../src/components/OffererProfileHeader';
 import { getUserDetails, getRequests, findBookByID } from "./Operations";
@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { showBookList } from "./Operations";
 
 import { ref, push, update, remove, get } from 'firebase/database';
-import { db } from "../config/firebase"; // Import your Firebase configuration file
+import { db } from "../config/firebase"; 
 export default function OffererUserPage() {
 
     const [selectedBookId, setSelectedBookId] = useState(null);
@@ -21,12 +21,12 @@ export default function OffererUserPage() {
     const { user } = useContext(Context);
     const { senderId, book1Id } = useParams();
     const [fetchedBooks, setFetchedBooks] = useState([]);
-    const [loadingBooks, setLoadingBooks] = useState(true); // Add loading state
+    const [loadingBooks, setLoadingBooks] = useState(true); 
     const [requestID, setRequestID] = useState("");
     useEffect(() => {
         const fetchBookList = async () => {
             try {
-                const bookList = await showBookList(senderId); // senderId'yi doğru şekilde geçir
+                const bookList = await showBookList(senderId); 
                 console.log("sender id : ", senderId);
                 if (bookList) {
                     console.log("Book List:", bookList);
@@ -105,7 +105,7 @@ export default function OffererUserPage() {
                     
                 }
             }
-            // İşlem tamamlandıktan sonra yapılacak kontroller
+            
             if (!found) {
                 console.log("Requests not found");
             }

@@ -23,7 +23,7 @@ export default function Login() {
   // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(""); // Clear previous error message
+    setError(""); 
 
     try {
       // Sign in the user with the provided username and password

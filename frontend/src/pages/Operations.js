@@ -1,5 +1,5 @@
 import { ref, push, update, remove, get, set } from 'firebase/database';
-import { db } from "../config/firebase"; // Import your Firebase configuration file
+import { db } from "../config/firebase"; 
 
 
 // Function to add a book to a user's booklist
@@ -36,7 +36,7 @@ export const removeBookFromBooklist = async (userId, bookId) => {
   const userBookRef = ref(db, `users/${userId}/booklist/${bookId}`);
 
   try {
-    // Remove the specific book entry from the user's booklist
+    
     await remove(userBookRef);
 
     console.log("Book removed from user's booklist successfully");
@@ -91,7 +91,7 @@ export const offerBook = async(offererId, offeredPersonId, offererBookId, offere
   try {
       try {
         const newOfferRef = push(userOfferlistRef);
-        // Set the book data
+        
         const offerEntry = {
           offerrerId: offererBookId,
           offeredBookId: offeredBookId,

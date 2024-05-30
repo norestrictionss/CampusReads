@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
-import "../Profile.css"; // Import your CSS file for styling
+import "../Profile.css"; 
 import ProfileHeader from '../../src/components/ProfileHeader';
-import "../sendedRequest.css"; // Import your CSS file for styling
+import "../sendedRequest.css"; 
 import PastSwapCard from '../../src/components/pastSwapCard'
 import { Context } from "../../src/contexts/AuthContext";
 import { getStorage } from 'firebase/storage';
@@ -28,9 +28,9 @@ export default function PastSwaps() {
 
     const getProfileImage = (gender) => {
         if (gender === 'male') {
-            return "https://bootdey.com/img/Content/avatar/avatar1.png"; // Replace with actual male icon URL
+            return "https://bootdey.com/img/Content/avatar/avatar1.png";
         } else if (gender === 'female') {
-            return "https://bootdey.com/img/Content/avatar/avatar3.png"; // Replace with actual female icon URL
+            return "https://bootdey.com/img/Content/avatar/avatar3.png"; 
         } else {
             return "https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg"; // Default icon URL
         }

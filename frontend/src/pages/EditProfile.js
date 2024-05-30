@@ -40,19 +40,19 @@ export default function EditProfile() {
         const user = auth.currentUser;
     
         try {
-            // Check if the password is provided and its length
+        
             if (password && password.length < 6) {
                 setError("Password must be at least 6 characters.");
                 return;
             }
     
-            // Check if phone number is provided and its length
+            
             if (phoneNumber && phoneNumber.length !== 11) {
                 setError("Phone number must be 11 characters.");
                 return;
             }
     
-            // Update user profile information in the database
+           
             const userRef = ref(db, 'users/' + user.uid);
             const updates = {
                 username: username,
@@ -73,7 +73,7 @@ export default function EditProfile() {
             console.error("Error updating profile: ", error);
         }
     
-        // Reset password field, but keep other fields
+       
         setPassword("");
     };
     
