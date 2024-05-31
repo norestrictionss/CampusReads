@@ -25,9 +25,9 @@ const ProfileHeader = ({ userName, userDepartment ,userIcon}) => {
             </div>
 
             <ul class="profile-header-tab nav nav-tabs">
-                <li class="nav-item"><a href="/Profile" target="__blank" class="nav-link_ active show">YOUR ADS</a></li>
-                <li class="nav-item"><a href="/sendedRequests" target="__blank" class="nav-link_">SENDED REQUESTS</a></li>
-                <li class="nav-item"><a href="/notifications" target="__blank" class="nav-link_">NOTIFICATIONS</a></li>
+                <li class="nav-item"><a href="/Profile"  class="nav-link_ active show">YOUR ADS</a></li>
+                <li class="nav-item"><a href="/sendedRequests"  class="nav-link_">SENDED REQUESTS</a></li>
+                <li class="nav-item"><a href="/notifications" class="nav-link_">NOTIFICATIONS</a></li>
             </ul>
 
         </div>
