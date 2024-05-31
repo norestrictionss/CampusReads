@@ -1,5 +1,5 @@
 import { ref, push, update, remove, get, set } from 'firebase/database';
-import { db } from "../config/firebase"; 
+import { db } from "../config/firebase";
 
 
 // Function to add a book to a user's booklist
@@ -7,7 +7,7 @@ export async function addBookToBooklist(userId, bookData) {
   const userBooklistRef = ref(db, `users/${userId}/booklist`);
 
   try {
-    
+
     const newBookRef = push(userBooklistRef);
     const bookEntry = {
       bookSSN: bookData.ssn,
@@ -16,12 +16,12 @@ export async function addBookToBooklist(userId, bookData) {
       bookType: bookData.bookgender,
       bookDescription: bookData.description,
       imageURL: bookData.imageURL,
-      comments: [] 
+      comments: []
     };
 
-    
+
     await update(newBookRef, bookEntry);
-    const bookId = newBookRef.key; 
+    const bookId = newBookRef.key;
     console.log("Book added to user's booklist successfully");
     return bookId;
   } catch (error) {
@@ -33,81 +33,81 @@ export async function addBookToBooklist(userId, bookData) {
 
 // Function to remove a book from a user's booklist
 export const removeBookFromBooklist = async (userId, bookId) => {
-  const userBookRef = ref(db, `users/${userId}/booklist/${bookId}`);
-
-  try {
-    
-    await remove(userBookRef);
-
-    console.log("Book removed from user's booklist successfully");
-    window.location.reload();
-
-  } catch (error) {
-    console.error("Error removing book from user's booklist:", error);
+  const isConfirmed = window.confirm("You are deleting this books, are you sure?");
+  if (isConfirmed) {
+    const userBookRef = ref(db, `users/${userId}/booklist/${bookId}`);
+    try {
+      await remove(userBookRef);
+      console.log("Book removed from user's booklist successfully");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error removing book from user's booklist:", error);
+    }
   }
+
 };
 
 
-export const exchangeBooks = async(senderId, ownerID, book2ID, book1ID, requestID) =>{
+export const exchangeBooks = async (senderId, ownerID, book2ID, book1ID, requestID) => {
   try {
-      console.log("Request ID for exchange:", requestID)
-      const requestRef = ref(db, "requests/"+requestID);
-      const ownerRef = ref(db, "users/"+ownerID+"/booklist/"+book1ID);
-      const ownerSnapshot = await get(ownerRef);
-      if (ownerSnapshot.exists()) {
-        const senderRef = ref(db, "users/"+senderId+"/booklist/"+book2ID);
-        const senderSnapshot = await get(senderRef);
+    console.log("Request ID for exchange:", requestID)
+    const requestRef = ref(db, "requests/" + requestID);
+    const ownerRef = ref(db, "users/" + ownerID + "/booklist/" + book1ID);
+    const ownerSnapshot = await get(ownerRef);
+    if (ownerSnapshot.exists()) {
+      const senderRef = ref(db, "users/" + senderId + "/booklist/" + book2ID);
+      const senderSnapshot = await get(senderRef);
 
-        if(senderSnapshot.exists()){
-              const senderData = senderSnapshot.val();
-              const ownerData = ownerSnapshot.val();
+      if (senderSnapshot.exists()) {
+        const senderData = senderSnapshot.val();
+        const ownerData = ownerSnapshot.val();
 
-              await set(ownerRef, senderData);
-              await set(senderRef, ownerData);
+        await set(ownerRef, senderData);
+        await set(senderRef, ownerData);
 
-              const userRef = ref(db, `Requests/${requestID}`);
-              const updates = {
-                requestStatus: "Accepted"
-              };
-                        
-              await update(userRef, updates);
-              console.log(requestRef);
-              await remove(requestRef);
-        }
+        const userRef = ref(db, `Requests/${requestID}`);
+        const updates = {
+          requestStatus: "Accepted"
+        };
 
-      } else {
-        console.log("No requests found");
-
+        await update(userRef, updates);
+        console.log(requestRef);
+        await remove(requestRef);
       }
 
+    } else {
+      console.log("No requests found");
+
+    }
+
   } catch (error) {
-      console.error("Error exchanging books:", error.message);
+    console.error("Error exchanging books:", error.message);
   }
 };
 
-export const offerBook = async(offererId, offeredPersonId, offererBookId, offeredBookId) =>{
+export const offerBook = async (offererId, offeredPersonId, offererBookId, offeredBookId) => {
 
   const userOfferlistRef = ref(db, `users/${offeredPersonId}/offerlist`);
   try {
-      try {
-        const newOfferRef = push(userOfferlistRef);
-        
-        const offerEntry = {
-          offerrerId: offererBookId,
-          offeredBookId: offeredBookId,
-        };
-        await update(newOfferRef, offerEntry);
-        console.log("Offer added to user's offerlist successfully");
-      } catch (error) {
-        console.error("Error adding book to user's offerlist:", error);
-      }
-      console.log("Offer process successfully completed!");
+    try {
+      const newOfferRef = push(userOfferlistRef);
+
+      const offerEntry = {
+        offerrerId: offererBookId,
+        offeredBookId: offeredBookId,
+      };
+      await update(newOfferRef, offerEntry);
+      console.log("Offer added to user's offerlist successfully");
+    } catch (error) {
+      console.error("Error adding book to user's offerlist:", error);
+    }
+    console.log("Offer process successfully completed!");
   } catch (error) {
-      console.error("Error to sending offer:", error.message);
+    console.error("Error to sending offer:", error.message);
   }
 };
 
-export const showBookList = async(studentID) =>{
+export const showBookList = async (studentID) => {
 
   try {
     const booklist = ref(db, `users/${studentID}/booklist`);
@@ -123,11 +123,11 @@ export const showBookList = async(studentID) =>{
     }
 
   } catch (error) {
-      console.error("Error to fetching the books:", error.message);
+    console.error("Error to fetching the books:", error.message);
   }
 };
 
-export const returnUsers = async()=>{
+export const returnUsers = async () => {
 
   try {
     const userlist = ref(db, `users/`);
@@ -143,7 +143,7 @@ export const returnUsers = async()=>{
     }
 
   } catch (error) {
-      console.error("Error to fetching the books:", error.message);
+    console.error("Error to fetching the books:", error.message);
   }
 
 }
@@ -151,22 +151,22 @@ export const returnUsers = async()=>{
 export const getUserDetails = async (userId) => {
   if (userId) {
     console.log("User data:", userId);
-    
+
     try {
-      
+
       const userRef = ref(db, 'users/' + userId);
       const snapshot = await get(userRef);
-      
+
       if (snapshot.exists()) {
         const userData = snapshot.val();
         return userData;
       } else {
         console.log("No data available");
-        return null; 
+        return null;
       }
     } catch (error) {
       console.error(error);
-      throw error; 
+      throw error;
     }
   } else {
     console.log("User object is undefined or null");
@@ -174,15 +174,15 @@ export const getUserDetails = async (userId) => {
   }
 };
 
-export const sendRequest = async(book1Id, book2ID, ownerId, senderId, senderName, senderSurname, senderEmail, senderPhoneNumber, senderMessage, requestStatus,imgURL,ownerEmail, bookName)=>{
-  
+export const sendRequest = async (book1Id, book2ID, ownerId, senderId, senderName, senderSurname, senderEmail, senderPhoneNumber, senderMessage, requestStatus, imgURL, ownerEmail, bookName) => {
+
   const userRequestRef = ref(db, `Requests/`);
   try {
-   
+
     // First reference must be created to successfully retrive the data.
     const newRequestRef = push(userRequestRef);
 
-    
+
     const requestEntry = {
       ownerID: ownerId,
       book1ID: book1Id,
@@ -199,16 +199,16 @@ export const sendRequest = async(book1Id, book2ID, ownerId, senderId, senderName
       bookName: bookName
     };
 
-    
+
     await update(newRequestRef, requestEntry);
-    const requestId = newRequestRef.key; 
+    const requestId = newRequestRef.key;
     console.log("Book added to user's booklist successfully");
     return requestId;
   } catch (error) {
     console.error("Error adding book to user's booklist:", error);
   }
   return -1;
-  
+
 }
 
 
