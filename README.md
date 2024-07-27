@@ -14,9 +14,9 @@ CampusReads is a web-based platform that students are able to share and exchange
 - Sign In/Sign Up 
 
 ## Built With
-- React.js
-- Firebase
-- Git
+- ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+- ![Firebase](https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34)
+- ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 
 
 ## Getting Started
