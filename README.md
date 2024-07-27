@@ -41,3 +41,11 @@ CampusReads is a web-based platform that students are able to share and exchange
 5. Enter the URL ```http://localhost:3000/ ```
 
 **Warning!** It is assumed that **Node** is installed at your computer.
+
+## Screenshots
+
+![Untitled](https://github.com/user-attachments/assets/c72f2e72-4a56-4bb7-a6a3-2b56cac221ff)
+![image](https://github.com/user-attachments/assets/bd5fc666-92f2-4027-8661-558e63197ca1)
+![image](https://github.com/user-attachments/assets/89612342-b829-4884-8efd-deea59bf2c09)
+
+
